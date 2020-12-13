@@ -11,13 +11,15 @@ if (length(jurisdictions) != 2) {
   cat("Something wrong with jurisdictions", jurisdictions, "\n")
 }
 
+write.csv(data_ox, paste0(output_path, "whole-data-latest.csv"))
+
 df_country <- data_ox[data_ox$Jurisdiction == "NAT_TOTAL",]
 all_geo_ids <- unique(df_country$CountryCode)
 for (country in all_geo_ids) {
   cat("Processing", country, "\n")
   df <- df_country[df_country$CountryCode == country,]
   #df$Date <- as.Date(df$Date, format = "%Y%m%d")
-  write.csv(df, paste0(output_path, country, "-estimate.csv"))
+  write.csv(df, paste0(output_path, "country/", country, "-estimate.csv"))
 }
 
 df_region <- data_ox[data_ox$Jurisdiction == "STATE_TOTAL",]
@@ -26,7 +28,7 @@ for (region in all_geo_ids) {
   cat("Processing", region, "\n")
   df <- df_region[df_region$RegionCode == region,]
   #df$Date <- as.Date(df$Date, format = "%Y%m%d")
-  write.csv(df, paste0(output_path, region, "-estimate.csv"))
+  write.csv(df, paste0(output_path, "region/", region, "-estimate.csv"))
 }
 
   
