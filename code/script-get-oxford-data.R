@@ -1,5 +1,9 @@
 # load library
-library(zoo)
+library(dplyr)
+library(ggplot2)
+library(httr)
+library(jsonlite)
+library(stringr)
 
 DATA_URL = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
 output_path = "../data/oxford/"
@@ -18,7 +22,9 @@ all_geo_ids <- unique(df_country$CountryCode)
 for (country in all_geo_ids) {
   cat("Processing", country, "\n")
   df <- df_country[df_country$CountryCode == country,]
-  #df$Date <- as.Date(df$Date, format = "%Y%m%d")
+  df <- df %>% mutate(Date = paste0( str_sub(Date, 1, 4), "-",
+                                     str_sub(Date, 5, 6), "-",
+                                     str_sub(Date, 7, 8))) %>% mutate(Date = as.Date(Date))
   write.csv(df, paste0(output_path, "country/", country, "-estimate.csv"))
 }
 
@@ -27,7 +33,9 @@ all_geo_ids <- unique(df_region$RegionCode)
 for (region in all_geo_ids) {
   cat("Processing", region, "\n")
   df <- df_region[df_region$RegionCode == region,]
-  #df$Date <- as.Date(df$Date, format = "%Y%m%d")
+  df <- df %>% mutate(Date = paste0( str_sub(Date, 1, 4), "-",
+                                     str_sub(Date, 5, 6), "-",
+                                     str_sub(Date, 7, 8))) %>% mutate(Date = as.Date(Date))
   write.csv(df, paste0(output_path, "region/", region, "-estimate.csv"))
 }
 
