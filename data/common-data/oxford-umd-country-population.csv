@@ -1,0 +1,184 @@
+country_umd,CountryName,CountryCode,geo_id,population
+Afghanistan,Afghanistan,AFG,AF,38041757
+Albania,Albania,ALB,AL,2880913
+Algeria,Algeria,DZA,DZ,43053054
+,Andorra,AND,AD,77146
+Angola,Angola,AGO,AO,31825299
+Argentina,Argentina,ARG,AR,44780675
+,Aruba,ABW,AW,106031
+Australia,Australia,AUS,AU,25203200
+Austria,Austria,AUT,AT,8858775
+Azerbaijan,Azerbaijan,AZE,AZ,10047719
+,Bahamas,BHS,BS,389486
+,Bahrain,BHR,BH,1641164
+Bangladesh,Bangladesh,BGD,BD,163046173
+,Barbados,BRB,BB,287021
+Belarus,Belarus,BLR,BY,9452409
+Belgium,Belgium,BEL,BE,11455519
+,Belize,BLZ,BZ,390351
+Benin,Benin,BEN,BJ,11801151
+,Bermuda,BMU,BM,62508
+,Bhutan,BTN,BT,763094
+Bolivia,Bolivia,BOL,BO,11513102
+Bosnia and Herzegovina,Bosnia and Herzegovina,BIH,BA,3300998
+,Botswana,BWA,BW,2303703
+Brazil,Brazil,BRA,BR,211049519
+,Brunei,BRN,BN,433296
+Bulgaria,Bulgaria,BGR,BG,7000039
+Burkina Faso,Burkina Faso,BFA,BF,20321383
+,Burundi,BDI,BI,11530577
+Cambodia,Cambodia,KHM,KH,16486542
+Cameroon,Cameroon,CMR,CM,25876387
+Canada,Canada,CAN,CA,37411038
+,Cape Verde,CPV,CV,549936
+,Central African Republic,CAF,CF,4745179
+,Chad,TCD,TD,15946882
+Chile,Chile,CHL,CL,18952035
+,China,CHN,CN,1433783692
+Colombia,Colombia,COL,CO,50339443
+,Comoros,COM,KM,850891
+,Congo,COG,CG,5380504
+Costa Rica,Costa Rica,CRI,CR,5047561
+Côte d'Ivoire,Cote d'Ivoire,CIV,CI,25716554
+Croatia,Croatia,HRV,HR,4076246
+,Cuba,CUB,CU,11333484
+,Cyprus,CYP,CY,875899
+Czech Republic,Czech Republic,CZE,CZ,10649800
+,Democratic Republic of Congo,COD,CD,86790568
+Denmark,Denmark,DNK,DK,5806081
+,Djibouti,DJI,DJ,973557
+,Dominica,DMA,DM,71808
+Dominican Republic,Dominican Republic,DOM,DO,10738957
+Ecuador,Ecuador,ECU,EC,17373657
+Egypt,Egypt,EGY,EG,100388076
+El Salvador,El Salvador,SLV,SV,645355
+,Eritrea,ERI,ER,3497117
+,Estonia,EST,EE,1324820
+,Eswatini,SWZ,SZ,1148133
+Ethiopia,Ethiopia,ETH,ET,112078727
+,Faeroe Islands,FRO,FO,48497
+,Fiji,FJI,FJ,889955
+Finland,Finland,FIN,FI,5517919
+France,France,FRA,FR,67012883
+,Gabon,GAB,GA,2172578
+,Gambia,GMB,GM,2347696
+,Georgia,GEO,GE,3996762
+Germany,Germany,DEU,DE,83019213
+Ghana,Ghana,GHA,GH,30417858
+Greece,Greece,GRC,GR,10724599
+,Greenland,GRL,GL,5666
+,Guam,GUM,GU,167295
+Guatemala,Guatemala,GTM,GT,17581476
+,Guinea,GIN,GN,12771246
+,Guyana,GUY,GY,782775
+Haiti,Haiti,HTI,HT,11263079
+Honduras,Honduras,HND,HN,9746115
+Hong Kong,Hong Kong,HKG,HK,7496981
+Hungary,Hungary,HUN,HU,9664124
+,Iceland,ISL,IS,339037
+India,India,IND,IN,1366417756
+Indonesia,Indonesia,IDN,ID,270625567
+,Iran,IRN,IR,82913893
+Iraq,Iraq,IRQ,IQ,39309789
+Ireland,Ireland,IRL,IE,4904240
+Israel,Israel,ISR,IL,8519373
+Italy,Italy,ITA,IT,60550092
+,Jamaica,JAM,JM,2948277
+Japan,Japan,JPN,JP,126860299
+Jordan,Jordan,JOR,JO,10101697
+Kazakhstan,Kazakhstan,KAZ,KZ,18551428
+Kenya,Kenya,KEN,KE,52573967
+,Kosovo,RKS,XK,1873160
+Kuwait,Kuwait,KWT,KW,4207077
+Kyrgyzstan,Kyrgyz Republic,KGZ,KG,6415851
+,Laos,LAO,LA,7169456
+,Latvia,LVA,LV,1919968
+Lebanon,Lebanon,LBN,LB,6855709
+,Lesotho,LSO,LS,2125267
+,Liberia,LBR,LR,4937374
+Libya,Libya,LBY,LY,6777453
+,Lithuania,LTU,LT,2759631
+,Luxembourg,LUX,LU,61573
+,Macao,MAC,MO,696100
+,Madagascar,MDG,MG,26969306
+,Malawi,MWI,MW,18628749
+Malaysia,Malaysia,MYS,MY,31949789
+Mali,Mali,MLI,ML,19658023
+,Mauritania,MRT,MR,4525698
+,Mauritius,MUS,MU,126967
+Mexico,Mexico,MEX,MX,127575529
+Moldova,Moldova,MDA,MD,4043258
+,Monaco,MCO,MC,38967
+,Mongolia,MNG,MN,3225166
+Morocco,Morocco,MAR,MA,36471766
+Mozambique,Mozambique,MOZ,MZ,30366043
+Myanmar,Myanmar,MMR,MM,54045422
+,Namibia,NAM,NA,2494524
+Nepal,Nepal,NPL,NP,28608715
+Netherlands,Netherlands,NLD,NL,17282163
+New Zealand,New Zealand,NZL,NZ,4783062
+Nicaragua,Nicaragua,NIC,NI,6545503
+,Niger,NER,NE,23310719
+Nigeria,Nigeria,NGA,NG,200963603
+Norway,Norway,NOR,NO,5328212
+Oman,Oman,OMN,OM,4974992
+Pakistan,Pakistan,PAK,PK,216565317
+Palestine,Palestine,PSE,PS,4981422
+Panama,Panama,PAN,PA,424644
+,Papua New Guinea,PNG,PG,8776119
+Paraguay,Paraguay,PRY,PY,7044639
+Peru,Peru,PER,PE,32510462
+Philippines,Philippines,PHL,PH,108116622
+Poland,Poland,POL,PL,37972812
+Portugal,Portugal,PRT,PT,10276617
+"Puerto Rico, U.S.",Puerto Rico,PRI,PR,2933404
+Qatar,Qatar,QAT,QA,2832071
+Romania,Romania,ROU,RO,19414458
+Russia,Russia,RUS,RU,114587226
+,Rwanda,RWA,RW,12626938
+,San Marino,SMR,SM,33864
+Saudi Arabia,Saudi Arabia,SAU,SA,34268529
+Senegal,Senegal,SEN,SN,16296362
+Serbia,Serbia,SRB,RS,8772228
+,Seychelles,SYC,SC,97741
+,Sierra Leone,SLE,SL,7813207
+Singapore,Singapore,SGP,SG,5804343
+Slovakia,Slovak Republic,SVK,SK,5450421
+Slovenia,Slovenia,SVN,SI,2080908
+,Solomon Islands,SLB,SB,652857
+,Somalia,SOM,SO,15442906
+South Africa,South Africa,ZAF,ZA,58558267
+South Korea,South Korea,KOR,KR,51225321
+,South Sudan,SSD,SS,12778250
+Spain,Spain,ESP,ES,46937060
+Sri Lanka,Sri Lanka,LKA,LK,21323734
+Sudan,Sudan,SDN,SD,42813237
+,Suriname,SUR,SR,581363
+Sweden,Sweden,SWE,SE,10230185
+Switzerland,Switzerland,CHE,CH,8591361
+,Syria,SYR,SY,17070132
+Taiwan,Taiwan,TWN,TW,23568378
+,Tajikistan,TJK,TJ,9321023
+Tanzania,Tanzania,TZA,TZ,58005461
+Thailand,Thailand,THA,TH,69625581
+,Timor-Leste,TLS,TL,129312
+,Togo,TGO,TG,8082359
+,Tonga,TON,TO,100651
+,Trinidad and Tobago,TTO,TT,1394969
+Tunisia,Tunisia,TUN,TN,11694721
+Turkey,Turkey,TUR,TR,83429607
+,Turkmenistan,TKM,TM,6031187
+,Uganda,UGA,UG,44269587
+Ukraine,Ukraine,UKR,UA,43993643
+United Arab Emirates,United Arab Emirates,ARE,AE,9770526
+United Kingdom,United Kingdom,GBR,GB,66647112
+United States of America,United States,USA,US,329064917
+,United States Virgin Islands,VIR,VI,104579
+Uruguay,Uruguay,URY,UY,3461731
+Uzbekistan,Uzbekistan,UZB,UZ,32981715
+,Vanuatu,VUT,VU,307815
+Venezuela,Venezuela,VEN,VE,28515829
+Vietnam,Vietnam,VNM,VN,96462108
+Yemen,Yemen,YEM,YE,29161922
+,Zambia,ZMB,ZM,17861034
+,Zimbabwe,ZWE,ZW,14645473

@@ -32,6 +32,11 @@ for (country in all_geo_ids) {
   write.csv(df, paste0(output_path, "country/", country, "-estimate.csv"))
 }
 
+df_country <- df_country %>%
+  select(CountryName, CountryCode)  %>%
+  distinct()
+write.csv(df_country, file = "../data/common-data/country_oxford.csv")
+
 df_region <- data_ox[data_ox$Jurisdiction == "STATE_TOTAL",]
 all_geo_ids <- unique(df_region$RegionCode) 
 for (region in all_geo_ids) {
@@ -42,6 +47,11 @@ for (region in all_geo_ids) {
   #                                    str_sub(Date, 7, 8))) %>% mutate(Date = as.Date(Date))
   write.csv(df, paste0(output_path, "region/", region, "-estimate.csv"))
 }
+
+df_region <- df_region %>%
+  select(RegionName, RegionCode)  %>%
+  distinct()
+write.csv(df_region, file = "../data/common-data/region_oxford.csv")
 
   
 
