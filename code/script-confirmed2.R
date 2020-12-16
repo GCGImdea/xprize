@@ -6,6 +6,8 @@ library(httr)
 contagious_window <- 12
 active_window <- 18
 
+start_date <- "2020-01-01"
+
 plot_estimates <- function(country_geoid = "AF", dts, 
                            contagious_window,
                            active_window){
@@ -25,6 +27,7 @@ plot_estimates <- function(country_geoid = "AF", dts,
   dt$cum_deaths <- cumsum(dt$deaths)
   
   dt$date <- gsub("-", "/", as.Date(dt$dateRep, format = "%d/%m/%Y"))
+  dt <- dt[dt$date >= start_date,]
   
   if (nrow(dt) >= contagious_window){
     dt$cases_contagious <- cumsum(c(dt$cases[1:contagious_window], diff(dt$cases, lag = contagious_window))) # Carlo active cases
@@ -61,7 +64,7 @@ plot_estimates <- function(country_geoid = "AF", dts,
   dt <- dt %>% 
     select(date, geoId, popData2019, cases, deaths, cases_prev_week, deaths_prev_week, cases_infected, cum_deaths, 
            cases_contagious, cases_active) %>% 
-    rename(countrycode = geoId, population = popData2019) 
+    rename(countrycode2 = geoId, population = popData2019) 
   # mutate(p_cases_infected = cases_infected/population,
   #        p_cases_daily = abs(cases_daily/population),
   #        p_cases_contagious = abs(cases_contagious/population),
@@ -76,7 +79,7 @@ plot_estimates <- function(country_geoid = "AF", dts,
     
   dir.create("../data/estimates-confirmed/", showWarnings = F)
   # cat("::- script-confirmed: Writing data for", country_geoid, "::\n")
-  write.csv(dt, paste0("../data/estimates-confirmed/", country_geoid, "-estimate.csv"))
+  write.csv(dt, paste0("../data/estimates-confirmed/", country_geoid, "-estimate.csv"), row.names = F)
 }
 
 generate_estimates <- function(contagious_window,
