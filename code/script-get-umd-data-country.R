@@ -6,6 +6,8 @@ library(jsonlite)
 library(stringr)
 library(stringi)
 
+countries_data <- "../data/common-data/oxford-umd-country-population.csv"
+
 ## Load smoothing function ----
 source("smooth_column_past.R")
 
@@ -179,9 +181,9 @@ umd_batch_symptom_country <- function(countries_2_try){
       }
     
     # add population:
-    dt$population <- countries[countries$country==country, "population"]
+    dt$population <- countries[countries$country_umd==country, "population"]
 
-    country_code <- countries[countries$country==country, "CountryCode"]
+    country_code <- countries[countries$country_umd==country, "geo_id"]
     
     write.csv(dt,
               paste0("../data/estimates-umd-symptom-survey/", country_code , "-estimate.csv"),
@@ -191,8 +193,7 @@ umd_batch_symptom_country <- function(countries_2_try){
 } #end-function: umd_batch_symptom_country
 
 ## Available countries ----
-countries <- read.csv("../data/common-data/oxford-umd-country-population.csv", 
-                      header = T)
+countries <- read.csv(countries_data, header = T)
 
 x <- countries$country_umd
 x <- stri_remove_empty_na(x)

@@ -6,9 +6,7 @@ library(zoo)
 
 data_url <- "https://opendata.ecdc.europa.eu/covid19/hospitalicuadmissionrates/csv/data.csv"
 estimates_path <- "../data/estimates-confirmed-hospital/"
-#country_table <- "../data/common-data/country_population_ecdc.csv"
-country_table <- "../data/common-data/oxford-umd-country-population.csv"
-
+country_table <- "../data/common-data/country_population_ecdc.csv"
 # country_names_occupancy <- c( "Austria", "Belgium", "Bulgaria", "Croatia", "Cyprus",
 #                     "Czechia", "Denmark", "Estonia", "Finland", "France", "Germany", "Greece",
 #                     "Hungary", "Iceland", "Ireland", "Italy",
@@ -20,9 +18,10 @@ country_table <- "../data/common-data/oxford-umd-country-population.csv"
 get_occupancy <- function(country_name = "Portugal", prefix, dts, ctbl){
 
   cat("::- script-occupancy: Working on", country_name, "::\n")
-
-  ctbl <- ctbl[ctbl$CountryName == country_name, ]
-  country_code <- ctbl$CountryCode[1]
+  
+  country_dash <- str_replace_all(country_name, " ", "_")
+  ctbl <- ctbl[ctbl$country_territory == country_dash, ]
+  country_code <- ctbl$geo_id[1]
 
   dts <- dts[dts$country == country_name,]
   # dts$date <- as.Date(dts$date)
@@ -129,7 +128,5 @@ prefix <- prefix %>%
   fill(year_week)
 
 country_names_occupancy <- unique(dts$country)
-
-#country_names_occupancy[country_names_occupancy == "Czechia"] <- "Czech Republic"
 
 kk <- sapply(country_names_occupancy, get_occupancy, prefix=prefix, dts = dts, ctbl = ctbl)
