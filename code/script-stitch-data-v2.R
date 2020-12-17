@@ -25,14 +25,18 @@ load_and_combine_country <- function(code, nsum = FALSE) {
   df_giant$date <- as.Date(df_giant$date)
   
   prefix <- "conf_"
+  date_col <- paste0(prefix, "date")
+  
   file_name <- paste0(confirmed_country_path, code, "-estimate.csv")
   if (file.exists(file_name)){
     cat("File", file_name, "exists!\n")
     df_aux <- read.csv(file_name)
     names(df_aux) <- tolower(names(df_aux))
+    
     names(df_aux) <- paste0(prefix, names(df_aux))
-    df_aux$date <- as.Date(df_aux$conf_date)
-#    df_aux <- df_aux %>% select(-c(population))
+    #df_aux$date <- as.Date(df_aux$conf_date)
+    df_aux$date <- as.Date(df_aux[,date_col])
+    
     df_giant <- df_giant %>% full_join(df_aux, by = "date")
   }
   
