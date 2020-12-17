@@ -29,6 +29,8 @@ all_geo_ids <- unique(df_country$CountryCode)
 for (country in all_geo_ids) {
   cat("Processing", country, "\n")
   df <- df_country[df_country$CountryCode == country,]
+  df$cases <- c(NA,diff(df$ConfirmedCases))
+  df$deaths <- c(NA,diff(df$ConfirmedDeaths))
   geoid <- c_data[c_data$CountryCode == country,"geo_id"]
   write.csv(df, paste0(output_path, "country/", geoid, "-estimate.csv"),
             row.names = FALSE)
@@ -48,6 +50,8 @@ for (region in all_geo_ids) {
   # df <- df %>% mutate(Date = paste0( str_sub(Date, 1, 4), "-",
   #                                    str_sub(Date, 5, 6), "-",
   #                                    str_sub(Date, 7, 8))) %>% mutate(Date = as.Date(Date))
+  df$cases <- c(NA,diff(df$ConfirmedCases))
+  df$deaths <- c(NA,diff(df$ConfirmedDeaths))
   write.csv(df, paste0(output_path, "region/", region, "-estimate.csv"),
             row.names = FALSE)
 }

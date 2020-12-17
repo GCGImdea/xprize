@@ -52,7 +52,8 @@ plot_estimates <- function(country_geoid = "AF", dts,
     # dt$icu_prev_week <- cumsum(c(dt$icu[1:7], diff(dt$icu, lag = 7)))
   }
   else {
-    dt$cases_prev_week <- dt$deaths_prev_week <- NA
+    dt$cases_prev_week <- 
+      dt$deaths_prev_week <- NA
     # dt$hospital_prev_week <- dt$icu_prev_week <- NA
   }
   
@@ -62,8 +63,9 @@ plot_estimates <- function(country_geoid = "AF", dts,
   # - Cases_active: Those infected whose case is still active on a given day (assumes a case is active 18 days after infected)
   
   dt <- dt %>% 
-    select(date, geoId, popData2019, cases, deaths, cases_prev_week, deaths_prev_week, cases_infected, cum_deaths, 
-           cases_contagious, cases_active) %>% 
+    select(date, geoId, popData2019, cases, deaths, cases_prev_week, deaths_prev_week, 
+           cases_infected, cum_deaths, cases_contagious, cases_active
+           ) %>% 
     rename(countrycode2 = geoId, population = popData2019) 
   # mutate(p_cases_infected = cases_infected/population,
   #        p_cases_daily = abs(cases_daily/population),
