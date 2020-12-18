@@ -9,6 +9,7 @@ DATA_URL = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master
 country_file <- "../data/common-data/oxford-countries.csv"
 region_file <- "../data/common-data/oxford-regions.csv"
 output_path = "../data/oxford/"
+IPS_output_path = "../work/"
 
 data_ox <- read.csv(DATA_URL)
 cat("::- script-confirmed: Oxford data available! ::\n")
@@ -86,6 +87,6 @@ colnames(data_ox)<- c("CountryName", "RegionName", "Date", "C1_School closing",	
                       "C8_International travel controls", "H1_Public information campaigns",
                       "H2_Testing policy",	"H3_Contact tracing", "H6_Facial Coverings")
 
-write.csv(data_ox, paste0(output_path, "IPS-latest.csv"),
+write.csv(data_ox, paste0(IPS_output_path, "IPS-latest.csv"),
           row.names = FALSE)
 
