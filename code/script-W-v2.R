@@ -432,13 +432,13 @@ provincial_regional_estimate_w_only <- function(countrycode = "ES",
       dt_est_prov_reg_country <- merge(dt_est_count, dt_est_prov_reg, all = T, by = "countrycode")
       
       #----------------------------------------------
-      write.csv(x = dt_est_prov_reg_country, file = paste0(estimates_path, countrycode, "/", countrycode,
-                                                           "-", gsub("-", "_", as.Date(j)), "-estimate.csv"), row.names = FALSE)
+      # write.csv(x = dt_est_prov_reg_country, file = paste0(estimates_path, countrycode, "/", countrycode,
+      #                                                      "-", gsub("-", "_", as.Date(j)), "-estimate.csv"), row.names = FALSE)
       
-      if (j == dates[length(dates)]){
-        write.csv(x = dt_est_prov_reg_country, file = paste0(estimates_path, countrycode, "/", countrycode,
-                                                           "-latest-estimate.csv"), row.names = FALSE)
-      }
+      # if (j == dates[length(dates)]){
+      #   write.csv(x = dt_est_prov_reg_country, file = paste0(estimates_path, countrycode, "/", countrycode,
+      #                                                      "-latest-estimate.csv"), row.names = FALSE)
+      # }
     }
 
     # Concatenate to dwhole the regional estimates for date j
@@ -485,8 +485,8 @@ provincial_regional_estimate_w_only <- function(countrycode = "ES",
   }
 
   dir.create(paste0(estimates_path, countrycode), showWarnings = F)
-  write.csv(x = dwhole, file = paste0(estimates_path, countrycode, "/", countrycode,
-                                      "-region-estimate.csv"), row.names = FALSE)
+  # write.csv(x = dwhole, file = paste0(estimates_path, countrycode, "/", countrycode,
+  #                                     "-region-estimate.csv"), row.names = FALSE)
   
   for (r in regions){
   df_aux <- dwhole[dwhole$region == r,]
@@ -498,8 +498,9 @@ provincial_regional_estimate_w_only <- function(countrycode = "ES",
   #   if (sum(df_aux$p_cases_recent != 0) > smooth_param) {
   #     df_aux <- smooth_column(df_aux, "p_cases_recent", smooth_param)
   #   }
-  write.csv(x = df_aux, file = paste0(estimates_path, countrycode, "/", r,
-                                      "-region-estimate.csv"), row.names = FALSE)
+  r<- gsub('^([A-Z]{2})([A-Z,0-9]+)$', '\\1_\\2', r) # Add underscore after countrycode
+  write.csv(x = df_aux, file = paste0(estimates_path, "PlotData/", r,
+                                      "-estimate.csv"), row.names = FALSE)
   }
   
   region_based_estimate <- data.frame(date = as.Date(dates),

@@ -1,4 +1,5 @@
 library(dplyr)
+library(stringr)
 
 # smoothed p_cases and CI:
 source("smooth_column-v2.R")
@@ -61,23 +62,11 @@ do_smoothing <- function(country = "ES",
   }
 }
 
-interest <- c("US", "ES", "BR", "DE", "EC", "PT", "FR", "IT", "GB", "CY", "CL", "UA")
+interest <- list.files(paste0(path_W, "PlotData/"), pattern="*.csv", full.names=FALSE)
+interest <- word(interest,1,sep = "-")
+
+#interest <- c("US", "ES", "BR", "DE", "EC", "PT", "FR", "IT", "GB", "CY", "CL", "UA")
 dd <- sapply(interest, do_smoothing, estimates_path = path_W)
-# dd <- sapply(interest, do_smoothing, estimates_path = path_W_dunbar)
 
 
-
-
-
-# cat("Smoothing ES\n")
-# do_smoothing("ES", path_W)
-# do_smoothing("ES", path_W_dunbar)
-# cat("Smoothing BR\n")
-# do_smoothing("BR", path_W)
-# do_smoothing("BR", path_W_dunbar)
-# cat("Smoothing US\n")
-# do_smoothing("US", path_W)
-# do_smoothing("US", path_W_dunbar)
-# do_smoothing("PT", path_W)
-# do_smoothing("PT", path_W_dunbar)
 

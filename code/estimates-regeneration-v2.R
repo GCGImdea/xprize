@@ -32,8 +32,8 @@ try(source("script-ccfr-based3.R"), silent = T) # Generates CCFR estimates for a
 try(source("script-W-v2.R"), silent = T)
 try(source("script-W-past-smooth.R"), silent = T)  # Uses smooth_column-v2.R
 
-# Merge data into giant CSV files per country
-try(source("script-stitch-data-v2.R"), silent = T)
-
+# Merge data into giant CSV files per country and region
+try(source("script-stitch-country-data.R"), silent = T)
+try(source("script-stitch-region-data.R"), silent = T)
 
 

@@ -6,6 +6,8 @@ library(jsonlite)
 library(stringr)
 
 DATA_URL = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
+country_file <- "../data/common-data/oxford-countries.csv"
+region_file <- "../data/common-data/oxford-regions.csv"
 output_path = "../data/oxford/"
 
 data_ox <- read.csv(DATA_URL)
@@ -25,42 +27,47 @@ write.csv(data_ox, paste0(output_path, "whole-data-latest.csv"),
 c_data <- read.csv("../data/common-data/oxford-umd-country-population.csv")
 
 df_country <- data_ox[data_ox$Jurisdiction == "NAT_TOTAL",]
-all_geo_ids <- unique(df_country$CountryCode)
-for (country in all_geo_ids) {
+country_list <- read.csv(country_file)
+all_countries <- country_list$CountryName
+
+for (country in all_countries) {
   cat("Processing", country, "\n")
-  df <- df_country[df_country$CountryCode == country,]
+  df <- df_country[df_country$CountryName == country,]
   df$cases <- c(NA,diff(df$ConfirmedCases))
   df$deaths <- c(NA,diff(df$ConfirmedDeaths))
-  geoid <- c_data[c_data$CountryCode == country,"geo_id"]
+  geoid <- c_data[c_data$CountryName == country,"geo_id"]
   write.csv(df, paste0(output_path, "country/", geoid, "-estimate.csv"),
             row.names = FALSE)
 }
 
-df_country <- df_country %>%
-  select(CountryName, CountryCode)  %>%
-  distinct()
-write.csv(df_country, file = "../data/common-data/country_oxford.csv",
-          row.names = FALSE)
+# df_country <- df_country %>%
+#   select(CountryName, CountryCode)  %>%
+#   distinct()
+# write.csv(df_country, file = "../data/common-data/country_oxford.csv",
+#           row.names = FALSE)
 
 df_region <- data_ox[data_ox$Jurisdiction == "STATE_TOTAL",]
-all_geo_ids <- unique(df_region$RegionCode) 
-for (region in all_geo_ids) {
+
+region_list <- read.csv(region_file)
+all_regions <- region_list$RegionName
+for (region in all_regions) {
   cat("Processing", region, "\n")
-  df <- df_region[df_region$RegionCode == region,]
+  df <- df_region[df_region$RegionName == region,]
   # df <- df %>% mutate(Date = paste0( str_sub(Date, 1, 4), "-",
   #                                    str_sub(Date, 5, 6), "-",
   #                                    str_sub(Date, 7, 8))) %>% mutate(Date = as.Date(Date))
   df$cases <- c(NA,diff(df$ConfirmedCases))
   df$deaths <- c(NA,diff(df$ConfirmedDeaths))
-  write.csv(df, paste0(output_path, "region/", region, "-estimate.csv"),
+  region_code <- df$RegionCode[1]
+  write.csv(df, paste0(output_path, "region/", region_code, "-estimate.csv"),
             row.names = FALSE)
 }
 
-df_region <- df_region %>%
-  select(RegionName, RegionCode)  %>%
-  distinct()
-write.csv(df_region, file = "../data/common-data/region_oxford.csv",
-          row.names = FALSE)
+# df_region <- df_region %>%
+#   select(RegionName, RegionCode)  %>%
+#   distinct()
+# write.csv(df_region, file = "../data/common-data/region_oxford.csv",
+#           row.names = FALSE)
 
 #Generate IP file
 
