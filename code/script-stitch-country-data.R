@@ -26,7 +26,7 @@ country_dataset <- function(code,
     df_aux <- read.csv(file_name)
     names(df_aux) <- tolower(names(df_aux))
     names(df_aux) <- paste0(prefix, names(df_aux))
-    #df_aux$date <- as.Date(df_aux$conf_date)
+    #df_aux$date <- as.Date(date_aux)
     df_aux$date <- as.Date(df_aux[,date_col])
     df_giant <- df_giant %>% full_join(df_aux, by = "date")
   }
@@ -43,25 +43,25 @@ load_and_combine_country <- function(code, nsum = FALSE) {
   names(df_giant) <- tolower(names(df_giant))
   df_giant$date <- as.Date(df_giant$date)
   
-  country_dataset(code, df_giant, prefix = "conf_", country_path = confirmed_country_path,
+  df_giant <- country_dataset(code, df_giant, prefix = "conf_", country_path = confirmed_country_path,
                   file_postfix = "-estimate.csv")
   
-  country_dataset(code, df_giant, prefix = "ccfr_", country_path = ccfr_country_path,
+  df_giant <- country_dataset(code, df_giant, prefix = "ccfr_", country_path = ccfr_country_path,
                   file_postfix = "-estimate.csv")
   
-  country_dataset(code, df_giant, prefix = "hosp_", country_path = hospital_country_path,
+  df_giant <- country_dataset(code, df_giant, prefix = "hosp_", country_path = hospital_country_path,
                   file_postfix = "-hospital-icu.csv")
   
-  # country_dataset(code, df_giant, prefix = "W_", country_path = W_country_path,
+  # df_giant <- country_dataset(code, df_giant, prefix = "W_", country_path = W_country_path,
   #                 file_postfix = "-estimate-past-smooth.csv")
 
-  country_dataset(code, df_giant, prefix = "W_", country_path = W_country_path,
+  df_giant <- country_dataset(code, df_giant, prefix = "W_", country_path = W_country_path,
                   file_postfix = "-estimate.csv")
   
-  country_dataset(code, df_giant, prefix = "umdapi_", country_path = umd_api_country_path,
+  df_giant <- country_dataset(code, df_giant, prefix = "umdapi_", country_path = umd_api_country_path,
                   file_postfix = "-estimate.csv")
   
-  country_dataset(code, df_giant, prefix = "umdchl_", country_path = umd_challenge_country_path,
+  df_giant <- country_dataset(code, df_giant, prefix = "umdchl_", country_path = umd_challenge_country_path,
                   file_postfix = "_UMD_country_nobatch_past_smooth.csv")
   
   df_giant <- df_giant[df_giant$date >= start_date,]

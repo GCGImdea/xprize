@@ -43,25 +43,25 @@ load_and_combine_region <- function(code, nsum = FALSE) {
   names(df_giant) <- tolower(names(df_giant))
   df_giant$date <- as.Date(df_giant$date)
   
-  region_dataset(code, df_giant, prefix = "conf_", region_path = confirmed_region_path,
+  df_giant <- region_dataset(code, df_giant, prefix = "conf_", region_path = confirmed_region_path,
                   file_postfix = "-estimate.csv")
   
-  # region_dataset(code, df_giant, prefix = "ccfr_", region_path = ccfr_region_path,
+  # df_giant <- region_dataset(code, df_giant, prefix = "ccfr_", region_path = ccfr_region_path,
   #                 file_postfix = "-estimate.csv")
   # 
-  # region_dataset(code, df_giant, prefix = "hosp_", region_path = hospital_region_path,
+  # df_giant <- region_dataset(code, df_giant, prefix = "hosp_", region_path = hospital_region_path,
   #                 file_postfix = "-hospital-icu.csv")
 
-  # region_dataset(code, df_giant, prefix = "W_", region_path = W_region_path,
+  # df_giant <- region_dataset(code, df_giant, prefix = "W_", region_path = W_region_path,
   #                 file_postfix = "-estimate-past-smooth.csv")
 
-  region_dataset(code, df_giant, prefix = "W_", region_path = W_region_path,
+  df_giant <- region_dataset(code, df_giant, prefix = "W_", region_path = W_region_path,
                  file_postfix = "-estimate.csv")
   
-  # region_dataset(code, df_giant, prefix = "umdapi_", region_path = umd_api_region_path,
+  # df_giant <- region_dataset(code, df_giant, prefix = "umdapi_", region_path = umd_api_region_path,
   #                 file_postfix = "-estimate.csv")
   # 
-  # region_dataset(code, df_giant, prefix = "umdchl_", region_path = umd_challenge_region_path,
+  # df_giant <- region_dataset(code, df_giant, prefix = "umdchl_", region_path = umd_challenge_region_path,
   #                 file_postfix = "_UMD_region_nobatch_past_smooth.csv")
   
   df_giant <- df_giant[df_giant$date >= start_date,]
