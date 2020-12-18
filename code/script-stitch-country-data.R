@@ -5,7 +5,7 @@ ox_country_path <- "../data/oxford/country/" # Oxford data
 confirmed_country_path <- "../data/estimates-confirmed/" # Confirmed data from ECDC
 ccfr_country_path <- "../data/estimates-ccfr-based/" # CCFR estimates
 hospital_country_path <- "../data/estimates-confirmed-hospital/" # Hospital data from ECDC
-W_country_path <- "../data/estimates-W/past_smooth/" # Estimates from the CoronaSurveys poll
+W_country_path <- "../data/estimates-W/smooth/" # Estimates from the CoronaSurveys poll
 umd_api_country_path <- "../data/estimates-umd-symptom-survey/" # Data from UMD Symptom Survey via API
 umd_challenge_country_path <- "../data/estimates-umd-unbatched/PlotData/" # Data from UMD Symptom Survey via Challenge
 
@@ -52,8 +52,11 @@ load_and_combine_country <- function(code, nsum = FALSE) {
   country_dataset(code, df_giant, prefix = "hosp_", country_path = hospital_country_path,
                   file_postfix = "-hospital-icu.csv")
   
+  # country_dataset(code, df_giant, prefix = "W_", country_path = W_country_path,
+  #                 file_postfix = "-estimate-past-smooth.csv")
+
   country_dataset(code, df_giant, prefix = "W_", country_path = W_country_path,
-                  file_postfix = "-estimate-past-smooth.csv")
+                  file_postfix = "-estimate.csv")
   
   country_dataset(code, df_giant, prefix = "umdapi_", country_path = umd_api_country_path,
                   file_postfix = "-estimate.csv")

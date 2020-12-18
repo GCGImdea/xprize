@@ -9,7 +9,8 @@ library(stringi)
 countries_data <- "../data/common-data/oxford-umd-country-population.csv"
 
 ## Load smoothing function ----
-source("smooth_column_past.R")
+#source("smooth_column_past.R")
+source("smooth_column-v2.R")
 
 smooth_param <- 25
 
@@ -174,7 +175,7 @@ umd_batch_symptom_country <- function(countries_2_try){
     for (col in to_smooth) {
       cat("Smoothing ", col, "\n")
       try(
-        dt <- smooth_column_past(dt, col, 
+        dt <- smooth_column(dt, col, 
                                  basis_dim = smooth_param, 
                                  link_in ="log", monotone = F)
         , silent = F)

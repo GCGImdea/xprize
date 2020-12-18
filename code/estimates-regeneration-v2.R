@@ -17,8 +17,7 @@ library(httr)
 try(source("script-get-oxford-data.R"), silent = T)
 
 
-# Download data from the UMD site using the API. Includes past smoothing
-# NOTE: Takes several hours (past_smoothing is slow)
+# Download data from the UMD site using the API. Includes smoothing (not past smoothing, too slow)
 try(source("script-get-umd-data-country.R"), silent = T)
 
 # Download the data about confirmed cases, deaths, hospital, icu, etc. and accumulate for weeks
@@ -30,7 +29,8 @@ try(source("script-ccfr-based3.R"), silent = T) # Generates CCFR estimates for a
 
 # Compute estimates from the CoronaSurveys responses
 try(source("script-W-v2.R"), silent = T)
-try(source("script-W-past-smooth.R"), silent = T)  # Uses smooth_column-v2.R
+#try(source("script-W-past-smooth.R"), silent = T)  # Uses smooth_column-v2.R
+try(source("script-W-smooth.R"), silent = T)  # Uses smooth_column-v2.R
 
 # Merge data into giant CSV files per country and region
 try(source("script-stitch-country-data.R"), silent = T)

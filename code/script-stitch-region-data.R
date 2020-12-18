@@ -5,7 +5,7 @@ ox_region_path <- "../data/oxford/region/" # Oxford data
 confirmed_region_path <- "../data/estimates-confirmed/" # Confirmed data from ECDC
 ccfr_region_path <- "../data/estimates-ccfr-based/" # CCFR estimates
 hospital_region_path <- "../data/estimates-confirmed-hospital/" # Hospital data from ECDC
-W_region_path <- "../data/estimates-W/past_smooth/" # Estimates from the CoronaSurveys poll
+W_region_path <- "../data/estimates-W/smooth/" # Estimates from the CoronaSurveys poll
 umd_api_region_path <- "../data/estimates-umd-symptom-survey/" # Data from UMD Symptom Survey via API
 umd_challenge_region_path <- "../data/estimates-umd-unbatched/PlotData/" # Data from UMD Symptom Survey via Challenge
 
@@ -52,9 +52,12 @@ load_and_combine_region <- function(code, nsum = FALSE) {
   # region_dataset(code, df_giant, prefix = "hosp_", region_path = hospital_region_path,
   #                 file_postfix = "-hospital-icu.csv")
 
-  region_dataset(code, df_giant, prefix = "W_", region_path = W_region_path,
-                  file_postfix = "-estimate-past-smooth.csv")
+  # region_dataset(code, df_giant, prefix = "W_", region_path = W_region_path,
+  #                 file_postfix = "-estimate-past-smooth.csv")
 
+  region_dataset(code, df_giant, prefix = "W_", region_path = W_region_path,
+                 file_postfix = "-estimate.csv")
+  
   # region_dataset(code, df_giant, prefix = "umdapi_", region_path = umd_api_region_path,
   #                 file_postfix = "-estimate.csv")
   # 
