@@ -9,7 +9,7 @@ ox_region_path <- "../data/oxford/region/"
 output_file <- "../work/whole-forecast.csv"
 
 start_date <- ymd("2020-01-01")
-end_date <- ymd("2021-01-31")
+end_date <- ymd("2021-12-31")
 
 
 process_country <- function(code, file_path) {
