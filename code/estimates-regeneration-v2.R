@@ -16,6 +16,8 @@ library(httr)
 # Download data from the Oxford site
 try(source("script-get-oxford-data.R"), silent = T)
 
+# Download data from the Our World in Data site
+try(source("script-get-owid-data.R"), silent = T)
 
 # Download data from the UMD site using the API. Includes smoothing (not past smoothing, too slow)
 try(source("script-get-umd-data-country.R"), silent = T)
@@ -26,6 +28,7 @@ try(source("script-confirmed-hospital.R"), silent = T) # Downloads hospital and 
 
 # Compute CCFR estimates
 try(source("script-ccfr-based3.R"), silent = T) # Generates CCFR estimates for all countries from Oxford data
+try(source("script-ccfr-based-region.R"), silent = T) # Generates CCFR estimates for all countries from Oxford data
 
 # Compute estimates from the CoronaSurveys responses
 try(source("script-W-v2.R"), silent = T)

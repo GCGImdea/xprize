@@ -4,6 +4,7 @@ library(ggplot2)
 library(httr)
 library(jsonlite)
 library(stringr)
+library(data.table)
 
 DATA_URL = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
 country_file <- "../data/common-data/oxford-countries.csv"
@@ -34,8 +35,12 @@ all_countries <- country_list$CountryName
 for (country in all_countries) {
   cat("Processing", country, "\n")
   df <- df_country[df_country$CountryName == country,]
-  df$cases <- c(NA,diff(df$ConfirmedCases))
-  df$deaths <- c(NA,diff(df$ConfirmedDeaths))
+
+  df$cases <- c(0,diff(df$ConfirmedCases))
+  df$deaths <- c(0,diff(df$ConfirmedDeaths))
+  df$avgcases7days <- frollmean(df$cases, 7)
+  df$avgdeaths7days <- frollmean(df$deaths, 7)
+  
   geoid <- c_data[c_data$CountryName == country,"geo_id"]
   write.csv(df, paste0(output_path, "country/", geoid, "-estimate.csv"),
             row.names = FALSE)
@@ -57,8 +62,12 @@ for (region in all_regions) {
   # df <- df %>% mutate(Date = paste0( str_sub(Date, 1, 4), "-",
   #                                    str_sub(Date, 5, 6), "-",
   #                                    str_sub(Date, 7, 8))) %>% mutate(Date = as.Date(Date))
-  df$cases <- c(NA,diff(df$ConfirmedCases))
-  df$deaths <- c(NA,diff(df$ConfirmedDeaths))
+  
+  df$cases <- c(0, diff(df$ConfirmedCases))
+  df$deaths <- c(0, diff(df$ConfirmedDeaths))
+  df$avgcases7days <- frollmean(df$cases, 7)
+  df$avgdeaths7days <- frollmean(df$deaths, 7)
+  
   region_code <- df$RegionCode[1]
   write.csv(df, paste0(output_path, "region/", region_code, "-estimate.csv"),
             row.names = FALSE)

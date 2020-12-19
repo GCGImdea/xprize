@@ -2,6 +2,7 @@ library(dplyr)
 library(stringr)
 
 ox_country_path <- "../data/oxford/country/" # Oxford data
+owid_country_path <- "../data/owid/" # Our World in Data data
 confirmed_country_path <- "../data/estimates-confirmed/" # Confirmed data from ECDC
 ccfr_country_path <- "../data/estimates-ccfr-based/" # CCFR estimates
 hospital_country_path <- "../data/estimates-confirmed-hospital/" # Hospital data from ECDC
@@ -42,6 +43,9 @@ load_and_combine_country <- function(code, nsum = FALSE) {
   df_giant <- read.csv(paste0(ox_country_path, code, "-estimate.csv"))
   names(df_giant) <- tolower(names(df_giant))
   df_giant$date <- as.Date(df_giant$date)
+  
+  df_giant <- country_dataset(code, df_giant, prefix = "owid_", country_path = owid_country_path,
+                              file_postfix = "-estimate.csv")
   
   df_giant <- country_dataset(code, df_giant, prefix = "conf_", country_path = confirmed_country_path,
                   file_postfix = "-estimate.csv")

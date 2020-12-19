@@ -12,14 +12,15 @@ start_date <- ymd("2020-01-01")
 end_date <- ymd("2021-12-31")
 
 
-process_country <- function(code, file_path) {
+process_country_region <- function(code, file_path) {
   
   cat("\n working on ", code, "\n")
   
   # Initialize with Oxford data
   df <- read.csv(paste0(file_path, code, "-estimate.csv"))
   df <- df %>%
-    select(CountryName, RegionName, Date, PredictedDailyNewCases=cases)
+    select(CountryName, RegionName, Date, 
+           PredictedDailyNewCases = avgcases7days)
   df$Date <- as.Date(df$Date)
   df$RegionName[is.na(df$RegionName)] <- ""
   
@@ -48,14 +49,14 @@ interest <- list.files(ox_country_path, pattern="*.csv", full.names=FALSE)
 interest <- substring(interest, 1, 2)
 
 for (c in interest) {
-  df <- bind_rows(df, process_country(c, file_path=ox_country_path))
+  df <- bind_rows(df, process_country_region(c, file_path=ox_country_path))
 }
 
 interest <- list.files(ox_region_path, pattern="*.csv", full.names=FALSE)
 interest <- word(interest,1,sep = "-")
 
 for (c in interest) {
-  df <- bind_rows(df, process_country(c, file_path=ox_region_path))
+  df <- bind_rows(df, process_country_region(c, file_path=ox_region_path))
 }
 
 df$isSpecialty <- 0

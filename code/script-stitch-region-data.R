@@ -46,9 +46,9 @@ load_and_combine_region <- function(code, nsum = FALSE) {
   df_giant <- region_dataset(code, df_giant, prefix = "conf_", region_path = confirmed_region_path,
                   file_postfix = "-estimate.csv")
   
-  # df_giant <- region_dataset(code, df_giant, prefix = "ccfr_", region_path = ccfr_region_path,
-  #                 file_postfix = "-estimate.csv")
-  # 
+  df_giant <- region_dataset(code, df_giant, prefix = "ccfr_", region_path = ccfr_region_path,
+                  file_postfix = "-estimate.csv")
+
   # df_giant <- region_dataset(code, df_giant, prefix = "hosp_", region_path = hospital_region_path,
   #                 file_postfix = "-hospital-icu.csv")
 
