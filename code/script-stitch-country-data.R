@@ -66,7 +66,7 @@ load_and_combine_country <- function(code, nsum = FALSE) {
                   file_postfix = "-estimate.csv")
   
   df_giant <- country_dataset(code, df_giant, prefix = "umdchl_", country_path = umd_challenge_country_path,
-                  file_postfix = "_UMD_country_nobatch_past_smooth.csv")
+                  file_postfix = "_UMD_country_nobatch_smooth.csv")
   
   df_giant <- df_giant[df_giant$date >= start_date,]
   df_giant <- df_giant[order(df_giant$date),]

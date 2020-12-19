@@ -9,7 +9,7 @@ library(httr)
 
 # Generate past_smooth columns for UMD data, in data/estimates-umd-unbatched/PlotData/
 # NOTE: Takes several hours (past_smoothing is slow)
-# try(source("UMD_country_past_smoothing_fromOriAll.R"), silent = F)
+try(source("UMD_country_smoothing_fromOriAll.R"), silent = F)
 
 
 

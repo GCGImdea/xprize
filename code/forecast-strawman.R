@@ -41,7 +41,7 @@ df <- data.frame(CountryName=character(),
                  Date=as.Date(character()),
                  PredictedDailyNewCases=double(),
                  stringsAsFactors=FALSE) 
-  
+
 #  data.frame(column.names = c("CountryName", "RegionName", "Date", "PredictedDailyNewCases"))
 #save data for countries of interest
 
