@@ -58,6 +58,9 @@ for (c in interest) {
   df <- bind_rows(df, process_country(c, file_path=ox_region_path))
 }
 
+df$isSpecialty <- 0
+df$isSpecialty[df$CountryName == "Spain"] <- 1
+
 df <- df[order(df$CountryName,df$RegionName,df$Date),]
 write.csv(df,output_file, row.names = F)
 

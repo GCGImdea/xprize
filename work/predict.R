@@ -3,7 +3,7 @@
 # library(readxl)
 # library(httr)
 
-forecasting_file <- "whole-forecast.csv"
+forecasting_file <- "/home/xprize/work/whole-forecast.csv"
 args <- commandArgs(trailingOnly = T)
 
 cat("Arguments:", args, "\n")
@@ -18,4 +18,3 @@ df$Date <- as.Date(df$Date)
 df <- df[df$Date >= start_date,]
 df <- df[df$Date <= end_date,]
 write.csv(df, output_file_path, row.names = FALSE)
-
