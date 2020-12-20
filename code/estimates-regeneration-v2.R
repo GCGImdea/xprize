@@ -3,13 +3,13 @@ library(tidyverse)
 library(readxl)
 library(httr)
 
-# Downlod the data from UMD repository to data/UMD_updated/Full_Survey_Data/
+# Uncomment these if there is new UMD data available:
+# 1.- Downlod the data from UMD repository to data/UMD_updated/Full_Survey_Data/
 # try(source("script-import-UMD-onlyfullcountry.R"), silent = F)
 # try(source("script-import-UMD-onlyfullregion.R"), silent = F)
+# 2.-Generate smooth columns for UMD data, in data/estimates-umd-unbatched/PlotData/
+#try(source("UMD_country_smoothing_fromOriAll.R"), silent = F)
 
-# Generate past_smooth columns for UMD data, in data/estimates-umd-unbatched/PlotData/
-# NOTE: Takes several hours (past_smoothing is slow)
-try(source("UMD_country_smoothing_fromOriAll.R"), silent = F)
 
 
 
@@ -34,6 +34,9 @@ try(source("script-ccfr-based-region.R"), silent = T) # Generates CCFR estimates
 try(source("script-W-v2.R"), silent = T)
 #try(source("script-W-past-smooth.R"), silent = T)  # Uses smooth_column-v2.R
 try(source("script-W-smooth.R"), silent = T)  # Uses smooth_column-v2.R
+
+# Download data from the CMU Covidcast site: US states data
+try(source("script-get-CMU-covidcast-data2.R"), silent = T)
 
 # Merge data into giant CSV files per country and region
 try(source("script-stitch-country-data.R"), silent = T)

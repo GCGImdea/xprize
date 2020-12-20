@@ -476,3 +476,36 @@ umdchl_data_smooth <- c(
 "umdchl_pct_finances_not_worried_smooth_high"
 )
 
+cmu_data <- c(
+"cmu_date",
+"cmu_iso2",
+"cmu_raw_cli",
+"cmu_smoothed_cli",
+"cmu_raw_ili",
+"cmu_smoothed_ili",
+"cmu_raw_wcli",
+"cmu_smoothed_wcli",
+"cmu_raw_wili",
+"cmu_smoothed_wili",
+"cmu_raw_hh_cmnty_cli",
+"cmu_smoothed_hh_cmnty_cli",
+"cmu_raw_nohh_cmnty_cli",
+"cmu_smoothed_nohh_cmnty_cli",
+"cmu_smoothed_wearing_mask",
+"cmu_smoothed_others_masked",
+"cmu_smoothed_travel_outside_state_5d",
+"cmu_smoothed_work_outside_home_1d",
+"cmu_smoothed_shop_1d",
+"cmu_smoothed_restaurant_1d",
+"cmu_smoothed_spent_time_1d",
+"cmu_smoothed_large_event_1d",
+"cmu_smoothed_public_transit_1d",
+"cmu_smoothed_tested_14d",
+"cmu_smoothed_tested_positive_14d",
+"cmu_smoothed_wanted_test_14d",
+"cmu_smoothed_anxious_5d",
+"cmu_smoothed_depressed_5d",
+"cmu_smoothed_felt_isolated_5d",
+"cmu_smoothed_worried_become_ill",
+"cmu_smoothed_worried_finances"
+)
