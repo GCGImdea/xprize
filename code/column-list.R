@@ -256,7 +256,7 @@ umdapi_data_smooth <- c(
 
 # Data from UMD Symptom Survey via Challenge
 umdchl_data <- c(
-"umdchl_date",
+#"umdchl_date",
 "umdchl_population",
 "umdchl_total_responses",
 "umdchl_pct_cli",

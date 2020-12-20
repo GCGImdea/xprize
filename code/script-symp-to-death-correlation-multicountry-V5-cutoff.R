@@ -85,6 +85,9 @@ check_lags <-
             )
         }, error = function(cond){
           message("Error in correlation: ")
+          print(str(joined))
+          print(column_in)
+          message("Error in correlation: ")
           print(cond)
           traceback()
           df_correl <-
