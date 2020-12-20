@@ -8,7 +8,7 @@ library(data.table)
 
 DATA_URL = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
 country_file <- "../data/common-data/oxford-countries.csv"
-region_file <- "../data/common-data/oxford-regions.csv"
+region_file <- "../data/common-data/oxford-regions-population.csv"
 output_path = "../data/oxford/"
 IPS_output_path = "../work/"
 
@@ -41,7 +41,10 @@ for (country in all_countries) {
   df$avgcases7days <- frollmean(df$cases, 7)
   df$avgdeaths7days <- frollmean(df$deaths, 7)
   
+  
   geoid <- c_data[c_data$CountryName == country,"geo_id"]
+  df$population <- c_data[c_data$CountryName == country,"population"]
+  df$iso2 <- geoid
   write.csv(df, paste0(output_path, "country/", geoid, "-estimate.csv"),
             row.names = FALSE)
 }
@@ -69,6 +72,8 @@ for (region in all_regions) {
   df$avgdeaths7days <- frollmean(df$deaths, 7)
   
   region_code <- df$RegionCode[1]
+  df$population <- region_list[region_list$RegionName == region,"Population"]
+  df$iso2 <- region_code
   write.csv(df, paste0(output_path, "region/", region_code, "-estimate.csv"),
             row.names = FALSE)
 }
