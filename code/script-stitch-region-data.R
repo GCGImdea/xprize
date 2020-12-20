@@ -8,6 +8,7 @@ hospital_region_path <- "../data/estimates-confirmed-hospital/" # Hospital data 
 W_region_path <- "../data/estimates-W/smooth/" # Estimates from the CoronaSurveys poll
 umd_api_region_path <- "../data/estimates-umd-symptom-survey/" # Data from UMD Symptom Survey via API
 umd_challenge_region_path <- "../data/estimates-umd-unbatched/PlotData/" # Data from UMD Symptom Survey via Challenge
+cmu_region_path <- "../data/CMU-covidcast/" # Data on US states from CMU Symptom Survey via Covidcast API
 
 output_path <- "../data/all_giant_df2/"
 
@@ -63,6 +64,9 @@ load_and_combine_region <- function(code, nsum = FALSE) {
   # 
   # df_giant <- region_dataset(code, df_giant, prefix = "umdchl_", region_path = umd_challenge_region_path,
   #                 file_postfix = "_UMD_region_nobatch_past_smooth.csv")
+  
+  df_giant <- region_dataset(code, df_giant, prefix = "cmu_", region_path = cmu_region_path,
+                  file_postfix = "-estimate.csv")
   
   df_giant <- df_giant[df_giant$date >= start_date,]
   df_giant <- df_giant[order(df_giant$date),]
