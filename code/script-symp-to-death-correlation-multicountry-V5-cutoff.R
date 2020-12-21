@@ -449,6 +449,7 @@ for (file in files) {
       cat("doing ", iso_code_country, ": ")
       all_df <- read.csv(paste0("../data/all_giant_df2/", iso_code_country, "-alldf.csv"))
       all_df <- all_df %>% mutate(date = as.Date(date))
+      all_df <- all_df %>% mutate(cases = pmax(cases,0)) # get rid of possible negative cases values
       y <- signal_to_match
       y_df <- all_df %>% dplyr::select(date,y)
       colnames(y_df) <- c("date","y")
