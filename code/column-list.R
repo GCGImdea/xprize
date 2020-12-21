@@ -194,7 +194,7 @@ W_data_smooth <- c(
 
 # Data from UMD Symptom Survey via API
 umdapi_data <- c(
-"umdapi_date", # Redundant
+#"umdapi_date", # Redundant
 "umdapi_iso_code", # Constant for a country/region
 "umdapi_country", # Constant for a country/region
 "umdapi_population", # Redundant

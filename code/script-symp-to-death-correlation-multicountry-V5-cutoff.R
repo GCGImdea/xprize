@@ -525,8 +525,8 @@ for (file in files) {
       ### compute cutoffs, start from last date in signals and progress backwards every 15 days until firstCutoff
       
       
-      firstCutoff <- as.Date("2020-11-01")
-      lastCutoff <- as.Date("2020-11-10")
+      firstCutoff <- as.Date("2020-10-22")
+      lastCutoff <- as.Date("2020-11-22")
       cutoffinterval <- 1
       
       fileid <- paste0(iso_code_country,"-",basefileid,"-",as.Date(firstCutoff),"-",as.Date(lastCutoff),"-",cutoffinterval,"-",
