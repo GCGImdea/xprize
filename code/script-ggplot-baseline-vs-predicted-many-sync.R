@@ -36,7 +36,7 @@ for (country_iso in try_countries) {
         } else {
           basisdim=NA
         }
-        for (umd in c(TRUE)){
+        for (umd in c(FALSE)){
           for (ccfr in c(FALSE)){#, TRUE
             for (nsum in c(0)){#, 1
               for (minlag in c(7)){#7, 
@@ -46,7 +46,7 @@ for (country_iso in try_countries) {
                   
                   filename<-paste0(path_symptom_lags,
                                    country_iso,
-                                   "-cases-",minlag,"-60-pen",pen,"-alpha0.5-rmcc",rmcc,"-rmth0.9-smth",smth,basisdim,"-2020-10-01-2020-11-11-1-",umd,"-",ccfr,as.numeric(nsum),"-FALSE-estimates-lag-daily.csv")
+                                   "-cases-",minlag,"-60-pen",pen,"-alpha0.5-rmcc",rmcc,"-rmth0.9-smth",smth,basisdim,"-2020-11-01-2020-11-10-1-",umd,"-",ccfr,as.numeric(nsum),"-FALSE-estimates-lag-daily.csv")
                   print(paste("doing",filename))
                   if (file.exists(filename)){
                     dfall <- read.csv(file = filename) %>%
