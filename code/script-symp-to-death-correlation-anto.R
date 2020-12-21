@@ -62,23 +62,33 @@ check_lags <-
     df_out <- data.frame()
     
     for (column_in in columns_to_try) {
+      cat("Column ", column_in, "\n")
       for (date_shift in seq(min_lag, max_lag)) {
+        cat("Date shift ", date_shift, "\n")
         # replaced these  df_single_symp <- df_add_regressors[, c("date", column_in)]
         # df_single_symp$date <-
         #  as.Date(df_single_symp$date) + date_shift
         # joined <- (df_single_symp %>% dplyr::select(date, column_in)) 
         # by the following
-        joined <- df_add_regressors %>% dplyr::select(date, column_in) %>% mutate(date=as.Date(date)+date_shift)%>% inner_join( df_response, by="date")
+        joined <- df_add_regressors %>% dplyr::select(date, column_in) %>% 
+          mutate(date=as.Date(date)+date_shift)%>% inner_join( df_response, by="date")
+        
         # remove NAs in what we want, we can do it because we only have column_in now
         joined  <- joined[complete.cases(joined), ]
         
         win_size <-
           as.integer(max(joined$date) - min(joined$date))
         
+        cat("--", length(joined$y))
+        
+        print(joined)
+        
         # if (sum(is.na(joined[, column_in]))==0){
-        tryCatch({
+        # tryCatch({
           corTest <-
             cor.test(joined$y, joined[, column_in], method = "spearman")
+          
+          cat("--\n")
           
           df_correl <-
             data.frame(
@@ -88,22 +98,22 @@ check_lags <-
               win_size = win_size,
               signal = column_in
             )
-        }, error = function(cond){
-          message("Error in correlation: ")
-          print(str(joined))
-          print(column_in)
-          message("Error in correlation: ")
-          print(cond)
-          traceback()
-          df_correl <-
-            data.frame(
-              shift = date_shift,
-              correlations = 0,
-              pval = 1,
-              win_size = win_size,
-              signal = column_in
-            )
-        })
+        # }, error = function(cond){
+        #   message("Error in correlation: ")
+        #   print(str(joined))
+        #   print(column_in)
+        #   message("Error in correlation: ")
+        #   print(cond)
+        #   traceback()
+        #   df_correl <-
+        #     data.frame(
+        #       shift = date_shift,
+        #       correlations = 0,
+        #       pval = 1,
+        #       win_size = win_size,
+        #       signal = column_in
+        #     )
+        # })
         df_out <- rbind(df_out, df_correl)
         # } else {
         #   # print(paste("got NAs for column ",column_in, " and date shift ", date_shift))
@@ -127,6 +137,7 @@ doCorrelations <-
     ## Correlations ----
     # compute all correlations for all lags in min_lag to max_lag:
     #    print(paste("columns to try size",length(columns_to_try)))
+    cat("toPredict", nrow(toPredict), "\n")
     correls_single_country <- check_lags(
       df_response = toPredict,
       df_add_regressors = modelPar,
@@ -443,7 +454,7 @@ excludeVsChoose=FALSE # true for excluding countries and false for choosing them
 
 
 for (file in files) {
-  tryCatch({
+  # tryCatch({
     iso_code_country <- substr(file, 1, 2)
     if (excludeVsChoose){
       choice <- (iso_code_country  %notin% countriesToExclude)
@@ -454,8 +465,9 @@ for (file in files) {
       cat("doing ", iso_code_country, ": ")
       all_df <- read.csv(paste0("../data/all_giant_df2/", iso_code_country, "-alldf.csv"))
       all_df <- all_df %>% mutate(date = as.Date(date))
-      all_df <- all_df %>% mutate(cases = pmax(cases,0)) # get rid of possible negative cases values
+      #all_df <- all_df %>% mutate(cases = pmax(cases,0)) # get rid of possible negative cases values
       y <- signal_to_match
+      # all_df <- all_df[!is.na(all_df$y),]
       y_df <- all_df %>% dplyr::select(date,y)
       colnames(y_df) <- c("date","y")
       
@@ -471,46 +483,7 @@ for (file in files) {
       # I think the following line should not be done commented out
       # x_df <- x_df[complete.cases(x_df), ]
       
-      # ## remove "..._smooth", "..._high/low"
-      # x_df <- data_df[, str_detect(colnames(data_df), "pct_")]
-      # #x_df <- x_df[, !str_detect(colnames(x_df), "smooth")]
-      # x_df <- x_df[, !str_detect(colnames(x_df), "high")]
-      # x_df <- x_df[, !str_detect(colnames(x_df), "low")]
-      # x_df <- x_df[, !str_detect(colnames(x_df), "batched")]
-      # x_df <- x_df * data_df$population / 100
-      # x_df$date <- data_df$date
-      # 
-      # colnames(x_df)
-      
-      
-      
-      
-      
-      # y_df <-
-      #   read.csv(
-      #     paste0(
-      #       "../data/estimates-confirmed/PlotData/",
-      #       iso_code_country,
-      #       "-estimate.csv"
-      #     )
-      #   ) %>% mutate(date = as.Date(date))
-      # y_df$deaths[y_df$deaths < 0] <- NA
-      # y_df$cases[y_df$cases < 0] <- NA
-      
-      # y_df <- y_df %>%
-      #   mutate(y = deaths) %>%
-      #   mutate(y = rollmean(y, 1, fill = NA)) %>%
-      #   dplyr::select (date, y) %>%
-      #   filter(!is.na(y)) # keeping only what we need so that we can filter out NAs as follows
-      # #########
-      # # filter out NAs
-      # y_df <- y_df[complete.cases(y_df), ]
-      
-      
-      #CBM. Producing maxrange vector for 1 to milag days ahead
-      # The idea is that forecasts should not be outside the observed range.
       maxdate <- max(y_df$date)
-      
       maxrange <- rep(0,milag)
       for (day in (y_df %>% filter(date <= (maxdate-milag)))$date)
       {
@@ -549,20 +522,22 @@ for (file in files) {
       }
       
       #
-      #  print (cutoffs)
+      print (cutoffs)
       
-      # print(y_df)
+      print(y_df)
       
       toWrite <- data.frame()
       metricsToWrite<-data.frame()
       for (cutoff in cutoffs) {
         cutoff=as.Date(cutoff)
-        tryCatch({
+        # tryCatch({
           # dplyr::select training set
           y_df_train <-
             y_df %>% filter(date <= cutoff) 
           x_df_train <-
             x_df %>% filter(date <= cutoff)
+          
+          cat("y_df_train", nrow(y_df_train), "cutoff ", cutoff, "\n")
           
           ## Smoothing ----
           if (perform_smoothing) {
@@ -615,6 +590,7 @@ for (file in files) {
           
           # call Correl ----
           print(paste("doing CORREL for cutoff ",as.Date(cutoff)))
+          cat("y_df_train", nrow(y_df_train), "\n")
           opt_correl_single_country <-
             doCorrelations(
               toPredict = y_df_train,
@@ -691,7 +667,7 @@ for (file in files) {
           # Not doing it here it was already in doTest
           # leftoverFromShifted <- leftoverFromShifted[ , (names(leftoverFromShifted) %in% names)]
           # shiftedTest <- shiftedTest[ , (names(shiftedTest) %in% names)]
-          tryCatch({
+          # tryCatch({
             print(paste("prepared leftover test signals", getMinAndMaxDatesAsString(leftoverFromShifted)))
             metricDF<-data.frame()
             metricDF[1,"cutoff"]=as.Date(cutoff)
@@ -787,14 +763,14 @@ for (file in files) {
               metricsToWrite<-rbind(metricsToWrite, metricDF)
               
             }
-          }, error=function(cond){
-            message(paste("error in country", iso_code_country, " nearFuture for cutoff ", as.Date(cutoff)))
-            print(cond)
-            traceback()
-          })
+          # }, error=function(cond){
+          #   message(paste("error in country", iso_code_country, " nearFuture for cutoff ", as.Date(cutoff)))
+          #   print(cond)
+          #   traceback()
+          # })
           
           if (doFarFuture){
-            tryCatch({
+            # tryCatch({
               
               # doing far future test
               
@@ -820,14 +796,14 @@ for (file in files) {
                 toWrite<-rbind(toWrite,outDF)
               }
               
-            }, error=function(cond){
-              message(paste("error in country", iso_code_country, " farFuture for cutoff ", as.Date(cutoff)))
-              print(cond)
-              traceback()
-            })
+            # }, error=function(cond){
+            #   message(paste("error in country", iso_code_country, " farFuture for cutoff ", as.Date(cutoff)))
+            #   print(cond)
+            #   traceback()
+            # })
           }
           if (doNearFar){
-            tryCatch({
+            # tryCatch({
               
               # do nearfar  test
               
@@ -853,20 +829,20 @@ for (file in files) {
                 metricsToWrite<-rbind(metricsToWrite, metricDF)
                 toWrite<-rbind(toWrite,outDF)
               }
-            }, error=function(cond){
-              message(paste("error in country", iso_code_country, " nearFar for cutoff ", as.Date(cutoff)))
-              print(cond)
-              traceback()
-            })
+            # }, error=function(cond){
+            #   message(paste("error in country", iso_code_country, " nearFar for cutoff ", as.Date(cutoff)))
+            #   print(cond)
+            #   traceback()
+            # })
           }
-        },
-        error = function(cond) {
-          message(paste("error in country", iso_code_country, " for cutoff ", as.Date(cutoff)))
-          print(cond)
-          traceback()
-        })
+        # },
+        # error = function(cond) {
+        #   message(paste("error in country", iso_code_country, " for cutoff ", as.Date(cutoff)))
+        #   print(cond)
+        #   traceback()
+        # })
       }
-      tryCatch({
+      # tryCatch({
         toWrite["lag"]<-toWrite["date"]-toWrite["cutoff"]
         toWrite["minlag"]<-milag
         toWrite["maxlag"]<-mxlag
@@ -906,19 +882,19 @@ for (file in files) {
         metricsToWrite["umd_smooth"]<-("pct_cough_past_smooth" %in% signals_to_try)
         write.csv(metricsToWrite,file = paste0("../data/estimates-symptom-lags/cutoffs/PlotData/",fileid,"-aggregatemetrics-lag.csv"))
         message("succeeded")
-      }, error=function(cond){
-        message(paste("error writing country ",iso_code_country))
-        print (cond)
-        traceback()
-      })
+      # }, error=function(cond){
+      #   message(paste("error writing country ",iso_code_country))
+      #   print (cond)
+      #   traceback()
+      # })
       
     }
-  }
-  ,error = function(cond){
-    message(paste("error in country", iso_code_country))
-    print(cond)
-    traceback()
-  })
+  # }
+  # ,error = function(cond){
+  #   message(paste("error in country", iso_code_country))
+  #   print(cond)
+  #   traceback()
+  # })
 }
 
 

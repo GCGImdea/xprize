@@ -1,7 +1,7 @@
 
 # Oxford data
 ox_data <- c(
-  "date",
+  # "date",
   # "countryname", # Constant for a country/region
   # "countrycode", # Constant for a country/region
   # "regionname", # Constant for a country/region

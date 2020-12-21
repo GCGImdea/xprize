@@ -6,6 +6,10 @@ path_symptom_lags <- "../data/estimates-symptom-lags/cutoffs/PlotData/"
 path_baseline <- "../data/baseline_outputs/"
 path_out <- "../data/estimates-symptom-lags/Plots-baseline-vs-GLM/"
 
+firstCutoff <- "2020-11-18"
+lastCutoff <- "2020-12-18"
+
+
 #try_countries <- c("BR", "GB", "DE", "EC", "PT", "UA", "ES", "CL", "FR")
 try_countries <- c("PT")
 # set upper limit to boxplot (p_box2):
@@ -46,7 +50,7 @@ for (country_iso in try_countries) {
                   
                   filename<-paste0(path_symptom_lags,
                                    country_iso,
-                                   "-cases-",minlag,"-60-pen",pen,"-alpha0.5-rmcc",rmcc,"-rmth0.9-smth",smth,basisdim,"-2020-10-18-2020-12-18-1-",umd,"-",ccfr,as.numeric(nsum),"-FALSE-estimates-lag-daily.csv")
+                                   "-cases-",minlag,"-60-pen",pen,"-alpha0.5-rmcc",rmcc,"-rmth0.9-smth",smth,basisdim,"-", firstCutoff, "-", lastCutoff, "-1-",umd,"-",ccfr,as.numeric(nsum),"-FALSE-estimates-lag-daily.csv")
                   print(paste("doing",filename))
                   if (file.exists(filename)){
                     dfall <- read.csv(file = filename) %>%
