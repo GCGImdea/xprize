@@ -36,10 +36,19 @@ for (country in all_countries) {
   cat("Processing", country, "\n")
   df <- df_country[df_country$CountryName == country,]
 
+  
   df$cases <- c(0,diff(df$ConfirmedCases))
   df$deaths <- c(0,diff(df$ConfirmedDeaths))
+  df$cases <- pmax(df$cases,0)
+  df$deaths <- pmax(df$deaths,0)
+
   df$avgcases7days <- frollmean(df$cases, 7)
   df$avgdeaths7days <- frollmean(df$deaths, 7)
+  
+  df$cases_delta <- c(0,diff(df$cases))
+  df$deaths_delta <- c(0,diff(df$deaths))
+  df$avgcases7days_delta <- c(0,diff(df$avgcases7days))
+  df$avgdeaths7days_delta <- c(0,diff(df$avgdeaths7days))
   
   
   geoid <- c_data[c_data$CountryName == country,"geo_id"]
