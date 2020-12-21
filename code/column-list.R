@@ -2,13 +2,13 @@
 # Oxford data
 ox_data <- c(
   "date",
-  "countryname",
-  "countrycode",
-  "regionname",
-  "regioncode",
-  "iso2",
-  "jurisdiction",
-  "population",
+  "countryname", # Constant for a country/region
+  "countrycode", # Constant for a country/region
+  "regionname", # Constant for a country/region
+  "regioncode", # Constant for a country/region
+  "iso2", # Constant for a country/region
+  "jurisdiction", # Constant for a country/region
+  "population", # Constant for a country/region
   "confirmedcases",
   "confirmeddeaths",
   "cases",
@@ -16,35 +16,35 @@ ox_data <- c(
   "avgcases7days",
   "avgdeaths7days",
   "c1_school.closing",
-  "c1_flag",
+  "c1_flag", # Redundant (says whether the previous one is 0 or not)
   "c2_workplace.closing",
-  "c2_flag",
+  "c2_flag", # Redundant (says whether the previous one is 0 or not)
   "c3_cancel.public.events",
-  "c3_flag",
+  "c3_flag", # Redundant (says whether the previous one is 0 or not)
   "c4_restrictions.on.gatherings",
-  "c4_flag",
+  "c4_flag", # Redundant (says whether the previous one is 0 or not)
   "c5_close.public.transport",
-  "c5_flag",
+  "c5_flag", # Redundant (says whether the previous one is 0 or not)
   "c6_stay.at.home.requirements",
-  "c6_flag",
+  "c6_flag", # Redundant (says whether the previous one is 0 or not)
   "c7_restrictions.on.internal.movement",
-  "c7_flag",
+  "c7_flag", # Redundant (says whether the previous one is 0 or not)
   "c8_international.travel.controls",
   "e1_income.support",
-  "e1_flag",
+  "e1_flag", # Redundant (says whether the previous one is 0 or not)
   "e2_debt.contract.relief",
   "e3_fiscal.measures",
   "e4_international.support",
   "h1_public.information.campaigns",
-  "h1_flag",
+  "h1_flag", # Redundant (says whether the previous one is 0 or not)
   "h2_testing.policy",
   "h3_contact.tracing",
   "h4_emergency.investment.in.healthcare",
   "h5_investment.in.vaccines",
   "h6_facial.coverings",
-  "h6_flag",
+  "h6_flag", # Redundant (says whether the previous one is 0 or not)
   "h7_vaccination.policy",
-  "h7_flag",
+  "h7_flag", # Redundant (says whether the previous one is 0 or not)
   "m1_wildcard",
   "stringencyindex",
   "stringencyindexfordisplay",
@@ -60,16 +60,16 @@ ox_data <- c(
 
 # Our World in Data data
 owid_data <- c(
-"owid_iso_code",
-"owid_continent",
-"owid_location",
-"owid_date",
-"owid_total_cases",
-"owid_new_cases",
-"owid_new_cases_smoothed",
-"owid_total_deaths",
-"owid_new_deaths",
-"owid_new_deaths_smoothed",
+"owid_iso_code", # Constant for a country/region
+"owid_continent", # Constant for a country/region
+"owid_location", # Constant for a country/region
+"owid_date", # Redundant
+"owid_total_cases", # Redundant
+"owid_new_cases", # Redundant
+"owid_new_cases_smoothed", # Redundant
+"owid_total_deaths", # Redundant
+"owid_new_deaths", # Redundant
+"owid_new_deaths_smoothed", # Redundant
 "owid_total_cases_per_million",
 "owid_new_cases_per_million",
 "owid_new_cases_smoothed_per_million",
@@ -97,8 +97,8 @@ owid_data <- c(
 "owid_total_vaccinations",
 "owid_total_vaccinations_per_hundred",
 "owid_stringency_index",
-"owid_population",
-"owid_population_density",
+"owid_population",  # Redundant
+"owid_population_density", 
 "owid_median_age",
 "owid_aged_65_older",
 "owid_aged_70_older",
@@ -116,15 +116,15 @@ owid_data <- c(
 
 # Confirmed data from ECDC
 conf_data <- c(
-"conf_date",
-"conf_countrycode2",
-"conf_population",
-"conf_cases",
-"conf_deaths",
-"conf_cases_prev_week",
-"conf_deaths_prev_week",
-"conf_cases_infected",
-"conf_cum_deaths",
+"conf_date", # Redundant
+"conf_countrycode2", # Constant for a country/region
+"conf_population", # Constant for a country/region
+"conf_cases", # Redundant
+"conf_deaths", # Redundant
+"conf_cases_prev_week", # Redundant
+"conf_deaths_prev_week", # Redundant
+"conf_cases_infected", # Redundant
+"conf_cum_deaths", # Redundant
 "conf_cases_contagious",
 "conf_cases_active",
 "conf_p_cases_infected",
@@ -135,13 +135,13 @@ conf_data <- c(
 
 # CCFR estimates
 ccfr_data <- c(
-"ccfr_date",
-"ccfr_countrycode",
-"ccfr_population",
-"ccfr_cases",
-"ccfr_deaths",
-"ccfr_cum_cases",
-"ccfr_cum_deaths",
+"ccfr_date", # Redundant
+"ccfr_countrycode", # Constant for a country/region
+"ccfr_population", # Constant for a country/region
+"ccfr_cases", # Redundant
+"ccfr_deaths", # Redundant
+"ccfr_cum_cases", # Redundant
+"ccfr_cum_deaths", # Redundant
 "ccfr_cases_infected",
 "ccfr_cases_infected_low",
 "ccfr_cases_infected_high",
@@ -159,9 +159,9 @@ ccfr_data <- c(
 # Hospital data from ECDC
 hosp_data <- c(
 "hosp_year_week",
-"hosp_date",
-"hosp_countrycode",
-"hosp_countryname",
+"hosp_date",  # Redundant
+"hosp_countrycode", # Constant for a country/region
+"hosp_countryname", # Constant for a country/region
 "hosp_hosp_occupancy",
 "hosp_icu_occupancy",
 "hosp_hosp_weekly_admission",
@@ -170,7 +170,7 @@ hosp_data <- c(
 
 # Estimates from the CoronaSurveys poll
 W_data <- c(
-"W_date",
+"W_date", # Redundant
 "W_p_cases",
 "W_p_cases_recent",
 "W_p_cases_fatalities",
@@ -194,10 +194,10 @@ W_data_smooth <- c(
 
 # Data from UMD Symptom Survey via API
 umdapi_data <- c(
-"umdapi_date",
-"umdapi_iso_code",
-"umdapi_country",
-"umdapi_population",
+"umdapi_date", # Redundant
+"umdapi_iso_code", # Constant for a country/region
+"umdapi_country", # Constant for a country/region
+"umdapi_population", # Redundant
 "umdapi_sample_size",
 "umdapi_percent_cli",
 "umdapi_cli_se",
@@ -256,8 +256,8 @@ umdapi_data_smooth <- c(
 
 # Data from UMD Symptom Survey via Challenge
 umdchl_data <- c(
-#"umdchl_date",
-"umdchl_population",
+"umdchl_date", # Redundant
+"umdchl_population", # Redundant
 "umdchl_total_responses",
 "umdchl_pct_cli",
 "umdchl_pct_ili",
@@ -477,8 +477,8 @@ umdchl_data_smooth <- c(
 )
 
 cmu_data <- c(
-"cmu_date",
-"cmu_iso2",
+"cmu_date", # Redundant
+"cmu_iso2", # Constant for a country/region
 "cmu_raw_cli",
 "cmu_smoothed_cli",
 "cmu_raw_ili",
@@ -512,14 +512,14 @@ cmu_data <- c(
 
 # Google mobility data
 gmob_data <- c(
-"gmob_country_region_code",
-"gmob_country_region",
-"gmob_sub_region_1",
-"gmob_sub_region_2",
-"gmob_metro_area",
-"gmob_iso_3166_2_code",
-"gmob_census_fips_code",
-"gmob_date",
+"gmob_country_region_code", # Constant for a country/region
+"gmob_country_region", # Constant for a country/region
+"gmob_sub_region_1", # Constant for a country/region
+"gmob_sub_region_2", # Constant for a country/region
+"gmob_metro_area", # Constant for a country/region
+"gmob_iso_3166_2_code", # Constant for a country/region
+"gmob_census_fips_code",  # Constant for a country/region
+"gmob_date",  # Redundant
 "gmob_retail_and_recreation_percent_change_from_baseline",
 "gmob_grocery_and_pharmacy_percent_change_from_baseline",
 "gmob_parks_percent_change_from_baseline",
