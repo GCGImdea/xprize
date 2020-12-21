@@ -7,7 +7,7 @@ path_baseline <- "../data/baseline_outputs/"
 path_out <- "../data/estimates-symptom-lags/Plots-baseline-vs-GLM/"
 
 #try_countries <- c("BR", "GB", "DE", "EC", "PT", "UA", "ES", "CL", "FR")
-try_countries <- c("FR")
+try_countries <- c("BR")
 # set upper limit to boxplot (p_box2):
 y_lim_box = 10
 
