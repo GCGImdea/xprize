@@ -60,16 +60,16 @@ ox_data <- c(
 
 # Our World in Data data
 owid_data <- c(
-"owid_iso_code", # Constant for a country/region
-"owid_continent", # Constant for a country/region
-"owid_location", # Constant for a country/region
-"owid_date", # Redundant
-"owid_total_cases", # Redundant
-"owid_new_cases", # Redundant
-"owid_new_cases_smoothed", # Redundant
-"owid_total_deaths", # Redundant
-"owid_new_deaths", # Redundant
-"owid_new_deaths_smoothed", # Redundant
+#"owid_iso_code", # Constant for a country/region
+#"owid_continent", # Constant for a country/region
+#"owid_location", # Constant for a country/region
+#"owid_date", # Redundant
+#"owid_total_cases", # Redundant
+#"owid_new_cases", # Redundant
+#"owid_new_cases_smoothed", # Redundant
+#"owid_total_deaths", # Redundant
+#"owid_new_deaths", # Redundant
+#"owid_new_deaths_smoothed", # Redundant
 "owid_total_cases_per_million",
 "owid_new_cases_per_million",
 "owid_new_cases_smoothed_per_million",
@@ -195,9 +195,9 @@ W_data_smooth <- c(
 # Data from UMD Symptom Survey via API
 umdapi_data <- c(
 #"umdapi_date", # Redundant
-"umdapi_iso_code", # Constant for a country/region
-"umdapi_country", # Constant for a country/region
-"umdapi_population", # Redundant
+#"umdapi_iso_code", # Constant for a country/region
+#"umdapi_country", # Constant for a country/region
+#"umdapi_population", # Redundant
 "umdapi_sample_size",
 "umdapi_percent_cli",
 "umdapi_cli_se",
@@ -512,14 +512,14 @@ cmu_data <- c(
 
 # Google mobility data
 gmob_data <- c(
-"gmob_country_region_code", # Constant for a country/region
-"gmob_country_region", # Constant for a country/region
-"gmob_sub_region_1", # Constant for a country/region
-"gmob_sub_region_2", # Constant for a country/region
-"gmob_metro_area", # Constant for a country/region
-"gmob_iso_3166_2_code", # Constant for a country/region
-"gmob_census_fips_code",  # Constant for a country/region
-"gmob_date",  # Redundant
+#"gmob_country_region_code", # Constant for a country/region
+#"gmob_country_region", # Constant for a country/region
+#"gmob_sub_region_1", # Constant for a country/region
+#"gmob_sub_region_2", # Constant for a country/region
+#"gmob_metro_area", # Constant for a country/region
+#"gmob_iso_3166_2_code", # Constant for a country/region
+#"gmob_census_fips_code",  # Constant for a country/region
+#"gmob_date",  # Redundant
 "gmob_retail_and_recreation_percent_change_from_baseline",
 "gmob_grocery_and_pharmacy_percent_change_from_baseline",
 "gmob_parks_percent_change_from_baseline",

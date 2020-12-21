@@ -44,7 +44,8 @@ source("column-list.R")
 #signals_to_try <- signals_nsum
 #signals_to_try <- signals_ccfr
 #signals_to_try <- signals_umd_past_smooth
-signals_to_try <- c(umdchl_data)
+#signals_to_try <- c(umdapi_data,gmob_data)
+signals_to_try <- c(umdapi_data,gmob_data)
 
 check_lags <-
   function(df_response,
@@ -430,7 +431,7 @@ files <- dir(file_in_path, pattern = file_in_pattern)
 countriesToExclude <- c("") # c("AT","BG")
 countriesDone <- c("") # c("AE","AF","AM","AO","AR","AU","AZ","BD","BE","BO","BR","BY","CA","CL","CO","CR","DE","DO","DZ","EG","FR","GB","GH","GR","GT","HN","HR","HU","ID","IL","IN","IQ","JP","KE","KR","KW","LB","LY","MA","MD","MX","NG","NI","NL","NP","NZ","PA","PH","PK","PL","PR","PS","PT","QA","RO","RS","RU","SA","SD","SE","SG","SV","TR","UA","UZ","VE","ZA")
 countriesToExclude <- c(countriesToExclude, countriesDone)
-countriesToDo <-c("FR") #c("BR", "DE", "EC", "PT", "UA", "ES", "IT", "CL", "FR", "GB")
+countriesToDo <-c("PT") #c("BR", "DE", "EC", "PT", "UA", "ES", "IT", "CL", "FR", "GB")
 opt_correls <- data.frame()
 
 excludeVsChoose=FALSE # true for excluding countries and false for choosing them
@@ -525,8 +526,8 @@ for (file in files) {
       ### compute cutoffs, start from last date in signals and progress backwards every 15 days until firstCutoff
       
       
-      firstCutoff <- as.Date("2020-10-22")
-      lastCutoff <- as.Date("2020-11-22")
+      firstCutoff <- as.Date("2020-10-18")
+      lastCutoff <- as.Date("2020-12-18")
       cutoffinterval <- 1
       
       fileid <- paste0(iso_code_country,"-",basefileid,"-",as.Date(firstCutoff),"-",as.Date(lastCutoff),"-",cutoffinterval,"-",
