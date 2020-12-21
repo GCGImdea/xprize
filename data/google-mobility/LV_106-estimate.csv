@@ -1,0 +1,20 @@
+"country_region_code","country_region","sub_region_1","sub_region_2","metro_area","iso_3166_2_code","census_fips_code","date","retail_and_recreation_percent_change_from_baseline","grocery_and_pharmacy_percent_change_from_baseline","parks_percent_change_from_baseline","transit_stations_percent_change_from_baseline","workplaces_percent_change_from_baseline","residential_percent_change_from_baseline"
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-03-23",NA,NA,NA,NA,-39,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-03-24",NA,NA,NA,NA,-44,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-03-30",NA,NA,NA,NA,-42,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-03-31",NA,NA,NA,NA,-42,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-06",NA,NA,NA,NA,-39,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-07",NA,NA,NA,NA,-42,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-10",NA,NA,NA,NA,-71,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-13",NA,NA,NA,NA,-81,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-14",NA,NA,NA,NA,-39,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-16",NA,NA,NA,NA,-46,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-20",NA,NA,NA,NA,-45,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-21",NA,NA,NA,NA,-41,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-04-27",NA,NA,NA,NA,-40,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-05-01",NA,NA,NA,NA,-63,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-05-04",NA,NA,NA,NA,-74,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-06-22",NA,NA,NA,NA,-58,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-06-23",NA,NA,NA,NA,-73,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-06-24",NA,NA,NA,NA,-80,NA
+"LV","Latvia","Ventspils Municipality","","","LV_106",NA,"2020-11-18",NA,NA,NA,NA,-78,NA

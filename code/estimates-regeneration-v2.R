@@ -38,6 +38,9 @@ try(source("script-W-smooth.R"), silent = T)  # Uses smooth_column-v2.R
 # Download data from the CMU Covidcast site: US states data
 try(source("script-get-CMU-covidcast-data2.R"), silent = T)
 
+# Download data from Gloogle mobility
+try(source("script-get-google-mobility-data.R"), silent = T)
+
 # Merge data into giant CSV files per country and region
 try(source("script-stitch-country-data.R"), silent = T)
 try(source("script-stitch-region-data.R"), silent = T)

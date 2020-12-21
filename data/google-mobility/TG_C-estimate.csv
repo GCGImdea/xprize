@@ -1,0 +1,6 @@
+"country_region_code","country_region","sub_region_1","sub_region_2","metro_area","iso_3166_2_code","census_fips_code","date","retail_and_recreation_percent_change_from_baseline","grocery_and_pharmacy_percent_change_from_baseline","parks_percent_change_from_baseline","transit_stations_percent_change_from_baseline","workplaces_percent_change_from_baseline","residential_percent_change_from_baseline"
+"TG","Togo","Centrale Region","","","TG_C",NA,"2020-10-01",NA,NA,NA,NA,-45,NA
+"TG","Togo","Centrale Region","","","TG_C",NA,"2020-10-05",NA,NA,NA,NA,-48,NA
+"TG","Togo","Centrale Region","","","TG_C",NA,"2020-10-06",NA,NA,NA,NA,-44,NA
+"TG","Togo","Centrale Region","","","TG_C",NA,"2020-10-07",NA,NA,NA,NA,-40,NA
+"TG","Togo","Centrale Region","","","TG_C",NA,"2020-10-08",NA,NA,NA,NA,-46,NA

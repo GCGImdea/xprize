@@ -1,0 +1,4 @@
+"country_region_code","country_region","sub_region_1","sub_region_2","metro_area","iso_3166_2_code","census_fips_code","date","retail_and_recreation_percent_change_from_baseline","grocery_and_pharmacy_percent_change_from_baseline","parks_percent_change_from_baseline","transit_stations_percent_change_from_baseline","workplaces_percent_change_from_baseline","residential_percent_change_from_baseline"
+"LV","Latvia","Jēkabpils Municipality","","","LV_042",NA,"2020-02-23",-100,NA,NA,NA,NA,NA
+"LV","Latvia","Jēkabpils Municipality","","","LV_042",NA,"2020-03-22",-100,NA,NA,NA,NA,NA
+"LV","Latvia","Jēkabpils Municipality","","","LV_042",NA,"2020-04-12",-100,NA,NA,NA,NA,NA

@@ -1,0 +1,20 @@
+"country_region_code","country_region","sub_region_1","sub_region_2","metro_area","iso_3166_2_code","census_fips_code","date","retail_and_recreation_percent_change_from_baseline","grocery_and_pharmacy_percent_change_from_baseline","parks_percent_change_from_baseline","transit_stations_percent_change_from_baseline","workplaces_percent_change_from_baseline","residential_percent_change_from_baseline"
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-03-20",-35,NA,NA,NA,NA,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-03-21",-35,NA,NA,NA,NA,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-03-24",NA,NA,NA,NA,-42,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-03-26",NA,NA,NA,NA,-46,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-03-30",NA,NA,NA,NA,-46,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-03-31",NA,NA,NA,NA,-44,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-03",-35,NA,NA,NA,NA,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-04",-35,NA,NA,NA,NA,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-07",NA,NA,NA,NA,-42,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-09",NA,NA,NA,NA,-46,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-10",NA,NA,NA,NA,-73,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-13",NA,NA,NA,NA,-83,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-14",NA,NA,NA,NA,-42,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-04-15",NA,NA,NA,NA,-46,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-05-01",NA,NA,NA,NA,-71,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-05-04",NA,NA,NA,NA,-75,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-06-22",NA,NA,NA,NA,-66,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-06-23",NA,NA,NA,NA,-79,NA
+"LV","Latvia","Lielvārde Municipality","","","LV_053",NA,"2020-07-21",NA,NA,NA,NA,-39,NA

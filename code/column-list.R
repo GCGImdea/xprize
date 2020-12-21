@@ -509,3 +509,21 @@ cmu_data <- c(
 "cmu_smoothed_worried_become_ill",
 "cmu_smoothed_worried_finances"
 )
+
+# Google mobility data
+gmob_data <- c(
+"gmob_country_region_code",
+"gmob_country_region",
+"gmob_sub_region_1",
+"gmob_sub_region_2",
+"gmob_metro_area",
+"gmob_iso_3166_2_code",
+"gmob_census_fips_code",
+"gmob_date",
+"gmob_retail_and_recreation_percent_change_from_baseline",
+"gmob_grocery_and_pharmacy_percent_change_from_baseline",
+"gmob_parks_percent_change_from_baseline",
+"gmob_transit_stations_percent_change_from_baseline",
+"gmob_workplaces_percent_change_from_baseline",
+"gmob_residential_percent_change_from_baseline"
+)

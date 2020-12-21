@@ -1,0 +1,19 @@
+"country_region_code","country_region","sub_region_1","sub_region_2","metro_area","iso_3166_2_code","census_fips_code","date","retail_and_recreation_percent_change_from_baseline","grocery_and_pharmacy_percent_change_from_baseline","parks_percent_change_from_baseline","transit_stations_percent_change_from_baseline","workplaces_percent_change_from_baseline","residential_percent_change_from_baseline"
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-02-15",18,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-02-22",-5,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-02-29",4,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-03-07",33,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-03-14",-9,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-03-20",-12,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-03-21",-20,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-03-28",-29,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-03-29",-39,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-04-03",-14,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-04-04",-18,NA,NA,NA,NA,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-04-10",NA,NA,NA,NA,-77,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-05-01",NA,NA,NA,NA,-73,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-05-04",NA,NA,NA,NA,-77,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-06-22",NA,NA,NA,NA,-66,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-06-23",NA,NA,NA,NA,-76,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-06-24",NA,NA,NA,NA,-79,NA
+"LV","Latvia","Burtnieki Municipality","","","LV_019",NA,"2020-11-18",NA,NA,NA,NA,-77,NA

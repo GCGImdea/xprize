@@ -1,0 +1,4 @@
+"country_region_code","country_region","sub_region_1","sub_region_2","metro_area","iso_3166_2_code","census_fips_code","date","retail_and_recreation_percent_change_from_baseline","grocery_and_pharmacy_percent_change_from_baseline","parks_percent_change_from_baseline","transit_stations_percent_change_from_baseline","workplaces_percent_change_from_baseline","residential_percent_change_from_baseline"
+"LV","Latvia","Preiļi Municipality","","","LV_073",NA,"2020-03-20",-34,NA,NA,NA,NA,NA
+"LV","Latvia","Preiļi Municipality","","","LV_073",NA,"2020-03-27",-24,NA,NA,NA,NA,NA
+"LV","Latvia","Preiļi Municipality","","","LV_073",NA,"2020-04-03",-31,NA,NA,NA,NA,NA
