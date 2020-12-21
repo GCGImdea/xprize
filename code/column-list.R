@@ -2,49 +2,53 @@
 # Oxford data
 ox_data <- c(
   "date",
-  "countryname", # Constant for a country/region
-  "countrycode", # Constant for a country/region
-  "regionname", # Constant for a country/region
-  "regioncode", # Constant for a country/region
-  "iso2", # Constant for a country/region
-  "jurisdiction", # Constant for a country/region
-  "population", # Constant for a country/region
-  "confirmedcases",
-  "confirmeddeaths",
-  "cases",
-  "deaths",
-  "avgcases7days",
-  "avgdeaths7days",
+  # "countryname", # Constant for a country/region
+  # "countrycode", # Constant for a country/region
+  # "regionname", # Constant for a country/region
+  # "regioncode", # Constant for a country/region
+  # "iso2", # Constant for a country/region
+  # "jurisdiction", # Constant for a country/region
+  # "population", # Constant for a country/region
+  "confirmedcases", # Cumulative cases
+  "confirmeddeaths", # Cumulative fatalities
+  "cases", # Daily new cases
+  "deaths",  # Daily new fatalities
+  "avgcases7days", # 7 day rolling average of cases
+  "avgdeaths7days",  # 7 day rolling average of deaths
+  "cases_delta", # Daily difference of cases
+  "deaths_delta", # Daily difference of deaths
+  "avgcases7days_delta", # Daily difference of avgcases7days
+  "avgdeaths7days_delta", # Daily difference of avgdeaths7days
   "c1_school.closing",
-  "c1_flag", # Redundant (says whether the previous one is 0 or not)
+#  "c1_flag", # Redundant (says whether the previous one is 0 or not)
   "c2_workplace.closing",
-  "c2_flag", # Redundant (says whether the previous one is 0 or not)
+#  "c2_flag", # Redundant (says whether the previous one is 0 or not)
   "c3_cancel.public.events",
-  "c3_flag", # Redundant (says whether the previous one is 0 or not)
+#  "c3_flag", # Redundant (says whether the previous one is 0 or not)
   "c4_restrictions.on.gatherings",
-  "c4_flag", # Redundant (says whether the previous one is 0 or not)
+#  "c4_flag", # Redundant (says whether the previous one is 0 or not)
   "c5_close.public.transport",
-  "c5_flag", # Redundant (says whether the previous one is 0 or not)
+#  "c5_flag", # Redundant (says whether the previous one is 0 or not)
   "c6_stay.at.home.requirements",
-  "c6_flag", # Redundant (says whether the previous one is 0 or not)
+#  "c6_flag", # Redundant (says whether the previous one is 0 or not)
   "c7_restrictions.on.internal.movement",
-  "c7_flag", # Redundant (says whether the previous one is 0 or not)
+#  "c7_flag", # Redundant (says whether the previous one is 0 or not)
   "c8_international.travel.controls",
   "e1_income.support",
-  "e1_flag", # Redundant (says whether the previous one is 0 or not)
+#  "e1_flag", # Redundant (says whether the previous one is 0 or not)
   "e2_debt.contract.relief",
   "e3_fiscal.measures",
   "e4_international.support",
   "h1_public.information.campaigns",
-  "h1_flag", # Redundant (says whether the previous one is 0 or not)
+#  "h1_flag", # Redundant (says whether the previous one is 0 or not)
   "h2_testing.policy",
   "h3_contact.tracing",
   "h4_emergency.investment.in.healthcare",
   "h5_investment.in.vaccines",
   "h6_facial.coverings",
-  "h6_flag", # Redundant (says whether the previous one is 0 or not)
+#  "h6_flag", # Redundant (says whether the previous one is 0 or not)
   "h7_vaccination.policy",
-  "h7_flag", # Redundant (says whether the previous one is 0 or not)
+#  "h7_flag", # Redundant (says whether the previous one is 0 or not)
   "m1_wildcard",
   "stringencyindex",
   "stringencyindexfordisplay",
@@ -116,15 +120,15 @@ owid_data <- c(
 
 # Confirmed data from ECDC
 conf_data <- c(
-"conf_date", # Redundant
-"conf_countrycode2", # Constant for a country/region
-"conf_population", # Constant for a country/region
-"conf_cases", # Redundant
-"conf_deaths", # Redundant
-"conf_cases_prev_week", # Redundant
-"conf_deaths_prev_week", # Redundant
-"conf_cases_infected", # Redundant
-"conf_cum_deaths", # Redundant
+# "conf_date", # Redundant
+# "conf_countrycode2", # Constant for a country/region
+# "conf_population", # Constant for a country/region
+# "conf_cases", # Redundant
+# "conf_deaths", # Redundant
+# "conf_cases_prev_week", # Redundant
+# "conf_deaths_prev_week", # Redundant
+# "conf_cases_infected", # Redundant
+# "conf_cum_deaths", # Redundant
 "conf_cases_contagious",
 "conf_cases_active",
 "conf_p_cases_infected",
@@ -135,13 +139,13 @@ conf_data <- c(
 
 # CCFR estimates
 ccfr_data <- c(
-"ccfr_date", # Redundant
-"ccfr_countrycode", # Constant for a country/region
-"ccfr_population", # Constant for a country/region
-"ccfr_cases", # Redundant
-"ccfr_deaths", # Redundant
-"ccfr_cum_cases", # Redundant
-"ccfr_cum_deaths", # Redundant
+# "ccfr_date", # Redundant
+# "ccfr_countrycode", # Constant for a country/region
+# "ccfr_population", # Constant for a country/region
+# "ccfr_cases", # Redundant
+# "ccfr_deaths", # Redundant
+# "ccfr_cum_cases", # Redundant
+# "ccfr_cum_deaths", # Redundant
 "ccfr_cases_infected",
 "ccfr_cases_infected_low",
 "ccfr_cases_infected_high",
@@ -159,9 +163,9 @@ ccfr_data <- c(
 # Hospital data from ECDC
 hosp_data <- c(
 "hosp_year_week",
-"hosp_date",  # Redundant
-"hosp_countrycode", # Constant for a country/region
-"hosp_countryname", # Constant for a country/region
+# "hosp_date",  # Redundant
+# "hosp_countrycode", # Constant for a country/region
+# "hosp_countryname", # Constant for a country/region
 "hosp_hosp_occupancy",
 "hosp_icu_occupancy",
 "hosp_hosp_weekly_admission",
@@ -170,7 +174,7 @@ hosp_data <- c(
 
 # Estimates from the CoronaSurveys poll
 W_data <- c(
-"W_date", # Redundant
+# "W_date", # Redundant
 "W_p_cases",
 "W_p_cases_recent",
 "W_p_cases_fatalities",
@@ -256,8 +260,8 @@ umdapi_data_smooth <- c(
 
 # Data from UMD Symptom Survey via Challenge
 umdchl_data <- c(
-#"umdchl_date", # Redundant
-"umdchl_population", # Redundant
+# "umdchl_date", # Redundant
+# "umdchl_population", # Redundant
 "umdchl_total_responses",
 "umdchl_pct_cli",
 "umdchl_pct_ili",
@@ -477,8 +481,8 @@ umdchl_data_smooth <- c(
 )
 
 cmu_data <- c(
-"cmu_date", # Redundant
-"cmu_iso2", # Constant for a country/region
+# "cmu_date", # Redundant
+# "cmu_iso2", # Constant for a country/region
 "cmu_raw_cli",
 "cmu_smoothed_cli",
 "cmu_raw_ili",
