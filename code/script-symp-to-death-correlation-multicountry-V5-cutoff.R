@@ -31,7 +31,7 @@ doFarFuture=TRUE
 doNearFar=TRUE
 limitTestToKnownDates=FALSE
 
-milag=23
+milag=25
 mxlag=60
 plotCorrel=FALSE
 plotForecast=FALSE
