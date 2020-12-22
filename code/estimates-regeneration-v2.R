@@ -26,9 +26,13 @@ try(source("script-get-umd-data-country.R"), silent = T)
 try(source("script-confirmed2.R"), silent = T) # Downloads all country cases and deaths from ECDC
 try(source("script-confirmed-hospital.R"), silent = T) # Downloads hospital and ICU occupancy from ECDC
 
+# Compute CCFR fatalities estimates
+try(source("script-ccfr-fatalities-country.R"), silent = T) # Generates CCFR fatalities estimates for all countries from Oxford data
+try(source("script-ccfr-fatalities-region.R"), silent = T) # Generates CCFR fatalities estimates for all countries from Oxford data
+
 # Compute CCFR estimates
-try(source("script-ccfr-based3.R"), silent = T) # Generates CCFR estimates for all countries from Oxford data
-try(source("script-ccfr-based-region.R"), silent = T) # Generates CCFR estimates for all countries from Oxford data
+# try(source("script-ccfr-based3.R"), silent = T) # Generates CCFR estimates for all countries from Oxford data
+# try(source("script-ccfr-based-region.R"), silent = T) # Generates CCFR estimates for all countries from Oxford data
 
 # Compute estimates from the CoronaSurveys responses
 try(source("script-W-v2.R"), silent = T)

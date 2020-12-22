@@ -4,6 +4,7 @@ library(stringr)
 ox_country_path <- "../data/oxford/country/" # Oxford data
 owid_country_path <- "../data/owid/" # Our World in Data data
 confirmed_country_path <- "../data/estimates-confirmed/" # Confirmed data from ECDC
+ccfr_fatalities_path <- "../data/estimates-ccfr-fatalities/" # CCFR fatalities
 ccfr_country_path <- "../data/estimates-ccfr-based/" # CCFR estimates
 hospital_country_path <- "../data/estimates-confirmed-hospital/" # Hospital data from ECDC
 W_country_path <- "../data/estimates-W/smooth/" # Estimates from the CoronaSurveys poll
@@ -53,6 +54,9 @@ load_and_combine_country <- function(code, nsum = FALSE) {
   
   df_giant <- country_dataset(code, df_giant, prefix = "ccfr_", country_path = ccfr_country_path,
                   file_postfix = "-estimate.csv")
+  
+  df_giant <- country_dataset(code, df_giant, prefix = "fatal_", country_path = ccfr_fatalities_path,
+                              file_postfix = "-estimate.csv")
   
   df_giant <- country_dataset(code, df_giant, prefix = "hosp_", country_path = hospital_country_path,
                   file_postfix = "-hospital-icu.csv")

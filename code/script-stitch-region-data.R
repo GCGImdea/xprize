@@ -3,6 +3,7 @@ library(stringr)
 
 ox_region_path <- "../data/oxford/region/" # Oxford data
 confirmed_region_path <- "../data/estimates-confirmed/" # Confirmed data from ECDC
+ccfr_fatalities_path <- "../data/estimates-ccfr-fatalities/" # CCFR fatalities
 ccfr_region_path <- "../data/estimates-ccfr-based/" # CCFR estimates
 hospital_region_path <- "../data/estimates-confirmed-hospital/" # Hospital data from ECDC
 W_region_path <- "../data/estimates-W/smooth/" # Estimates from the CoronaSurveys poll
@@ -51,6 +52,9 @@ load_and_combine_region <- function(code, nsum = FALSE) {
   df_giant <- region_dataset(code, df_giant, prefix = "ccfr_", region_path = ccfr_region_path,
                   file_postfix = "-estimate.csv")
 
+  df_giant <- country_dataset(code, df_giant, prefix = "fatal_", country_path = ccfr_fatalities_path,
+                              file_postfix = "-estimate.csv")
+  
   # df_giant <- region_dataset(code, df_giant, prefix = "hosp_", region_path = hospital_region_path,
   #                 file_postfix = "-hospital-icu.csv")
 

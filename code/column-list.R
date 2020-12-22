@@ -160,6 +160,27 @@ ccfr_data <- c(
 "ccfr_p_cases_active"
 )
 
+# Fatalities estimates
+fatal_data <- c(
+# "fatal_date", # Redundant
+# "fatal_countrycode", # Constant for a country/region
+# "fatal_population", # Constant for a country/region
+# "fatal_cases", # Redundant
+# "fatal_deaths", # Redundant
+# "fatal_cum_cases", # Redundant
+# "fatal_cum_deaths", # Redundant
+"fatal_cases_infected",
+"fatal_cases_daily",
+"fatal_cases_contagious",
+"fatal_cases_active",
+"fatal_p_cum_cases",
+"fatal_p_cum_deaths",
+"fatal_p_cases_infected",
+"fatal_p_cases_daily",
+"fatal_p_cases_contagious",
+"fatal_p_cases_active"
+)
+
 # Hospital data from ECDC
 hosp_data <- c(
 "hosp_year_week",
