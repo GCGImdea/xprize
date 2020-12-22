@@ -31,6 +31,7 @@ country_dataset <- function(code,
     names(df_aux) <- paste0(prefix, names(df_aux))
     #df_aux$date <- as.Date(date_aux)
     df_aux$date <- as.Date(df_aux[,date_col])
+    df_aux <- df_aux[!is.na(df_aux$date),]
     df_giant <- df_giant %>% full_join(df_aux, by = "date")
   }
   return(df_giant)
