@@ -12,7 +12,7 @@ output_folder <- "../work/forecast/"
 start_date <- ymd("2020-01-01")
 end_date <- ymd("2021-12-31")
 
-onset_to_death_window <- 13
+onset_to_death_window <- 13 # CDC web site
 recent_period <-200
 
 
@@ -54,6 +54,8 @@ process_country_region <- function(code, file_path) {
   top_cases <- max(df$PredictedDailyNewCases)
   stats_cases <- boxplot.stats(df$avgcases7days_delta[(old_ll - recent_period):(old_ll)])$stats
   
+  cat("stats cases ", stats_cases, "\n")
+  
   for (i in seq(1, new_ll-old_ll)) {
     df$PredictedDailyNewCases[old_ll+i] <- 
       min(top_cases, df$PredictedDailyNewCases[old_ll] + i*stats_cases[4])
@@ -62,6 +64,8 @@ process_country_region <- function(code, file_path) {
   # Change df$PredictedDailyNewCases
   top_deaths <- max(df$PredictedDailyNewDeaths)
   stats_deaths <- boxplot.stats(df$avgdeaths7days_delta[(old_ll - recent_period):(old_ll)])$stats
+  
+  cat("stats deaths ", stats_deaths, "\n")
   
   for (i in seq(1, new_ll-old_ll)) {
     df$PredictedDailyNewDeaths[old_ll+i] <- 

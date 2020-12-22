@@ -18,7 +18,10 @@ ox_data <- c(
   "cases_delta", # Daily difference of cases
   "deaths_delta", # Daily difference of deaths
   "avgcases7days_delta", # Daily difference of avgcases7days
-  "avgdeaths7days_delta", # Daily difference of avgdeaths7days
+  "avgdeaths7days_delta" # Daily difference of avgdeaths7days
+)
+
+ox_data_ips <- c(
   "c1_school.closing",
 #  "c1_flag", # Redundant (says whether the previous one is 0 or not)
   "c2_workplace.closing",
@@ -49,7 +52,10 @@ ox_data <- c(
 #  "h6_flag", # Redundant (says whether the previous one is 0 or not)
   "h7_vaccination.policy",
 #  "h7_flag", # Redundant (says whether the previous one is 0 or not)
-  "m1_wildcard",
+  "m1_wildcard"
+)
+
+ox_data_eco <- c(
   "stringencyindex",
   "stringencyindexfordisplay",
   "stringencylegacyindex",
