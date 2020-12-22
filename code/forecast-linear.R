@@ -2,6 +2,7 @@ library(dplyr)
 library(stringr)
 library(tidyverse)
 library(lubridate)
+library(data.table)
 
 ox_country_path <- "../data/oxford/country/" # Oxford data
 ox_region_path <- "../data/oxford/region/"
@@ -13,7 +14,10 @@ start_date <- ymd("2020-01-01")
 end_date <- ymd("2021-12-31")
 
 onset_to_death_window <- 13 # CDC web site
-recent_period <-200
+onset_to_hospital <- 6 # CDC web site
+cases_in_hospital <- 0.25 # Augusto's study in our draft
+hospital_in_icu <- 0.30 # CDC web site <50: 23.8%, 50-64: 36.1%, >64: 35.3%
+recent_period <-100
 
 
 process_country_region <- function(code, file_path) {
@@ -50,6 +54,12 @@ process_country_region <- function(code, file_path) {
   
   cat("len ", old_ll, "new len ", new_ll, "\n")
   
+  IFR <- sum(df$PredictedDailyNewDeaths[(old_ll - recent_period):(old_ll)]) /
+    sum(df$PredictedDailyNewCases[(old_ll - recent_period - onset_to_death_window):
+                                    (old_ll - onset_to_death_window)])
+  
+  cat("IFR ", IFR, "\n")
+  
   # Change df$PredictedDailyNewCases
   top_cases <- max(df$PredictedDailyNewCases)
   stats_cases <- boxplot.stats(df$avgcases7days_delta[(old_ll - recent_period):(old_ll)])$stats
@@ -61,7 +71,7 @@ process_country_region <- function(code, file_path) {
       min(top_cases, df$PredictedDailyNewCases[old_ll] + i*stats_cases[4])
   }
   
-  # Change df$PredictedDailyNewCases
+  # Change df$PredictedDailyNewDeaths
   top_deaths <- max(df$PredictedDailyNewDeaths)
   stats_deaths <- boxplot.stats(df$avgdeaths7days_delta[(old_ll - recent_period):(old_ll)])$stats
   
@@ -72,14 +82,17 @@ process_country_region <- function(code, file_path) {
       min(top_deaths, df$PredictedDailyNewDeaths[old_ll] + i*stats_deaths[4])
   }
   
-  IFR <- sum(df$PredictedDailyNewDeaths[(old_ll - recent_period):(old_ll)]) /
-    sum(df$PredictedDailyNewCases[(old_ll - recent_period - onset_to_death_window):
-                                         (old_ll - onset_to_death_window)])
-    
-  cat("IFR ", IFR, "\n")
+
   
   df$DeathsFromIFR <- df$PredictedDailyNewCases * IFR
   
+  # Hospital cases
+  df$PredictedDailyNewHospital <- shift(df$PredictedDailyNewCases * cases_in_hospital, 
+                                        n = onset_to_hospital, 
+                                        fill = 0)
+  
+  df$PredictedDailyNewICU <- df$PredictedDailyNewHospital * hospital_in_icu
+    
   write.csv(df,paste0(output_folder, code, "-forecast.csv"), row.names = F)
   
   jpeg(paste0(output_folder, code, "-forecast-cases.jpg"))
@@ -94,23 +107,36 @@ process_country_region <- function(code, file_path) {
   lines(df$Date, df$DeathsFromIFR, col="blue",lty=2)
   dev.off()
   
+  jpeg(paste0(output_folder, code, "-forecast-hosp.jpg"))
+  plot(df$Date, df$PredictedDailyNewHospital, type="o", col="red", pch="o", lty=1)
+  points(df$Date, df$PredictedDailyNewICU, col="blue", pch="*")
+  lines(df$Date, df$PredictedDailyNewICU, col="blue",lty=2)
+  dev.off()
+  
   df <- df %>%
     select(CountryName, RegionName, Date, 
            PredictedDailyNewCases,
            PredictedDailyNewDeaths,
-           DeathsFromIFR)
+           DeathsFromIFR,
+           PredictedDailyNewHospital,
+           PredictedDailyNewICU
+           )
   
   
   return(df)
 }
 
 
-df <- data.frame(CountryName=character(),
-                 RegionName=character(),
-                 Date=as.Date(character()),
-                 PredictedDailyNewCases=double(),
-                 PredictedDailyNewDeaths=double(),
-                 stringsAsFactors=FALSE) 
+
+
+# df_all <- data.frame(CountryName=character(),
+#                  RegionName=character(),
+#                  Date=as.Date(character()),
+#                  PredictedDailyNewCases=double(),
+#                  PredictedDailyNewDeaths=double(),
+#                  stringsAsFactors=FALSE) 
+
+df_all <- data.frame()
 
 #save data for countries of interest
 
@@ -118,20 +144,20 @@ interest <- list.files(ox_country_path, pattern="*.csv", full.names=FALSE)
 interest <- substring(interest, 1, 2)
 
 for (c in interest) {
-  df <- bind_rows(df, process_country_region(c, file_path=ox_country_path))
+  df_all <- bind_rows(df_all, process_country_region(c, file_path=ox_country_path))
 }
 
 interest <- list.files(ox_region_path, pattern="*.csv", full.names=FALSE)
 interest <- word(interest,1,sep = "-")
 
 for (c in interest) {
-  df <- bind_rows(df, process_country_region(c, file_path=ox_region_path))
+  df_all <- bind_rows(df_all, process_country_region(c, file_path=ox_region_path))
 }
 
-df$isSpecialty <- 0
+df_all$isSpecialty <- 0
 #df$isSpecialty[df$CountryName == "Spain"] <- 1
 
-df <- df[order(df$CountryName,df$RegionName,df$Date),]
-write.csv(df,output_file, row.names = F)
+df_all <- df_all[order(df_all$CountryName,df_all$RegionName,df_all$Date),]
+write.csv(df_all,output_file, row.names = F)
 
 
