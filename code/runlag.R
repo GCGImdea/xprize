@@ -11,20 +11,29 @@ library(mpath) # lasso/elastic-net
 library(caret)
 library(gsubfn)  
 
-firstCutoff <- as.Date("2020-11-30")
-lastCutoff <- as.Date("2020-12-21")
-cutoffinterval <- 1
 
-use_penalty = F # T: use penalized regression (elastic-net)
-alpha_in = 0.5 # tradeoff between Ridge and Lasso regression
-remove_correlated = T # prior removal of highly correlated predictors
-cutoff_remove_correlated = 0.9 # cutoff for remove_correlated
+firstCutoff <- as.Date("#FIRSTCUTOFF#")
+lastCutoff <- as.Date("#LASTCUTOFF#")
+cutoffinterval <- #CUTOFFINTERVAL#
+
+
+
+
+use_penalty = #PEN# # T: use penalized regression (elastic-net)
+alpha_in = #ALPHA# # tradeoff between Ridge and Lasso regression
+remove_correlated = #RMCL# # prior removal of highly correlated predictors
+cutoff_remove_correlated = #RMTH# # cutoff for remove_correlated
+
+
 basis_dim_in=NA
-perform_smoothing = F# T # prior smoothing of predictors (using smooth_column-v2.R)
-limit_range=T
+perform_smoothing = #SMOOTH# # prior smoothing of predictors (using smooth_column-v2.R)
+limit_range=#LIMRANGE#
+
+  
+
 if (perform_smoothing) {
   source("smooth_column-v2.R")
-  basis_dim_in = 15
+  basis_dim_in = #BASISDIM#
 }
 
 doFarFuture=FALSE
@@ -32,11 +41,14 @@ doNearFar=FALSE
 
 milag=7
 mxlag=60
+  
+milag=#MILAG#
+mxlag=#MXLAG#
 plotCorrel=FALSE
 plotForecast=TRUE
 
-#signal_to_match <- "deaths"
-signal_to_match <- "cases"
+signal_to_match <- "#SIGTOMATCH#"
+#signal_to_match <- "cases"
 
 basefileid <-paste0(signal_to_match,"-",milag,"-",mxlag,"-pen",use_penalty,"-alpha",alpha_in,"-rmcc",remove_correlated,"-rmth",cutoff_remove_correlated,"-smth",perform_smoothing,basis_dim_in,"-limrange",limit_range)
 
@@ -48,13 +60,15 @@ source("column-list.R")
 #signals_to_try <- signals_nsum
 #signals_to_try <- signals_ccfr
 #signals_to_try <- signals_umd_past_smooth
+
 #signals_to_try <- c(umdapi_data,gmob_data)
-#signals_to_try_string <-"ox_data"
+#signals_to_try <- c(umdapi_data,gmob_data)
+
 
 #signals_to_try_string <- "ox_data-owid_data-gmob_data-umdapi_data-cmu_data-fatal_data-hosp_data-W_data"
-signals_to_try_string <- "umdapi_data"
+signals_to_try_string <- "#SIGTOTRY#"
 all_signals_to_try <- eval(parse(text=paste("c(",str_replace_all(signals_to_try_string,"-",","),")")))
-
+                       
 check_lags <-
   function(df_response,
            df_add_regressors,
@@ -81,7 +95,6 @@ check_lags <-
         
         # if (sum(is.na(joined[, column_in]))==0){
         tryCatch({
-          #print(paste("doing column ",column_in))
           corTest <-
             cor.test(joined$y, joined[, column_in], method = "spearman")
           
@@ -95,11 +108,8 @@ check_lags <-
             )
         }, error = function(cond){
           message("Error in correlation: ")
-          print(str(joined))
-          print(column_in)
-          message("Error in correlation: ")
           print(cond)
-          traceback()
+          #traceback()
           df_correl <-
             data.frame(
               shift = date_shift,
@@ -209,17 +219,6 @@ doGLM <-
     
     modelPar <- modelPar[complete.cases(modelPar), ]
     
-    colToRemove=c()
-    for (s in colnames(modelPar)){
-      if (s != "date" & s!="y"){
-        lll <- unique(modelPar[[s]])
-        if (length(lll)< 2) {
-          colToRemove <- c(colToRemove, s)
-        }
-      }
-    }
-    
-    modelPar <- modelPar[,!(names(modelPar) %in% colToRemove)]
     
     m1 <- glm.nb(y ~ . - date , data = modelPar)
     
@@ -245,16 +244,6 @@ doGLM_penalty <-
     
     
     modelPar <- modelPar[complete.cases(modelPar), ]
-    colToRemove=c()
-    for (s in colnames(modelPar)){
-      if (s != "date" & s!="y"){
-        lll <- unique(modelPar[[s]])
-        if (length(lll)< 2) {
-          colToRemove <- c(colToRemove, s)
-        }
-      }
-    }
-    modelPar <- modelPar[,!(names(modelPar) %in% colToRemove)]
     
     # CV elastic-net
     cv_enet <- cv.glmregNB(y ~ . -date , 
@@ -331,7 +320,7 @@ doTest <- function(m, testSignals, testResp, cutoff, metricDF) {
     testSignals <-
       testSignals[, (names(testSignals) %in% c(labels(m$terms),"date"))]
   }
-  
+ 
   # get only complete cases (remove rows with NAs)
   testResp<-testResp[complete.cases(testResp), ] 
   testSignals <- testSignals[complete.cases(testSignals), ]
@@ -461,7 +450,7 @@ files <- dir(file_in_path, pattern = file_in_pattern)
 countriesToExclude <- c("") # c("AT","BG")
 countriesDone <- c("") # c("AE","AF","AM","AO","AR","AU","AZ","BD","BE","BO","BR","BY","CA","CL","CO","CR","DE","DO","DZ","EG","FR","GB","GH","GR","GT","HN","HR","HU","ID","IL","IN","IQ","JP","KE","KR","KW","LB","LY","MA","MD","MX","NG","NI","NL","NP","NZ","PA","PH","PK","PL","PR","PS","PT","QA","RO","RS","RU","SA","SD","SE","SG","SV","TR","UA","UZ","VE","ZA")
 countriesToExclude <- c(countriesToExclude, countriesDone)
-countriesToDo <-c("FR") #c("BR", "DE", "EC", "PT", "UA", "ES", "IT", "CL", "FR", "GB")
+countriesToDo <-c(#COUNTRIESTODO#)
 opt_correls <- data.frame()
 
 excludeVsChoose=FALSE # true for excluding countries and false for choosing them
@@ -486,10 +475,9 @@ for (file in files) {
       colnames(y_df) <- c("date","y")
       
       signals_to_try <- intersect(all_signals_to_try, colnames(all_df))
-      numcols <- length(signals_to_try)
       for (s in signals_to_try){
         lll <- unique(all_df[[s]])
-        if (length(lll)< 2 | sum(!is.na(all_df[[s]]))<numcols) {
+        if (length(lll)< 2) {
           signals_to_try <- signals_to_try[signals_to_try != s]
         }
       }
@@ -563,7 +551,7 @@ for (file in files) {
       
       ### compute cutoffs, start from last date in signals and progress backwards every 15 days until firstCutoff
       
-      
+
       # firstCutoff <- as.Date("2020-11-18")
       # lastCutoff <- as.Date("2020-12-18")
       # cutoffinterval <- 1
@@ -572,6 +560,7 @@ for (file in files) {
       
       
       
+    
       cutoff <- lastCutoff
       cutoffs <- vector()
       while (cutoff >= firstCutoff) {
@@ -657,34 +646,10 @@ for (file in files) {
           # Shift train signals 
           shiftedSignals <- shiftSignals(baseForOutputDF=(y_df_train %>% dplyr::select(date, y)), inputDF=x_df_train, correl=opt_correl_single_country)
           
-          
-          
-          shiftedSignals <- shiftedSignals[complete.cases(shiftedSignals), ]
-          colToRemove=c()
-          for (s in colnames(shiftedSignals)){
-            if (s != "date" & s!="y"){
-              lll <- unique(shiftedSignals[[s]])
-              if (length(lll)< 2) {
-                colToRemove <- c(colToRemove, s)
-              }
-            }
-          }
-          
-          
-          
-          
-          shiftedSignals <- shiftedSignals[,!(names(shiftedSignals) %in% colToRemove)]
-          
-          
-          
-          
           # keep only signals before cutoff after shifting, this is unnecessary but it does not hurt
           shiftedTrainSignal <- shiftedSignals %>% filter(date <= cutoff)
           
           leftoverFromShifted <- shiftedSignals %>% filter(date > cutoff) %>% dplyr::select(-y)
-          
-          
-          
           
           ## Remove correlated vars----
           if (remove_correlated) {
@@ -822,7 +787,7 @@ for (file in files) {
                     if (abs(delta) > maxrange[row])
                       print(paste("trimmed ",delta, " to ", maxrange[row]))
                     delta<- delta/abs(delta)*min(abs(delta), maxrange[row])
-                    
+
                   }
                   syncFore <- yForToday + delta
                   if (syncFore<0){
@@ -846,7 +811,7 @@ for (file in files) {
           }, error=function(cond){
             message(paste("error in country", iso_code_country, " nearFuture for cutoff ", as.Date(cutoff)))
             print(cond)
-            traceback()
+            #traceback()
           })
           
           if (doFarFuture){
@@ -879,7 +844,7 @@ for (file in files) {
             }, error=function(cond){
               message(paste("error in country", iso_code_country, " farFuture for cutoff ", as.Date(cutoff)))
               print(cond)
-              traceback()
+              #traceback()
             })
           }
           if (doNearFar){
@@ -912,14 +877,14 @@ for (file in files) {
             }, error=function(cond){
               message(paste("error in country", iso_code_country, " nearFar for cutoff ", as.Date(cutoff)))
               print(cond)
-              traceback()
+              #traceback()
             })
           }
         },
         error = function(cond) {
           message(paste("error in country", iso_code_country, " for cutoff ", as.Date(cutoff)))
           print(cond)
-          traceback()
+          #traceback()
         })
       }
       tryCatch({
@@ -937,7 +902,7 @@ for (file in files) {
         toWrite["lastcutoff"]<-lastCutoff
         toWrite["cutoffinterval"]<-cutoffinterval
         toWrite["signalsToTry"]<-signals_to_try_string
-        
+      
         
         #"","date","fore","fore_low","fore_high","cutoff","strawman","scaled_abs_err","predType","lag"
         toWrite<-toWrite[,c(13,14,15,16,17,18,19,20,21,22,23,24,25,6,1,12,11,5,7,2,3,4,8,9,10)]
@@ -960,15 +925,15 @@ for (file in files) {
       }, error=function(cond){
         message(paste("error writing country ",iso_code_country))
         print (cond)
-        traceback()
+        #traceback()
       })
       
     }
-  } 
+  }
   ,error = function(cond){
     message(paste("error in country", iso_code_country))
     print(cond)
-    traceback()
+    #traceback()
   })
 }
 
