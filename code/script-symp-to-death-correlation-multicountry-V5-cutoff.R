@@ -11,7 +11,7 @@ library(mpath) # lasso/elastic-net
 library(caret)
 library(gsubfn)  
 
-firstCutoff <- as.Date("2020-11-30")
+firstCutoff <- as.Date("2020-11-21")
 lastCutoff <- as.Date("2020-12-21")
 cutoffinterval <- 1
 
@@ -27,13 +27,14 @@ if (perform_smoothing) {
   basis_dim_in = 15
 }
 
-doFarFuture=FALSE
-doNearFar=FALSE
+doFarFuture=TRUE
+doNearFar=TRUE
+limitTestToKnownDates=FALSE
 
-milag=7
+milag=23
 mxlag=60
 plotCorrel=FALSE
-plotForecast=TRUE
+plotForecast=FALSE
 
 #signal_to_match <- "deaths"
 signal_to_match <- "cases"
@@ -340,7 +341,9 @@ doTest <- function(m, testSignals, testResp, cutoff, metricDF) {
   testResp <- testResp %>% filter(date >= minTestDate, date <= maxTestDate)
   
   joined <- testSignals %>% inner_join(testResp, by="date")
-  testSignals <- joined[,names(joined) %in% names(testSignals)]
+  if (limitTestToKnownDates){
+    testSignals <- joined[,names(joined) %in% names(testSignals)]
+  }
   testResp <- joined[,names(joined) %in% names(testResp)]
   
   firstdate=min(joined$date)
@@ -356,6 +359,7 @@ doTest <- function(m, testSignals, testResp, cutoff, metricDF) {
   # print(prediction)
   toWrite <-prediction %>% dplyr::select(date, fore, fore_low, fore_high)
   toWrite <- toWrite %>% left_join(testResp %>% dplyr::select(date, y), by="date")
+  prediction<-prediction %>% dplyr::inner_join(testResp)
   metricDF[1,"startDate"] <-firstdate
   metricDF[1,"endDate"] <-finaldate
   metricDF[1,"mape"] <- mape(testResp$y, prediction$fore)
@@ -659,32 +663,24 @@ for (file in files) {
           
           
           
-          shiftedSignals <- shiftedSignals[complete.cases(shiftedSignals), ]
-          colToRemove=c()
-          for (s in colnames(shiftedSignals)){
-            if (s != "date" & s!="y"){
-              lll <- unique(shiftedSignals[[s]])
-              if (length(lll)< 2) {
-                colToRemove <- c(colToRemove, s)
-              }
-            }
-          }
-          
-          
-          
-          
-          shiftedSignals <- shiftedSignals[,!(names(shiftedSignals) %in% colToRemove)]
-          
-          
-          
           
           # keep only signals before cutoff after shifting, this is unnecessary but it does not hurt
           shiftedTrainSignal <- shiftedSignals %>% filter(date <= cutoff)
           
           leftoverFromShifted <- shiftedSignals %>% filter(date > cutoff) %>% dplyr::select(-y)
           
-          
-          
+          shiftedTrainSignal <- shiftedTrainSignal[complete.cases(shiftedTrainSignal), ]
+          colToRemove=c()
+          for (s in colnames(shiftedTrainSignal)){
+            if (s != "date" & s!="y"){
+              lll <- unique(shiftedTrainSignal[[s]])
+              if (length(lll)< 2) {
+                colToRemove <- c(colToRemove, s)
+              }
+            }
+          }
+          shiftedTrainSignal <- shiftedTrainSignal[,!(names(shiftedTrainSignal) %in% colToRemove)]
+          leftoverFromShifted <- leftoverFromShifted[,!(names(leftoverFromShifted) %in% colToRemove)]
           
           ## Remove correlated vars----
           if (remove_correlated) {
@@ -811,12 +807,14 @@ for (file in files) {
                 
                 
                 strawmandev <- abs(strawmanPred - (y_df_test %>% filter(date == curdate))$y)+10^-6
-                
-                modeldev <- abs(ourEstimate - (y_df_test %>% filter(date == curdate))$y)
-                scaled_abs_err <- modeldev/strawmandev
                 outDF[row,"strawman"]=strawmanPred
-                outDF[row,"scaled_abs_err"]=scaled_abs_err
-                if (predForToday >=0 & row <= 7){
+                filtered<-(y_df_test %>% filter(date == curdate))
+                if (nrow(filtered)>0){
+                  modeldev <- abs(ourEstimate - filtered$y)
+                  scaled_abs_err <- modeldev/strawmandev
+                  outDF[row,"scaled_abs_err"]=scaled_abs_err
+                }
+                if (predForToday >=0 & row <= milag){
                   delta <- ourEstimate - predForToday
                   if (limit_range){
                     if (abs(delta) > maxrange[row])
@@ -829,10 +827,14 @@ for (file in files) {
                     print(paste("debugging negative syncFore ",syncFore, " = ",yForToday," - ", delta))
                     print(paste("delta = ",ourEstimate, " - ",predForToday))
                     print (paste("prediction for  = ",curdate, " done on cutoff  ",cutoff, "= ", today))
+                    syncFore<-ourEstimate
                   }
                   outDF[row,"syncFore"]=syncFore
-                  syncDev <- abs(syncFore - (y_df_test %>% filter(date == curdate))$y)
-                  outDF[row,"scaled_abs_err_sync"]=syncDev/strawmandev
+                  filtered<-(y_df_test %>% filter(date == curdate))
+                  if (nrow(filtered)>0){
+                    syncDev <- abs(syncFore - (filtered)$y)
+                    outDF[row,"scaled_abs_err_sync"]=syncDev/strawmandev
+                  }
                 }
                 
                 # message(paste(“sca 7 =“,scaled_abs_err))
