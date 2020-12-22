@@ -45,7 +45,7 @@ mxlag=60
 milag=#MILAG#
 mxlag=#MXLAG#
 plotCorrel=FALSE
-plotForecast=TRUE
+plotForecast=FALSE
 
 signal_to_match <- "#SIGTOMATCH#"
 #signal_to_match <- "cases"
@@ -219,6 +219,17 @@ doGLM <-
     
     modelPar <- modelPar[complete.cases(modelPar), ]
     
+    colToRemove=c()
+    for (s in colnames(modelPar)){
+      if (s != "date" & s!="y"){
+        lll <- unique(modelPar[[s]])
+        if (length(lll)< 2) {
+          colToRemove <- c(colToRemove, s)
+        }
+      }
+    }
+    
+    modelPar <- modelPar[,!(names(modelPar) %in% colToRemove)]
     
     m1 <- glm.nb(y ~ . - date , data = modelPar)
     
@@ -244,6 +255,16 @@ doGLM_penalty <-
     
     
     modelPar <- modelPar[complete.cases(modelPar), ]
+    colToRemove=c()
+    for (s in colnames(modelPar)){
+      if (s != "date" & s!="y"){
+        lll <- unique(modelPar[[s]])
+        if (length(lll)< 2) {
+          colToRemove <- c(colToRemove, s)
+        }
+      }
+    }
+    modelPar <- modelPar[,!(names(modelPar) %in% colToRemove)]
     
     # CV elastic-net
     cv_enet <- cv.glmregNB(y ~ . -date , 
@@ -329,7 +350,9 @@ doTest <- function(m, testSignals, testResp, cutoff, metricDF) {
   testResp <- testResp %>% filter(date >= minTestDate, date <= maxTestDate)
   
   joined <- testSignals %>% inner_join(testResp, by="date")
-  testSignals <- joined[,names(joined) %in% names(testSignals)]
+  if (limitTestToKnownDates){
+    testSignals <- joined[,names(joined) %in% names(testSignals)]
+  }
   testResp <- joined[,names(joined) %in% names(testResp)]
   
   firstdate=min(joined$date)
@@ -345,6 +368,7 @@ doTest <- function(m, testSignals, testResp, cutoff, metricDF) {
   # print(prediction)
   toWrite <-prediction %>% dplyr::select(date, fore, fore_low, fore_high)
   toWrite <- toWrite %>% left_join(testResp %>% dplyr::select(date, y), by="date")
+  prediction<-prediction %>% dplyr::inner_join(testResp)
   metricDF[1,"startDate"] <-firstdate
   metricDF[1,"endDate"] <-finaldate
   metricDF[1,"mape"] <- mape(testResp$y, prediction$fore)
@@ -475,9 +499,10 @@ for (file in files) {
       colnames(y_df) <- c("date","y")
       
       signals_to_try <- intersect(all_signals_to_try, colnames(all_df))
+      numcols <- length(signals_to_try)
       for (s in signals_to_try){
         lll <- unique(all_df[[s]])
-        if (length(lll)< 2) {
+        if (length(lll)< 2 | sum(!is.na(all_df[[s]]))<numcols) {
           signals_to_try <- signals_to_try[signals_to_try != s]
         }
       }
@@ -651,6 +676,19 @@ for (file in files) {
           
           leftoverFromShifted <- shiftedSignals %>% filter(date > cutoff) %>% dplyr::select(-y)
           
+          shiftedTrainSignal <- shiftedTrainSignal[complete.cases(shiftedTrainSignal), ]
+          colToRemove=c()
+          for (s in colnames(shiftedTrainSignal)){
+            if (s != "date" & s!="y"){
+              lll <- unique(shiftedTrainSignal[[s]])
+              if (length(lll)< 2) {
+                colToRemove <- c(colToRemove, s)
+              }
+            }
+          }
+          shiftedTrainSignal <- shiftedTrainSignal[,!(names(shiftedTrainSignal) %in% colToRemove)]
+          leftoverFromShifted <- leftoverFromShifted[,!(names(leftoverFromShifted) %in% colToRemove)]
+          
           ## Remove correlated vars----
           if (remove_correlated) {
             # plug in the train data frame:
@@ -776,12 +814,14 @@ for (file in files) {
                 
                 
                 strawmandev <- abs(strawmanPred - (y_df_test %>% filter(date == curdate))$y)+10^-6
-                
-                modeldev <- abs(ourEstimate - (y_df_test %>% filter(date == curdate))$y)
-                scaled_abs_err <- modeldev/strawmandev
                 outDF[row,"strawman"]=strawmanPred
-                outDF[row,"scaled_abs_err"]=scaled_abs_err
-                if (predForToday >=0 & row <= 7){
+                filtered<-(y_df_test %>% filter(date == curdate))
+                if (nrow(filtered)>0){
+                  modeldev <- abs(ourEstimate - filtered$y)
+                  scaled_abs_err <- modeldev/strawmandev
+                  outDF[row,"scaled_abs_err"]=scaled_abs_err
+                }
+                if (predForToday >=0 & row <= milag){
                   delta <- ourEstimate - predForToday
                   if (limit_range){
                     if (abs(delta) > maxrange[row])
@@ -794,10 +834,14 @@ for (file in files) {
                     print(paste("debugging negative syncFore ",syncFore, " = ",yForToday," - ", delta))
                     print(paste("delta = ",ourEstimate, " - ",predForToday))
                     print (paste("prediction for  = ",curdate, " done on cutoff  ",cutoff, "= ", today))
+                    syncFore<-ourEstimate
                   }
                   outDF[row,"syncFore"]=syncFore
-                  syncDev <- abs(syncFore - (y_df_test %>% filter(date == curdate))$y)
-                  outDF[row,"scaled_abs_err_sync"]=syncDev/strawmandev
+                  filtered<-(y_df_test %>% filter(date == curdate))
+                  if (nrow(filtered)>0){
+                    syncDev <- abs(syncFore - (filtered)$y)
+                    outDF[row,"scaled_abs_err_sync"]=syncDev/strawmandev
+                  }
                 }
                 
                 # message(paste(“sca 7 =“,scaled_abs_err))
@@ -929,7 +973,7 @@ for (file in files) {
       })
       
     }
-  }
+  } 
   ,error = function(cond){
     message(paste("error in country", iso_code_country))
     print(cond)
