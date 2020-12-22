@@ -11,13 +11,13 @@ library(mpath) # lasso/elastic-net
 library(caret)
 library(gsubfn)  
 
-firstCutoff <- as.Date("2020-11-18")
-lastCutoff <- as.Date("2020-12-18")
+firstCutoff <- as.Date("2020-11-30")
+lastCutoff <- as.Date("2020-12-21")
 cutoffinterval <- 1
 
 use_penalty = F # T: use penalized regression (elastic-net)
 alpha_in = 0.5 # tradeoff between Ridge and Lasso regression
-remove_correlated = F # prior removal of highly correlated predictors
+remove_correlated = T # prior removal of highly correlated predictors
 cutoff_remove_correlated = 0.9 # cutoff for remove_correlated
 basis_dim_in=NA
 perform_smoothing = F# T # prior smoothing of predictors (using smooth_column-v2.R)
@@ -52,9 +52,9 @@ source("column-list.R")
 #signals_to_try_string <-"ox_data"
 
 #signals_to_try_string <- "ox_data-owid_data-gmob_data-umdapi_data-cmu_data-fatal_data-hosp_data-W_data"
-signals_to_try_string <- "owid_data-gmob_data"
+signals_to_try_string <- "umdapi_data"
 all_signals_to_try <- eval(parse(text=paste("c(",str_replace_all(signals_to_try_string,"-",","),")")))
-                       
+
 check_lags <-
   function(df_response,
            df_add_regressors,
@@ -209,6 +209,17 @@ doGLM <-
     
     modelPar <- modelPar[complete.cases(modelPar), ]
     
+    colToRemove=c()
+    for (s in colnames(modelPar)){
+      if (s != "date" & s!="y"){
+        lll <- unique(modelPar[[s]])
+        if (length(lll)< 2) {
+          colToRemove <- c(colToRemove, s)
+        }
+      }
+    }
+    
+    modelPar <- modelPar[,!(names(modelPar) %in% colToRemove)]
     
     m1 <- glm.nb(y ~ . - date , data = modelPar)
     
@@ -234,6 +245,16 @@ doGLM_penalty <-
     
     
     modelPar <- modelPar[complete.cases(modelPar), ]
+    colToRemove=c()
+    for (s in colnames(modelPar)){
+      if (s != "date" & s!="y"){
+        lll <- unique(modelPar[[s]])
+        if (length(lll)< 2) {
+          colToRemove <- c(colToRemove, s)
+        }
+      }
+    }
+    modelPar <- modelPar[,!(names(modelPar) %in% colToRemove)]
     
     # CV elastic-net
     cv_enet <- cv.glmregNB(y ~ . -date , 
@@ -440,7 +461,7 @@ files <- dir(file_in_path, pattern = file_in_pattern)
 countriesToExclude <- c("") # c("AT","BG")
 countriesDone <- c("") # c("AE","AF","AM","AO","AR","AU","AZ","BD","BE","BO","BR","BY","CA","CL","CO","CR","DE","DO","DZ","EG","FR","GB","GH","GR","GT","HN","HR","HU","ID","IL","IN","IQ","JP","KE","KR","KW","LB","LY","MA","MD","MX","NG","NI","NL","NP","NZ","PA","PH","PK","PL","PR","PS","PT","QA","RO","RS","RU","SA","SD","SE","SG","SV","TR","UA","UZ","VE","ZA")
 countriesToExclude <- c(countriesToExclude, countriesDone)
-countriesToDo <-c("PT") #c("BR", "DE", "EC", "PT", "UA", "ES", "IT", "CL", "FR", "GB")
+countriesToDo <-c("FR") #c("BR", "DE", "EC", "PT", "UA", "ES", "IT", "CL", "FR", "GB")
 opt_correls <- data.frame()
 
 excludeVsChoose=FALSE # true for excluding countries and false for choosing them
@@ -465,9 +486,10 @@ for (file in files) {
       colnames(y_df) <- c("date","y")
       
       signals_to_try <- intersect(all_signals_to_try, colnames(all_df))
+      numcols <- length(signals_to_try)
       for (s in signals_to_try){
         lll <- unique(all_df[[s]])
-        if (length(lll)< 2) {
+        if (length(lll)< 2 | sum(!is.na(all_df[[s]]))<numcols) {
           signals_to_try <- signals_to_try[signals_to_try != s]
         }
       }
@@ -635,10 +657,34 @@ for (file in files) {
           # Shift train signals 
           shiftedSignals <- shiftSignals(baseForOutputDF=(y_df_train %>% dplyr::select(date, y)), inputDF=x_df_train, correl=opt_correl_single_country)
           
+          
+          
+          shiftedSignals <- shiftedSignals[complete.cases(shiftedSignals), ]
+          colToRemove=c()
+          for (s in colnames(shiftedSignals)){
+            if (s != "date" & s!="y"){
+              lll <- unique(shiftedSignals[[s]])
+              if (length(lll)< 2) {
+                colToRemove <- c(colToRemove, s)
+              }
+            }
+          }
+          
+          
+          
+          
+          shiftedSignals <- shiftedSignals[,!(names(shiftedSignals) %in% colToRemove)]
+          
+          
+          
+          
           # keep only signals before cutoff after shifting, this is unnecessary but it does not hurt
           shiftedTrainSignal <- shiftedSignals %>% filter(date <= cutoff)
           
           leftoverFromShifted <- shiftedSignals %>% filter(date > cutoff) %>% dplyr::select(-y)
+          
+          
+          
           
           ## Remove correlated vars----
           if (remove_correlated) {
@@ -776,7 +822,7 @@ for (file in files) {
                     if (abs(delta) > maxrange[row])
                       print(paste("trimmed ",delta, " to ", maxrange[row]))
                     delta<- delta/abs(delta)*min(abs(delta), maxrange[row])
-
+                    
                   }
                   syncFore <- yForToday + delta
                   if (syncFore<0){
@@ -891,7 +937,7 @@ for (file in files) {
         toWrite["lastcutoff"]<-lastCutoff
         toWrite["cutoffinterval"]<-cutoffinterval
         toWrite["signalsToTry"]<-signals_to_try_string
-      
+        
         
         #"","date","fore","fore_low","fore_high","cutoff","strawman","scaled_abs_err","predType","lag"
         toWrite<-toWrite[,c(13,14,15,16,17,18,19,20,21,22,23,24,25,6,1,12,11,5,7,2,3,4,8,9,10)]
