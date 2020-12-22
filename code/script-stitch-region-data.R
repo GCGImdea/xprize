@@ -31,6 +31,7 @@ region_dataset <- function(code,
     names(df_aux) <- paste0(prefix, names(df_aux))
     #df_aux$date <- as.Date(df_aux$conf_date)
     df_aux$date <- as.Date(df_aux[,date_col])
+    df_aux <- df_aux[!is.na(df_aux$date),]
     df_giant <- df_giant %>% full_join(df_aux, by = "date")
   }
   return(df_giant)
@@ -52,7 +53,7 @@ load_and_combine_region <- function(code, nsum = FALSE) {
   df_giant <- region_dataset(code, df_giant, prefix = "ccfr_", region_path = ccfr_region_path,
                   file_postfix = "-estimate.csv")
 
-  df_giant <- country_dataset(code, df_giant, prefix = "fatal_", country_path = ccfr_fatalities_path,
+  df_giant <- region_dataset(code, df_giant, prefix = "fatal_", region_path = ccfr_fatalities_path,
                               file_postfix = "-estimate.csv")
   
   # df_giant <- region_dataset(code, df_giant, prefix = "hosp_", region_path = hospital_region_path,
@@ -73,7 +74,7 @@ load_and_combine_region <- function(code, nsum = FALSE) {
   df_giant <- region_dataset(code, df_giant, prefix = "cmu_", region_path = cmu_region_path,
                   file_postfix = "-estimate.csv")
 
-  df_giant <- country_dataset(code, df_giant, prefix = "gmob_", country_path = google_mobility_path,
+  df_giant <- region_dataset(code, df_giant, prefix = "gmob_", region_path = google_mobility_path,
                               file_postfix = "-estimate.csv")
   
   df_giant <- df_giant[df_giant$date >= start_date,]

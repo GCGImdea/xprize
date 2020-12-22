@@ -80,6 +80,11 @@ for (region in all_regions) {
   df$avgcases7days <- frollmean(df$cases, 7)
   df$avgdeaths7days <- frollmean(df$deaths, 7)
   
+  df$cases_delta <- c(0,diff(df$cases))
+  df$deaths_delta <- c(0,diff(df$deaths))
+  df$avgcases7days_delta <- c(0,diff(df$avgcases7days))
+  df$avgdeaths7days_delta <- c(0,diff(df$avgdeaths7days))
+  
   region_code <- df$RegionCode[1]
   df$population <- region_list[region_list$RegionName == region,"Population"]
   df$iso2 <- region_code
