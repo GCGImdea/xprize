@@ -97,7 +97,7 @@ owid_data <- c(
 "owid_new_tests_smoothed_per_thousand",
 "owid_positive_rate",
 "owid_tests_per_case",
-"owid_tests_units",
+#"owid_tests_units", # Not numeric
 "owid_total_vaccinations",
 "owid_total_vaccinations_per_hundred",
 "owid_stringency_index",
@@ -183,7 +183,7 @@ fatal_data <- c(
 
 # Hospital data from ECDC
 hosp_data <- c(
-"hosp_year_week",
+# "hosp_year_week", # Not numeric
 # "hosp_date",  # Redundant
 # "hosp_countrycode", # Constant for a country/region
 # "hosp_countryname", # Constant for a country/region
