@@ -53,7 +53,7 @@ source("column-list.R")
 #signals_to_try_string <-"ox_data"
 
 #signals_to_try_string <- "ox_data-owid_data-gmob_data-umdapi_data-cmu_data-fatal_data-hosp_data-W_data"
-signals_to_try_string <- "umdapi_data"
+signals_to_try_string <- "umdapi_data-cmu_data"
 all_signals_to_try <- eval(parse(text=paste("c(",str_replace_all(signals_to_try_string,"-",","),")")))
 
 check_lags <-
