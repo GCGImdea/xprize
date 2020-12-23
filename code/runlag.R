@@ -38,10 +38,8 @@ if (perform_smoothing) {
 
 doFarFuture=FALSE
 doNearFar=FALSE
+limitTestToKnownDates=FALSE
 
-milag=7
-mxlag=60
-  
 milag=#MILAG#
 mxlag=#MXLAG#
 plotCorrel=FALSE
