@@ -6,8 +6,8 @@ library(stringr)
 ox_region_path <- "../data/oxford/region/" # Oxford data
 output_path <- "../data/CMU-covidcast/"
 
-# start_date <- "2020-01-01"
-# end_date <- Sys.Date()
+start_date <- "2020-01-01"
+end_date <- Sys.Date()
 
 cmu_ili_cli_signals <- c(
 "raw_cli", 
