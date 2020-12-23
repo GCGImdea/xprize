@@ -1,0 +1,2 @@
+"","cutoff","predType","startDate","endDate","mape","mae","mse","rmse","smape","minlag","maxlag","penalty","alpha_in","rmcc","rmth","smth","limitRange","basisdim","firstcutoff","lastcutoff","cutoffinterval","signalsToTry"
+"1",2020-12-21,"nearFuture",NA,NA,NA,NA,NA,NA,NA,25,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-11-20,2020-12-21,1,"umdapi_data-cmu_data"
