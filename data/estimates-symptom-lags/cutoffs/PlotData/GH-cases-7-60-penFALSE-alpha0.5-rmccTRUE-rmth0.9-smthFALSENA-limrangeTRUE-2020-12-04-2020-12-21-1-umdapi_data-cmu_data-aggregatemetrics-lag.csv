@@ -1,0 +1,6 @@
+"","cutoff","predType","startDate","endDate","mape","mae","mse","rmse","smape","minlag","maxlag","penalty","alpha_in","rmcc","rmth","smth","limitRange","basisdim","firstcutoff","lastcutoff","cutoffinterval","signalsToTry"
+"1",2020-12-09,"nearFuture",2020-12-11,2020-12-21,Inf,99.3731257239212,17580.2308938807,132.590463057796,1.72422836202686,7,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-12-04,2020-12-21,1,"umdapi_data-cmu_data"
+"2",2020-12-10,"nearFuture",2020-12-11,2020-12-21,Inf,98.022741113384,17471.5285745279,132.179909874867,1.73023052001297,7,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-12-04,2020-12-21,1,"umdapi_data-cmu_data"
+"3",2020-12-19,"nearFuture",NA,NA,NA,NA,NA,NA,NA,7,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-12-04,2020-12-21,1,"umdapi_data-cmu_data"
+"4",2020-12-20,"nearFuture",NA,NA,NA,NA,NA,NA,NA,7,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-12-04,2020-12-21,1,"umdapi_data-cmu_data"
+"5",2020-12-21,"nearFuture",NA,NA,NA,NA,NA,NA,NA,7,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-12-04,2020-12-21,1,"umdapi_data-cmu_data"

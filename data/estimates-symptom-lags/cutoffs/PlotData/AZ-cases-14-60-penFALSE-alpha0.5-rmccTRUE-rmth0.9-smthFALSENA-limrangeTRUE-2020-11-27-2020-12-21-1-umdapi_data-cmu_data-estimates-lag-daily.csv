@@ -1,0 +1,2 @@
+"","minlag","maxlag","penalty","alpha_in","rmcc","rmth","smth","limitRange","basisdim","firstcutoff","lastcutoff","cutoffinterval","signalsToTry","cutoff","date","lag","predType","y","strawman","fore","fore_low","fore_high","scaled_abs_err","syncFore","scaled_abs_err_sync"
+"1",14,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-11-27,2020-12-21,1,"umdapi_data-cmu_data",2020-12-21,2021-01-13,23,"nearFuture",NA,1505,76.6369881104678,115.91626997844,50.6678479883486,NA,NA,NA

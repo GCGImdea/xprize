@@ -1,0 +1,2 @@
+"","cutoff","predType","startDate","endDate","mape","mae","mse","rmse","smape","minlag","maxlag","penalty","alpha_in","rmcc","rmth","smth","limitRange","basisdim","firstcutoff","lastcutoff","cutoffinterval","signalsToTry"
+"1",2020-12-20,"nearFuture",2020-12-21,2020-12-21,0.607975754099826,25.5349816721927,652.035288999216,25.5349816721927,0.466243409774088,22,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-11-30,2020-12-21,1,"ox_data-owid_data"

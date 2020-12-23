@@ -1,0 +1,2 @@
+"","minlag","maxlag","penalty","alpha_in","rmcc","rmth","smth","limitRange","basisdim","firstcutoff","lastcutoff","cutoffinterval","signalsToTry","cutoff","date","lag","predType","y","strawman","fore","fore_low","fore_high","scaled_abs_err","syncFore","scaled_abs_err_sync"
+"1",22,60,FALSE,0.5,TRUE,0.9,FALSE,TRUE,NA,2020-11-30,2020-12-21,1,"ox_data-owid_data",2020-12-20,2020-12-21,1,"nearFuture",42,18,67.5349816721927,99.0007022594757,46.0701151140254,1.06395752534313,NA,NA
