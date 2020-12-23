@@ -36,6 +36,10 @@ mxlag=60
 plotCorrel=FALSE
 plotForecast=FALSE
 
+cutoffAsFunctionOfLag=TRUE
+if (cutoffAsFunctionOfLag){
+  firstCutoff <- lastCutoff - milag - 10 
+}
 #signal_to_match <- "deaths"
 signal_to_match <- "cases"
 

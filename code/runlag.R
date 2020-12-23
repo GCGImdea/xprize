@@ -45,6 +45,12 @@ mxlag=#MXLAG#
 plotCorrel=FALSE
 plotForecast=FALSE
 
+
+cutoffAsFunctionOfLag=#CUTOFFASFLAG#
+if (cutoffAsFunctionOfLag){
+  firstCutoff <- lastCutoff - milag - 10 
+}
+
 signal_to_match <- "#SIGTOMATCH#"
 #signal_to_match <- "cases"
 
