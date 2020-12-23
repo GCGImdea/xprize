@@ -18,7 +18,7 @@ for PEN in FALSE; do
 		    for MXLAG in 60 ; do
 			for SIGTOMATCH in cases ; do
 			    for SIGTOTRY in umdapi_data-cmu_data; do 
-				for FIRSTCUTOFF in 2020-11-30; do
+				for FIRSTCUTOFF in 2020-11-20; do
 				    for LASTCUTOFF in 2020-12-21; do
 					for CUTOFFINTERVAL in 1 ; do
 					    for SMOOTH in FALSE ; do 
