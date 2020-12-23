@@ -13,7 +13,7 @@ library(TTR)
 ox_country_path <- "../data/oxford/country/" # Oxford data
 ox_region_path <- "../data/oxford/region/"
 
-fore_path <- "../data/estimates-symptom-lags/cutoffs/PlotData/"
+fore_path <- "../data/estimates-symptom-lags/estimates/"
 
 output_file <- "../work/whole-forecast.csv"
 output_folder <- "../work/forecast/"
@@ -43,6 +43,7 @@ process_country_region <- function(code, file_path) {
            avgdeaths7days_delta)
   df$Date <- as.Date(df$Date)
   df$RegionName[is.na(df$RegionName)] <- ""
+  df$isSpecialty <- 0
   
   # Change leading NAs to 0
   first_non_NA <- min(which(!is.na(df$PredictedDailyNewCases)))
@@ -63,7 +64,7 @@ process_country_region <- function(code, file_path) {
   #Fill table until the end_date
   df <- df %>% 
     complete(Date = seq.Date(start_date, end_date, by="day")) %>% 
-    fill(CountryName, RegionName, cases, PredictedDailyNewCases, PredictedDailyNewDeaths)
+    fill(CountryName, RegionName, cases, PredictedDailyNewCases, isSpecialty, PredictedDailyNewDeaths)
   
   new_ll <- nrow(df)
   
@@ -81,12 +82,13 @@ process_country_region <- function(code, file_path) {
     # df_fore <- df_fore %>%
     #   select (date, estimate)
     df_fore$Date <- as.Date(df_fore$date)
-    max_date <- max(df_fore$Date)
+    #max_date <- max(df_fore$Date)
     df <- df %>% full_join(df_fore, by = "Date")
     df$estimate[1:old_ll] <- df$cases[1:old_ll]
-    df$estimate[df$Date > max_date] <- stats_cases[3]
+    #df$estimate[df$Date > max_date] <- stats_cases[3]
     df$estimate[is.na(df$estimate)]  <- stats_cases[3]
-    df$PredictedDailyNewCases <- frollmean(df$estimate, 7)
+    df$PredictedDailyNewCases <- frollmean(df$estimate, 7, fill = 0)
+    df$isSpecialty <- 1
   }
   else {
     half_wave <- 40
@@ -110,6 +112,7 @@ process_country_region <- function(code, file_path) {
   # Change df$PredictedDailyNewDeaths
   df$PredictedDailyNewDeaths[(old_ll+1):new_ll] <- 
     df$PredictedDailyNewCases[(old_ll+1-onset_to_death_window):(new_ll-onset_to_death_window)] * IFR
+  df$PredictedDailyNewDeaths[is.na(df$PredictedDailyNewDeaths)] <- 0
   
   # Hospital cases
   df$PredictedDailyNewHospital <- shift(df$PredictedDailyNewCases * cases_in_hospital, 
@@ -141,6 +144,7 @@ process_country_region <- function(code, file_path) {
   df <- df %>%
     select(CountryName, RegionName, Date, 
            PredictedDailyNewCases,
+           isSpecialty,
            PredictedDailyNewDeaths,
            #DeathsFromIFR,
            PredictedDailyNewHospital,
@@ -178,9 +182,6 @@ interest <- word(interest,1,sep = "-")
 for (c in interest) {
   df_all <- bind_rows(df_all, process_country_region(c, file_path=ox_region_path))
 }
-
-df_all$isSpecialty <- 0
-#df$isSpecialty[df$CountryName == "Spain"] <- 1
 
 df_all <- df_all[order(df_all$CountryName,df_all$RegionName,df_all$Date),]
 write.csv(df_all,output_file, row.names = F)
