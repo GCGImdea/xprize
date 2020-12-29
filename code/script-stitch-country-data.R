@@ -12,7 +12,7 @@ umd_api_country_path <- "../data/estimates-umd-symptom-survey/" # Data from UMD 
 umd_challenge_country_path <- "../data/estimates-umd-unbatched/PlotData/" # Data from UMD Symptom Survey via Challenge
 google_mobility_path <- "../data/google-mobility/" # Date from Google mobility
 
-output_path <- "../data/all_giant_df2/"
+output_path <- "../data/Aggregate/"
 
 start_date <- "2020-01-01"
 

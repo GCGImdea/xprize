@@ -461,7 +461,7 @@ y <- signal_to_match
 #file_in_path <- "../data/estimates-umd-unbatched/PlotData/"
 #file_in_pattern <- ".*_UMD_country_nobatch_past_smooth.csv"
 
-file_in_path <- "../data/all_giant_df2/"
+file_in_path <- "../data/Aggregate/"
 file_in_pattern <- ".*alldf.csv"
 
 files <- dir(file_in_path, pattern = file_in_pattern)
@@ -486,7 +486,7 @@ for (file in files) {
     }
     if (choice){
       cat("doing ", iso_code_country, ": ")
-      all_df <- read.csv(paste0("../data/all_giant_df2/", iso_code_country, "-alldf.csv"))
+      all_df <- read.csv(paste0("../data/Aggregate/", iso_code_country, "-alldf.csv"))
       all_df <- all_df %>% mutate(date = as.Date(date))
       y <- signal_to_match
       all_df <- all_df %>% mutate(y = pmax(eval(parse(text=y)),0)) # get rid of possible negative cases values
