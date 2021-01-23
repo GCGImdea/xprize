@@ -507,6 +507,22 @@ umdchl_data_smooth <- c(
 "umdchl_pct_finances_not_worried_smooth_high"
 )
 
+# Aggregates from UMD micro data
+umdmicro_data <- c(
+  "umdmicro_B1_1",
+  "umdmicro_B1_2",
+  "umdmicro_B1_3",
+  "umdmicro_B1_4",
+  "umdmicro_B1_5",
+  "umdmicro_B1_6",
+  "umdmicro_B1_7",
+  "umdmicro_B1_8",
+  "umdmicro_B1_9",
+  "umdmicro_B1_10",
+  "umdmicro_B1_11",
+  "umdmicro_B1_12"
+)
+
 cmu_data <- c(
 # "cmu_date", # Redundant
 # "cmu_iso2", # Constant for a country/region
