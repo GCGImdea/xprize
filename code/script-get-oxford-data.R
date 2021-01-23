@@ -9,6 +9,7 @@ library(data.table)
 DATA_URL = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
 country_file <- "../data/common-data/oxford-countries.csv"
 region_file <- "../data/common-data/oxford-regions-population.csv"
+data_file <- "https://raw.githubusercontent.com/GCGImdea/coronasurveys/master/data/common-data/oxford-umd-country-population.csv"
 output_path = "../data/oxford/"
 IPS_output_path = "../work/"
 
@@ -26,7 +27,7 @@ data_ox <- data_ox %>% mutate(Date = paste0( str_sub(Date, 1, 4), "-",
 write.csv(data_ox, paste0(output_path, "whole-data-latest.csv"),
           row.names = FALSE)
 
-c_data <- read.csv("../data/common-data/oxford-umd-country-population.csv")
+c_data <- read.csv(data_file)
 
 df_country <- data_ox[data_ox$Jurisdiction == "NAT_TOTAL",]
 country_list <- read.csv(country_file)
