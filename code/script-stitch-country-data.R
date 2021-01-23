@@ -10,7 +10,8 @@ hospital_country_path <- "../data/estimates-confirmed-hospital/" # Hospital data
 W_country_path <- "../data/estimates-W/smooth/" # Estimates from the CoronaSurveys poll
 umd_api_country_path <- "../data/estimates-umd-symptom-survey/" # Data from UMD Symptom Survey via API
 umd_challenge_country_path <- "../data/estimates-umd-unbatched/PlotData/" # Data from UMD Symptom Survey via Challenge
-google_mobility_path <- "../data/google-mobility/" # Date from Google mobility
+google_mobility_path <- "../data/google-mobility/" # Data from Google mobility
+umd_micro_aggregate_path <- "../data/estimates-umd-micro-aggregate/" # Data from aggregates of UMD micro data
 
 output_path <- "../data/Aggregate/"
 
@@ -75,6 +76,9 @@ load_and_combine_country <- function(code, nsum = FALSE) {
                   file_postfix = "_UMD_country_nobatch_smooth.csv")
   
   df_giant <- country_dataset(code, df_giant, prefix = "gmob_", country_path = google_mobility_path,
+                              file_postfix = "-estimate.csv")
+  
+  df_giant <- country_dataset(code, df_giant, prefix = "umdmicro_", country_path = umd_micro_aggregate_path,
                               file_postfix = "-estimate.csv")
   
   df_giant <- df_giant[df_giant$date >= start_date,]
