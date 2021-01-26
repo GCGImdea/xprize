@@ -50,12 +50,12 @@ def prescribe(start_date_str: str,
         'RegionName': region_names,
         'Date': dates})
 
-    # Fill df with all zeros
+    # Fill df with all ones
     for npi_col in NPI_COLS:
-        prescription_df[npi_col] = 0
+        prescription_df[npi_col] = 1
 
     # Add prescription index column.
-    prescription_df['PrescriptionIndex'] = 0
+    prescription_df['PrescriptionIndex'] = 3
 
     # Create the output path
     os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
