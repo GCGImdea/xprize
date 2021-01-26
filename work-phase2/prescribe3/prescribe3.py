@@ -18,6 +18,20 @@ NPI_COLS = ['C1_School closing',
             'H3_Contact tracing',
             'H6_Facial Coverings']
 
+IP_MAX_VALUES = {
+    'C1_School closing': 3,
+    'C2_Workplace closing': 3,
+    'C3_Cancel public events': 2,
+    'C4_Restrictions on gatherings': 4,
+    'C5_Close public transport': 2,
+    'C6_Stay at home requirements': 3,
+    'C7_Restrictions on internal movement': 2,
+    'C8_International travel controls': 4,
+    'H1_Public information campaigns': 2,
+    'H2_Testing policy': 3,
+    'H3_Contact tracing': 2,
+    'H6_Facial Coverings': 4
+}
 
 def prescribe(start_date_str: str,
               end_date_str: str,
@@ -50,9 +64,10 @@ def prescribe(start_date_str: str,
         'RegionName': region_names,
         'Date': dates})
 
-    # Fill df with all ones
+    # Fill df 
     for npi_col in NPI_COLS:
-        prescription_df[npi_col] = 1
+#        prescription_df[npi_col] = IP_MAX_VALUES[npi_col]
+        prescription_df[npi_col] = 0
 
     # Add prescription index column.
     prescription_df['PrescriptionIndex'] = 3
