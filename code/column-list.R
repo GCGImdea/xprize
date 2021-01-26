@@ -520,7 +520,20 @@ umdmicro_data <- c(
   "umdmicro_B1_9",
   "umdmicro_B1_10",
   "umdmicro_B1_11",
-  "umdmicro_B1_12"
+  "umdmicro_B1_12",
+  "umdmicro_B3",
+  "umdmicro_B5",
+  "umdmicro_B6",
+  "umdmicro_B7",
+  "umdmicro_B8",
+  "umdmicro_C0_1",
+  "umdmicro_C0_2",
+  "umdmicro_C0_3",
+  "umdmicro_C0_4",
+  "umdmicro_C0_5",
+  "umdmicro_C0_6",
+  "umdmicro_C1_m",
+  "umdmicro_C3"
 )
 
 cmu_data <- c(

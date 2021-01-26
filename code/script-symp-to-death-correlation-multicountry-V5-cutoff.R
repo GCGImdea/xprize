@@ -33,8 +33,8 @@ limitTestToKnownDates=FALSE
 
 milag=25
 mxlag=60
-plotCorrel=FALSE
-plotForecast=FALSE
+plotCorrel=TRUE
+plotForecast=TRUE
 
 cutoffAsFunctionOfLag=TRUE
 if (cutoffAsFunctionOfLag){
