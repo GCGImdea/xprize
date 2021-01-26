@@ -35,7 +35,8 @@ process_country_region <- function(df) {
          "H1_Public information campaigns",
          "H2_Testing policy",
          "H3_Contact tracing",
-         "H6_Facial Coverings")
+         "H6_Facial Coverings",
+         PrescriptionIndex)
   
   return(df)
 }
