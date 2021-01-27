@@ -3,8 +3,7 @@
 import os
 import argparse
 import pandas as pd
-import glob
-import subprocess
+
 
 NPI_COLS = ['C1_School closing',
             'C2_Workplace closing',
@@ -97,69 +96,6 @@ if __name__ == '__main__':
                         required=True,
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
-
-
-    try:
-       output_prescriptions_dir = os.path.expanduser('~/work/prescriptions')
-    except OSError:
-       print ("Creation of the directory %s failed" % output_prescriptions_dir)
-    else:
-       print ("Successfully created the directory %s " % output_prescriptions_dir)
-
-
-    print('\n\n***************************************************************************************')
-
-    #print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
-
-    prescriptions = glob.glob('prescribe?/prescribe.py', recursive=False)
-    output_files = []
-
-    print('********* CORONASURVEYS PRESCRIPTIONS: {}'.format(prescriptions))
-
-    for p in prescriptions:
-
-        print('\n********* Started Processing: {}'.format(p))
-
-        prescription_dir = os.path.dirname(p)
-        filename, file_extension = os.path.splitext(args.output_file)
-        prescription_output_file = os.path.join(prescription_dir, prescription_dir + "_output" + file_extension)
-
-        #print("********************** {}: {}".format(p, prescription_dir))
-
-        try:
-           proc = subprocess.Popen(
-              [
-                 'python', p,
-                 '--start_date', args.start_date,
-                 '--end_date', args.end_date,
-                 '--interventions_past', os.path.expanduser(args.prev_file),
-                 '--intervention_costs', os.path.expanduser(args.cost_file),
-                 '--output_file', os.path.expanduser(prescription_output_file)
-              ],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-           #, creationflags=subprocess_flags)
-
-           #proc.wait()
-           (stdout, stderr) = proc.communicate()
-           print(stdout)
-           print(stderr)
-
-        except calledProcessError as err:
-           print("Error occurred: " + err.stderr)
-
-
-        output_files.append(prescription_output_file)
-
-        print('\n********* Ended Processing: {}'.format(p))
-        #print("********************** WROTE: {}".format(prescription_output_file))
-
-    # concatenate csv files
-    combined_csv = pd.concat([pd.read_csv(f) for f in output_files ])
-
-    #combined_csv.to_csv( args.output_file, index=False, encoding='utf-8-sig')
-    combined_csv.to_csv( args.output_file, encoding='utf-8-sig')
-
-    #prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
+    print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
+    prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
     print("Done!")
-
-
-
