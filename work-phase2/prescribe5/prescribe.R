@@ -1,13 +1,18 @@
+list.of.packages <- c("tidyverse")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages, repos="http://cran.r-project.org")
+
 # load library
 library(tidyverse)
 # library(readxl)
 # library(httr)
 
-hammer_file <- "./hammer_full.csv"
-dance_file <- "./dance_full.csv"
-hammer_length <- 30 # days
-
 args <- commandArgs(trailingOnly = T)
+script_path <- args[6]
+
+hammer_file <- file.path(script_path, "hammer_full.csv")
+dance_file <- file.path(script_path, "dance_full.csv")
+hammer_length <- 30 # days
 
 cat("Arguments:", args, "\n")
 

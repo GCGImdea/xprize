@@ -147,10 +147,17 @@ if __name__ == '__main__':
            print("Error occurred: " + err.stderr)
 
 
+        # let this be here, in case we need to parallelize prescriptors
         output_files.append(prescription_output_file)
 
         print('\n********* Ended Processing: {}'.format(p))
         #print("********************** WROTE: {}".format(prescription_output_file))
+
+
+    # filter for outputs that cannot be read
+    for of in output_files:
+       if not os.path.isfile(of):
+          output_files.remove(of)
 
     # concatenate csv files
     combined_csv = pd.concat([pd.read_csv(f) for f in output_files ])
