@@ -1,11 +1,15 @@
-# Copyright 2020 (c) Cognizant Digital Business, Evolutionary AI. All rights reserved. Issued under the Apache 2.0 License.
+# Copyright 2021 (c) R.A. García Leiva (rafael.garcia@imdea.org). IMDEA Networks Institute.
 
-import os
 import argparse
+
+import numpy  as np
 import pandas as pd
 
+from datetime import date, timedelta
 
-NPI_COLS = ['C1_School closing',
+import os
+
+IP_COLS = ['C1_School closing',
             'C2_Workplace closing',
             'C3_Cancel public events',
             'C4_Restrictions on gatherings',
@@ -18,54 +22,178 @@ NPI_COLS = ['C1_School closing',
             'H3_Contact tracing',
             'H6_Facial Coverings']
 
+ACTION_DURATION = 15
+
+# Replace with the location at sandbox
+predictor      = "/home/rleiva/Projects/Covid19/covid-xprize-1.1.2/covid_xprize/standard_predictor/predict.py"
+new_ip_file    = "/home/rleiva/Projects/Covid19/data/new_ip.csv"
+threshold_file = "/home/rleiva/Projects/Covid19/data/dance_threshold50.csv"
 
 def prescribe(start_date_str: str,
               end_date_str: str,
-              path_to_hist_file: str,
+              path_to_prior_ips_file: str,
               path_to_cost_file: str,
               output_file_path) -> None:
 
-    # Create skeleton df with one row for each geo for each day
-    hdf = pd.read_csv(path_to_hist_file,
-                      parse_dates=['Date'],
-                      encoding="ISO-8859-1",
-                      dtype={"RegionName": str},
-                      error_bad_lines=True)
+    # Compute prescription time
     start_date = pd.to_datetime(start_date_str, format='%Y-%m-%d')
-    end_date = pd.to_datetime(end_date_str, format='%Y-%m-%d')
-    country_names = []
-    region_names = []
-    dates = []
+    end_date   = pd.to_datetime(end_date_str,   format='%Y-%m-%d')
+    delta      = end_date - start_date
+    num_periods = int( np.ceil( (delta.days) / ACTION_DURATION ) )
+    MAX_COST = 12 * 4 * num_periods / 2
 
-    for country_name in hdf['CountryName'].unique():
-        cdf = hdf[hdf['CountryName'] == country_name]
-        for region_name in cdf['RegionName'].unique():
-            for date in pd.date_range(start_date, end_date):
-                country_names.append(country_name)
-                region_names.append(region_name)
-                dates.append(date.strftime("%Y-%m-%d"))
+    # Load the past IPs data
+    past_ips_df = pd.read_csv(path_to_prior_ips_file,
+                              parse_dates=['Date'],
+                              encoding="ISO-8859-1",
+                              error_bad_lines=False)
+    past_ips_df['RegionName'] = past_ips_df['RegionName'].fillna("")
+    past_ips_df['GeoID'] = past_ips_df['CountryName'] + '__' + past_ips_df['RegionName'].astype(str)
+    geos = past_ips_df['GeoID'].unique()
 
-    prescription_df = pd.DataFrame({
-        'CountryName': country_names,
-        'RegionName': region_names,
-        'Date': dates})
+    # Load IP costs to condition prescriptions
+    cost_df = pd.read_csv(path_to_cost_file)
+    cost_df['RegionName'] = cost_df['RegionName'].fillna("")
+    cost_df['GeoID'] = cost_df['CountryName'] + '__' + cost_df['RegionName'].astype(str)
+    geo_costs = {}
+    for geo in geos:
+        costs = cost_df[cost_df['GeoID'] == geo]
+        cost_arr = np.array(costs[IP_COLS])[0]
+        geo_costs[geo] = cost_arr
 
-    # Fill df with all zeros
-    for npi_col in NPI_COLS:
-        prescription_df[npi_col] = 0
+    # Compute max cases
+    threshold_df = pd.read_csv(threshold_file)
+    
+    # For each geographical region
+    for geo in geos:
 
-    # Add prescription index column.
-    prescription_df['PrescriptionIndex'] = 0
+        country_name = geo.split("__")[0]
+        region_name  = geo.split("__")[1]
 
-    # Create the output path
-    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+        # TODO: Remove from production
+        print("Processing region:", geo)
 
-    # Save to a csv file
-    prescription_df.to_csv(output_file_path, index=False)
+        best_cost     = np.inf
+        best_policies = [0, 0, 0, 0, 0, 0]
 
-    return
+        # TODO: Only used for debugging, remove from production
+        results = pd.DataFrame(columns=["Geo", "Period", "Policy", "Cost", "Cases"])
 
+        # Rank list of used policies
+        ips      = np.array(past_ips_df[past_ips_df['GeoID'] == geo][IP_COLS])
+        policies = np.unique(ips, axis=0)
+        costs    = geo_costs[geo]
+        order    = np.dot(policies, np.transpose(costs)).flatten()
+        order    = np.argsort(order)
+        policies = policies[order]
 
+        # Compute the maximum number of cases for this region
+        if region_name == "":
+            population = threshold_df[(threshold_df["CountryName"] == country_name)]["population"].values[0]
+        else:
+            population = threshold_df[(threshold_df["CountryName"] == country_name) & (threshold_df["RegionName"] == region_name)]["population"].values[0]
+        MAX_CASES = (population / 10000) * 50 * delta.days
+
+        # For every period
+        for period_id in np.arange(num_periods):
+
+            # For every policy
+            for policy_id in np.arange(policies.shape[0]):
+        
+                # Compute candidate policy
+                candidate_policies            = best_policies.copy()
+                candidate_policies[period_id] = policy_id
+                
+                # Compute total costs of measures
+                total_cost = 0
+                for pid in np.arange(6):
+                    policy = policies[candidate_policies[pid]]
+                    tmp    = np.dot(costs, policy)
+                    tmp    = np.sum(tmp)
+                    total_cost = total_cost + tmp
+                    
+                # Upate the intervention plan
+
+                current_date = start_date
+                new_prescriptions = past_ips_df.copy()
+        
+                # For each period
+                for i in np.arange(num_periods):
+            
+                    policy = policies[candidate_policies[i]]
+            
+                    # For each day
+                    for j in np.arange(ACTION_DURATION):
+
+                        tmp_df = pd.DataFrame({
+                            'CountryName'                          : country_name,
+                            'RegionName'                           : region_name,
+                            'Date'                                 : current_date.strftime("%Y-%m-%d"),
+                            'C1_School closing'                    : policy[0],
+                            'C2_Workplace closing'                 : policy[1],
+                            'C3_Cancel public events'              : policy[2],
+                            'C4_Restrictions on gatherings'        : policy[3],
+                            'C5_Close public transport'            : policy[4],
+                            'C6_Stay at home requirements'         : policy[5],
+                            'C7_Restrictions on internal movement' : policy[6],
+                            'C8_International travel controls'     : policy[7],
+                            'H1_Public information campaigns'      : policy[8],
+                            'H2_Testing policy'                    : policy[9],
+                            'H3_Contact tracing'                   : policy[10],
+                            'H6_Facial Coverings'                  : policy[11]
+                        }, index=[0])
+                
+                        new_prescriptions = pd.concat([new_prescriptions, tmp_df], ignore_index=True)
+                
+                        current_date = current_date + timedelta(days=1)        
+                
+                # Save 
+                new_prescriptions.to_csv(new_ip_file, index=False)
+
+                # Make predictions
+                predict = "python " + predictor + " -s " + start_date + " -e " + end_date + " -ip " + new_ip_file + " -o " + output_file
+                os.system(predict)
+
+                # Load predictions
+                predict_df  = pd.read_csv(output_file)
+                predictions = np.array(predict_df["PredictedDailyNewCases"])
+                total_pred  = np.sum(predictions)
+        
+                rel_cost  = total_cost / MAX_COST
+                rel_cases = total_pred / MAX_CASES
+
+                # Arithmetic mean
+                fitness = (rel_cost + rel_cases) / 2
+        
+                # TODO: Remove in production
+                print("Period:", period_id, "Policy:", policy_id, "Cost:", rel_cost, "Cases:", rel_cases, "Fitness:", fitness)                        
+        
+                if fitness < best_cost:
+                    best_cost = fitness 
+                    best_policies = candidate_policies
+                else:
+                    # Early stop
+                    break
+                    
+                # TODO: Only used for debugging, remove from production
+                tmp_df = pd.DataFrame({
+                    'Geo'    : geo,
+                    'Period' : period_id,
+                    'Policy' : policy_id,
+                    'Cost'   : total_cost,
+                    'Cases'  : total_pred
+                }, index=[0])
+        
+                # TODO: Only used for debugging, remove from production
+                results = pd.concat([results, tmp_df], ignore_index=True)
+
+    # TODO: Only used for debugging, remove from production
+    results.to_csv("/home/rleiva/Projects/Covid19/data/new_ip.csv", header=True, index=False)
+
+    # PENDING: Save final predictions
+    
+
+# !!! PLEASE DO NOT EDIT. THIS IS THE OFFICIAL COMPETITION API !!!
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--start_date",
@@ -81,7 +209,7 @@ if __name__ == '__main__':
                         help="End date for the last prescription, included, as YYYY-MM-DD."
                              "For example 2020-08-31")
     parser.add_argument("-ip", "--interventions_past",
-                        dest="prev_file",
+                        dest="prior_ips_file",
                         type=str,
                         required=True,
                         help="The path to a .csv file of previous intervention plans")
@@ -97,5 +225,6 @@ if __name__ == '__main__':
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
     print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
-    prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
+    prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
     print("Done!")
+
