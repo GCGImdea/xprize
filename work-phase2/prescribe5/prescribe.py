@@ -45,7 +45,7 @@ if __name__ == '__main__':
     try:
        subprocess.call(
           [
-             "/usr/bin/Rscript",
+             "Rscript",
              "--vanilla",
              rScriptFile,
              args.start_date,
