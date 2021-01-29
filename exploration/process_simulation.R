@@ -84,75 +84,64 @@ do_Rt <- function(df, var_to_Rt = "cases", gamma_mean = 5.20, gamma_sd = 1.72) {
   return(df_out)
 }
 
-dt <- read.csv(input_file)
+df <- read.csv(input_file)
+df$Date <- as.Date(df$Date)
+df$RegionName[is.na(df$RegionName)] <- ""
 
 all_countries <- unique(df$CountryName)
 
-if (length(jurisdictions) != 2) {
-  cat("Something wrong with jurisdictions", jurisdictions, "\n")
+first_iteration <- TRUE
+for (country in all_countries) {
+  cat("Processing", country, "\n")
+  
+  dfc <- df[(df$CountryName == country) & (df$RegionName == ""),]
+  
+  dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
+  dfc$avgcases7days_ratio <- dfc$avgcases7days/lag(dfc$avgcases7days,1)
+
+  # Compute the Rt:
+  tryCatch(
+    expr = {
+      dfc <- do_Rt(dfc, var_to_Rt = var_to_Rt)
+    },
+    error = function(e){
+      cat("Error while computing Rt for", 
+          unique(country), "\n")
+      errors_Rt_country <- c(errors_Rt_country, country)
+    }
+  )
+  if (first_iteration) {
+    df_all <- dfc
+    first_iteration <- FALSE
+  }
+  else {
+    df_all <- bind_rows(df_all, dfc)
+  }
 }
 
-data_ox <- data_ox %>% mutate(Date = paste0( str_sub(Date, 1, 4), "-",
-                                             str_sub(Date, 5, 6), "-",
-                                             str_sub(Date, 7, 8))) %>% mutate(Date = as.Date(Date))
+all_regions <- unique(df$RegionName)
+all_regions <- all_regions[all_regions != ""]
+for (region in all_regions) {
+  cat("Processing", region, "\n")
+  
+  dfc <- df[(df$RegionName == region),]
+  
+  dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
+  dfc$avgcases7days_ratio <- dfc$avgcases7days/lag(dfc$avgcases7days,1)
 
-write.csv(data_ox, paste0(output_path, "whole-data-latest.csv"),
-          row.names = FALSE)
+    # Compute the Rt:
+  tryCatch(
+    expr = {
+      dfc <- do_Rt(dfc, var_to_Rt = var_to_Rt)
+    },
+    error = function(e){
+      cat("Error while computing Rt for", 
+          unique(dfc$CountryName),  region, "\n")
+      errors_Rt_region <- c(errors_Rt_region, region)
+    }
+  )
+  df_all <- bind_rows(df_all, dfc)
+}
 
-c_data <- read.csv(data_file)
-
-df_country <- data_ox[data_ox$Jurisdiction == "NAT_TOTAL",]
-country_list <- read.csv(country_file)
-all_countries <- country_list$CountryName
-
-
-
-
-
-########################
-## COUNTRY DATA RETRIEVAL
-########################
-country = args[1]
-cat("Processing", country, "\n")
-df <- df_country[df_country$CountryName == country,]
-
-
-df$cases <- c(0,diff(df$ConfirmedCases))
-df$deaths <- c(0,diff(df$ConfirmedDeaths))
-df$cases <- pmax(df$cases,0)
-df$deaths <- pmax(df$deaths,0)
-
-df$avgcases7days <- frollmean(df$cases, 7)
-df$avgdeaths7days <- frollmean(df$deaths, 7)
-
-df$cases_delta <- c(0,diff(df$cases))
-df$deaths_delta <- c(0,diff(df$deaths))
-df$avgcases7days_delta <- c(0,diff(df$avgcases7days))
-df$avgdeaths7days_delta <- c(0,diff(df$avgdeaths7days))
-
-
-geoid <- c_data[c_data$CountryName == country,"geo_id"]
-df$population <- c_data[c_data$CountryName == country,"population"]
-df$iso2 <- geoid
-
-# Compute the Rt:
-tryCatch(
-  expr = {
-    df <- do_Rt(df, var_to_Rt = var_to_Rt)
-  },
-  error = function(e){ 
-    
-    cat("Error while computing Rt for", 
-        unique(country), "\n")
-    errors_Rt_country <- c(errors_Rt_country, country)
-    
-  }
-)
-
-
-#######################################
-# Write the Rt estimation to a CSV
-#######################################
-out_r_path = paste0(output_path, "country/", geoid, "-estimate.csv")
-cat("writing R estimation for", country, "at", out_r_path)
-write.csv(df, out_r_path, row.names = FALSE)
+df_all <- df_all[order(df_all$CountryName,df_all$RegionName,df_all$Date),]
+write.csv(df_all, output_file, row.names = F)
