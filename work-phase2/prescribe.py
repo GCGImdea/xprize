@@ -99,44 +99,50 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
 
+
     try:
        output_prescriptions_dir = os.path.expanduser('~/work/prescriptions')
+       os.makedirs(output_prescriptions_dir, exist_ok=True)
     except OSError:
        print ("Creation of the directory %s failed" % output_prescriptions_dir)
     else:
        print ("Successfully created the directory %s " % output_prescriptions_dir)
 
 
-    print('\n\n***************************************************************************************')
-
-    #print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
-
-    prescriptions = glob.glob('prescribe?/prescribe.py', recursive=False)
+    prescriptions = glob.glob('prescribe[0-9]/prescribe.py', recursive=False)
     output_files = []
 
-    print('********* CORONASURVEYS PRESCRIPTIONS: {}'.format(prescriptions))
+    print('\n\n***************************************************************************************')
+    print(f'********* CORONASURVEYS PRESCRIPTIONS: {prescriptions}')
+    print('***************************************************************************************')
+
+    procs_list = []
 
     for p in prescriptions:
 
-        print('\n********* Started Processing: {}'.format(p))
+        print('\n######################################################################################################')
+        print(f'## Calling Prescriptor with [{p}] from {args.start_date} to {args.end_date}')
+        print('######################################################################################################')
 
+        prescription_script = os.path.basename(p)
         prescription_dir = os.path.dirname(p)
-        filename, file_extension = os.path.splitext(args.output_file)
-        prescription_output_file = os.path.join(prescription_dir, prescription_dir + "_output" + file_extension)
 
-        #print("********************** {}: {}".format(p, prescription_dir))
+        filename, file_extension = os.path.splitext(args.output_file)
+        prescription_output_file = os.path.realpath(os.path.expanduser(os.path.join(prescription_dir, prescription_dir + "_output" + file_extension)))
 
         try:
            proc = subprocess.Popen(
               [
-                 'python', p,
+                 'python', prescription_script,
                  '--start_date', args.start_date,
                  '--end_date', args.end_date,
                  '--interventions_past', os.path.expanduser(args.prev_file),
                  '--intervention_costs', os.path.expanduser(args.cost_file),
                  '--output_file', os.path.expanduser(prescription_output_file)
-              ],stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+              ], cwd=os.path.realpath(os.path.expanduser(prescription_dir)), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
            #, creationflags=subprocess_flags)
+
+           procs_list.append(proc)
 
            #proc.wait()
            (stdout, stderr) = proc.communicate()
@@ -153,6 +159,9 @@ if __name__ == '__main__':
         print('\n********* Ended Processing: {}'.format(p))
         #print("********************** WROTE: {}".format(prescription_output_file))
 
+
+    for p in procs_list:
+        p.wait()
 
     # filter for outputs that cannot be read
     for of in output_files:

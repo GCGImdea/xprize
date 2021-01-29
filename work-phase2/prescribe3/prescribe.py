@@ -1,7 +1,6 @@
 import sys
 import os
 import argparse
-import pandas as pd
 import glob
 import subprocess
 
@@ -39,8 +38,6 @@ if __name__ == '__main__':
 
     rScriptFile, ext = os.path.splitext(sys.argv[0])
     rScriptFile += ".R";
-
-    # check if file exists etc.
 
     try:
        subprocess.call(
