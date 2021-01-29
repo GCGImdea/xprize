@@ -10,24 +10,25 @@ from datetime import date, timedelta
 import os
 
 IP_COLS = ['C1_School closing',
-            'C2_Workplace closing',
-            'C3_Cancel public events',
-            'C4_Restrictions on gatherings',
-            'C5_Close public transport',
-            'C6_Stay at home requirements',
-            'C7_Restrictions on internal movement',
-            'C8_International travel controls',
-            'H1_Public information campaigns',
-            'H2_Testing policy',
-            'H3_Contact tracing',
-            'H6_Facial Coverings']
+           'C2_Workplace closing',
+           'C3_Cancel public events',
+           'C4_Restrictions on gatherings',
+           'C5_Close public transport',
+           'C6_Stay at home requirements',
+           'C7_Restrictions on internal movement',
+           'C8_International travel controls',
+           'H1_Public information campaigns',
+           'H2_Testing policy',
+           'H3_Contact tracing',
+           'H6_Facial Coverings']
 
 ACTION_DURATION = 15
 
-# Replace with the location at sandbox
-predictor      = "/home/rleiva/Projects/Covid19/covid-xprize-1.1.2/covid_xprize/standard_predictor/predict.py"
-new_ip_file    = "/home/rleiva/Projects/Covid19/data/new_ip.csv"
-threshold_file = "/home/rleiva/Projects/Covid19/data/dance_threshold50.csv"
+# TODO: Replace with the location at sandbox
+predictor       = "/home/rleiva/Projects/Covid19/covid-xprize-1.1.2/covid_xprize/standard_predictor/predict.py"
+new_ip_file     = "/home/rleiva/Projects/Covid19/data/new_ip.csv"
+threshold_file  = "/home/rleiva/Projects/Covid19/data/dance_threshold50.csv"
+tmp_output_file = "/home/rleiva/Projects/Covid19/data/tmp_output_file"
 
 def prescribe(start_date_str: str,
               end_date_str: str,
@@ -47,6 +48,7 @@ def prescribe(start_date_str: str,
                               parse_dates=['Date'],
                               encoding="ISO-8859-1",
                               error_bad_lines=False)
+    final_prescriptions = past_ips_df.copy()    # DF to store results
     past_ips_df['RegionName'] = past_ips_df['RegionName'].fillna("")
     past_ips_df['GeoID'] = past_ips_df['CountryName'] + '__' + past_ips_df['RegionName'].astype(str)
     geos = past_ips_df['GeoID'].unique()
@@ -61,9 +63,12 @@ def prescribe(start_date_str: str,
         cost_arr = np.array(costs[IP_COLS])[0]
         geo_costs[geo] = cost_arr
 
-    # Compute max cases
+    # Used to compute MAX_CASES
     threshold_df = pd.read_csv(threshold_file)
-    
+
+    # TODO: Only used for debugging, remove from production
+    results = pd.DataFrame(columns=["Geo", "Period", "Policy", "Cost", "Cases"])
+
     # For each geographical region
     for geo in geos:
 
@@ -75,9 +80,6 @@ def prescribe(start_date_str: str,
 
         best_cost     = np.inf
         best_policies = [0, 0, 0, 0, 0, 0]
-
-        # TODO: Only used for debugging, remove from production
-        results = pd.DataFrame(columns=["Geo", "Period", "Policy", "Cost", "Cases"])
 
         # Rank list of used policies
         ips      = np.array(past_ips_df[past_ips_df['GeoID'] == geo][IP_COLS])
@@ -151,11 +153,11 @@ def prescribe(start_date_str: str,
                 new_prescriptions.to_csv(new_ip_file, index=False)
 
                 # Make predictions
-                predict = "python " + predictor + " -s " + start_date + " -e " + end_date + " -ip " + new_ip_file + " -o " + output_file
+                predict = "python " + predictor + " -s " + start_date.strftime("%Y-%m-%d") + " -e " + end_date.strftime("%Y-%m-%d") + " -ip " + new_ip_file + " -o " + tmp_output_file
                 os.system(predict)
 
                 # Load predictions
-                predict_df  = pd.read_csv(output_file)
+                predict_df  = pd.read_csv(tmp_output_file)
                 predictions = np.array(predict_df["PredictedDailyNewCases"])
                 total_pred  = np.sum(predictions)
         
@@ -166,11 +168,11 @@ def prescribe(start_date_str: str,
                 fitness = (rel_cost + rel_cases) / 2
         
                 # TODO: Remove in production
-                print("Period:", period_id, "Policy:", policy_id, "Cost:", rel_cost, "Cases:", rel_cases, "Fitness:", fitness)                        
+                print("    Period:", period_id, "Policy:", policy_id, "Cost:", rel_cost, "Cases:", rel_cases, "Fitness:", fitness)                        
         
                 if fitness < best_cost:
                     best_cost = fitness 
-                    best_policies = candidate_policies
+                    best_policies = candidate_policies.copy()
                 else:
                     # Early stop
                     break
@@ -187,11 +189,45 @@ def prescribe(start_date_str: str,
                 # TODO: Only used for debugging, remove from production
                 results = pd.concat([results, tmp_df], ignore_index=True)
 
-    # TODO: Only used for debugging, remove from production
-    results.to_csv("/home/rleiva/Projects/Covid19/data/new_ip.csv", header=True, index=False)
+        # Save optimal result for this region
+        
+        current_date = start_date
 
-    # PENDING: Save final predictions
-    
+        for i in np.arange(num_periods):
+            
+            policy = policies[best_policies[i]]
+            
+            # For each day
+            for j in np.arange(ACTION_DURATION):
+
+                tmp_df = pd.DataFrame({
+                    'CountryName'                          : country_name,
+                    'RegionName'                           : region_name,
+                    'Date'                                 : current_date.strftime("%Y-%m-%d"),
+                    'C1_School closing'                    : policy[0],
+                    'C2_Workplace closing'                 : policy[1],
+                    'C3_Cancel public events'              : policy[2],
+                    'C4_Restrictions on gatherings'        : policy[3],
+                    'C5_Close public transport'            : policy[4],
+                    'C6_Stay at home requirements'         : policy[5],
+                    'C7_Restrictions on internal movement' : policy[6],
+                    'C8_International travel controls'     : policy[7],
+                    'H1_Public information campaigns'      : policy[8],
+                    'H2_Testing policy'                    : policy[9],
+                    'H3_Contact tracing'                   : policy[10],
+                    'H6_Facial Coverings'                  : policy[11]
+                }, index=[0])
+                
+                final_prescriptions = pd.concat([final_prescriptions, tmp_df], ignore_index=True)
+                
+                current_date = current_date + timedelta(days=1)
+
+    # TODO: Only used for debugging, remove from production
+    results.to_csv("/home/rleiva/Projects/Covid19/data/results.csv", header=True, index=False)
+
+    # Save final predictions
+    final_prescriptions.to_csv(output_file_path, header=True, index=False)
+
 
 # !!! PLEASE DO NOT EDIT. THIS IS THE OFFICIAL COMPETITION API !!!
 if __name__ == '__main__':
