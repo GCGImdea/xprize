@@ -145,9 +145,9 @@ if __name__ == '__main__':
            procs_list.append(proc)
 
            #proc.wait()
-           (stdout, stderr) = proc.communicate()
-           print(stdout)
-           print(stderr)
+           #(stdout, stderr) = proc.communicate()
+           #print(stdout)
+           #print(stderr)
 
         except calledProcessError as err:
            print("Error occurred: " + err.stderr)
@@ -161,7 +161,10 @@ if __name__ == '__main__':
 
 
     for p in procs_list:
-        p.wait()
+        #p.wait()
+        (stdout, stderr) = p.communicate()
+        print(stdout)
+        print(stderr)
 
     # filter for outputs that cannot be read
     for of in output_files:
