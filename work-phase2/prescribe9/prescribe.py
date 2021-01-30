@@ -1,9 +1,41 @@
-import sys
-import os
-import argparse
-import glob
-import subprocess
+# Copyright 2021 (c) R.A. García Leiva (rafael.garcia@imdea.org). IMDEA Networks Institute.
 
+import argparse
+
+import numpy  as np
+import pandas as pd
+
+from datetime import date, timedelta
+
+import os
+import time
+
+
+IP_COLS = ['C1_School closing',
+           'C2_Workplace closing',
+           'C3_Cancel public events',
+           'C4_Restrictions on gatherings',
+           'C5_Close public transport',
+           'C6_Stay at home requirements',
+           'C7_Restrictions on internal movement',
+           'C8_International travel controls',
+           'H1_Public information campaigns',
+           'H2_Testing policy',
+           'H3_Contact tracing',
+           'H6_Facial Coverings']
+
+
+def prescribe(start_date_str: str,
+              end_date_str: str,
+              path_to_prior_ips_file: str,
+              path_to_cost_file: str,
+              output_file_path) -> None:
+    pass
+    #time.sleep(30)
+
+
+
+# !!! PLEASE DO NOT EDIT. THIS IS THE OFFICIAL COMPETITION API !!!
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--start_date",
@@ -19,7 +51,7 @@ if __name__ == '__main__':
                         help="End date for the last prescription, included, as YYYY-MM-DD."
                              "For example 2020-08-31")
     parser.add_argument("-ip", "--interventions_past",
-                        dest="prev_file",
+                        dest="prior_ips_file",
                         type=str,
                         required=True,
                         help="The path to a .csv file of previous intervention plans")
@@ -34,26 +66,7 @@ if __name__ == '__main__':
                         required=True,
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
-
-
-    rScriptFile, ext = os.path.splitext(sys.argv[0])
-    rScriptFile += ".R";
-
-    try:
-       subprocess.call(
-          [
-             "Rscript",
-             "--vanilla",
-             rScriptFile,
-             args.start_date,
-             args.end_date,
-             os.path.expanduser(args.prev_file),
-             os.path.expanduser(args.cost_file),
-             os.path.expanduser(args.output_file),
-             os.path.dirname(os.path.realpath(__file__))
-          ])
-    except OSError:
-       print ("OSERROR")
-    else:
-       print ("Successfully executed script.")
+    print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
+    prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
+    print("Done!")
 

@@ -5,15 +5,23 @@ import glob
 import subprocess
 import logging
 import time
+import json
+
+bin_path = os.path.join('usr', 'bin')
+opt_conda_path = os.path.join('opt', 'conda', 'bin')
+os.environ["PATH"] += os.pathsep + opt_conda_path + os.pathsep + bin_path
 
 logging.basicConfig(
-    format='%(asctime)s %(levelname)-8s %(message)s',
+    filename='prescripting.log',
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S')
 
 if __name__ == '__main__':
-
+    logging.info('')
+    logging.info('')
     logging.info('#######  EXECUTING CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
+    logging.info('')
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--start_date",
@@ -45,91 +53,88 @@ if __name__ == '__main__':
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
 
-
-
     try:
-       output_prescriptions_dir = os.path.expanduser('~/work/prescriptions')
-       os.makedirs(output_prescriptions_dir, exist_ok=True)
+        output_prescriptions_dir = os.path.expanduser('~/work/prescriptions')
+        os.makedirs(output_prescriptions_dir, exist_ok=True)
     except OSError:
-       print ("Creation of the directory %s failed" % output_prescriptions_dir)
+        logging.info(f'Creation of the directory {output_prescriptions_dir} failed')
     else:
-       print ("Successfully created the directory %s " % output_prescriptions_dir)
+        logging.info(f'Successfully created the directory {output_prescriptions_dir}')
 
-
-    prescriptions = glob.glob('prescribe[0-9]/prescribe.py', recursive=False)
+    prescriptions = sorted(glob.glob('prescribe[0-9]/prescribe.py', recursive=False))
     output_files = []
 
-    print('\n\n***************************************************************************************')
-    print(f'********* CORONASURVEYS PRESCRIPTIONS: {prescriptions}')
-    print('***************************************************************************************')
+    logging.info('')
+    logging.info('***************************************************************************************')
+    logging.info(f'********* CORONASURVEYS PRESCRIPTIONS *************************************************')
+    logging.info(json.dumps(prescriptions, indent=32))
+    logging.info('***************************************************************************************')
+    logging.info('')
 
-    procs_list = []
+    procs = {}
 
     for p in prescriptions:
 
-        logging.info('=========================================================================================')
-        logging.info(f'## Calling Prescriptor with [{p}] from {args.start_date} to {args.end_date}')
-        logging.info('=========================================================================================')
+        logging.info(f'Launching prescriptor [{p}] from {args.start_date} to {args.end_date}')
 
         prescription_script = os.path.basename(p)
         prescription_dir = os.path.dirname(p)
 
         filename, file_extension = os.path.splitext(args.output_file)
-        prescription_output_file = os.path.realpath(os.path.expanduser(os.path.join(prescription_dir, prescription_dir + "_output" + file_extension)))
+        prescription_output_file = os.path.realpath(
+            os.path.expanduser(os.path.join(prescription_dir, prescription_dir + "_output" + file_extension)))
 
         try:
-           proc = subprocess.Popen(
-              [
-                 'python', prescription_script,
-                 '--start_date', args.start_date,
-                 '--end_date', args.end_date,
-                 '--interventions_past', os.path.expanduser(args.prev_file),
-                 '--intervention_costs', os.path.expanduser(args.cost_file),
-                 '--output_file', os.path.expanduser(prescription_output_file)
-              ],
-               cwd=os.path.realpath(os.path.expanduser(prescription_dir)),
-               stdout=subprocess.PIPE,
-               stderr=subprocess.PIPE
-           )
-           #, creationflags=subprocess_flags)
+            execute_cmd = [
+                'python', prescription_script,
+                '--start_date', args.start_date,
+                '--end_date', args.end_date,
+                '--interventions_past', os.path.expanduser(args.prev_file),
+                '--intervention_costs', os.path.expanduser(args.cost_file),
+                '--output_file', os.path.expanduser(prescription_output_file)
+            ]
 
-           procs_list.append(proc)
+            logging.info(json.dumps(execute_cmd, indent=32))
 
-           #proc.wait()
-           #(stdout, stderr) = proc.communicate()
-           #print(stdout)
-           #print(stderr)
+            procs[p] = subprocess.Popen(
+                execute_cmd,
+                cwd=os.path.realpath(os.path.expanduser(prescription_dir)),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            # , creationflags=subprocess_flags)
 
-        except calledProcessError as err:
-           print("Error occurred: " + err.stderr)
-
+        except subprocess.CalledProcessError as err:
+            logging.info(f'Error occurred: {err.stderr}')
 
         # let this be here, in case we need to parallelize prescriptors
         output_files.append(prescription_output_file)
 
-        print('\n********* Ended Processing: {}'.format(p))
-        #print("********************** WROTE: {}".format(prescription_output_file))
-
-
-    for p in procs_list:
-        #p.wait()
+    for pkey, p in procs.items():
         (stdout, stderr) = p.communicate()
-        print(stdout.decode())
-        print(stderr.decode())
+        logging.info("")
+        logging.info("=======================================================================================")
+        logging.info(f'Output for {pkey}')
+        logging.info("")
+        logging.info("=== stdout ============================================================================")
+        logging.info(stdout.decode())
+        logging.info("")
+        logging.info("=== stderr ============================================================================")
+        logging.info(stderr.decode())
+        logging.info("")
+        logging.info("---------------------------------------------------------------------------------------")
+        logging.info("")
 
     # filter for outputs that cannot be read
     for of in output_files:
-       if not os.path.isfile(of):
-          output_files.remove(of)
+        if not os.path.isfile(of):
+            output_files.remove(of)
 
     # concatenate csv files
-    combined_csv = pd.concat([pd.read_csv(f) for f in output_files ])
+    combined_csv = pd.concat([pd.read_csv(f) for f in output_files])
 
-    #combined_csv.to_csv( args.output_file, index=False, encoding='utf-8-sig')
-    combined_csv.to_csv( args.output_file, encoding='utf-8-sig')
+    # combined_csv.to_csv( args.output_file, index=False, encoding='utf-8-sig')
+    combined_csv.to_csv(args.output_file, encoding='utf-8-sig')
 
-    #prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
-    print("Done!")
+    # prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
     logging.info('#######   COMPLETED CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
-
-
