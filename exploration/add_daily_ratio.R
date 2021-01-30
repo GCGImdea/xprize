@@ -19,6 +19,9 @@ if (length(args)==0) {
 
 input_file <- args[1]
 output_file <- args[2]
+iplan_file <- input_file %>% stringr::str_remove("predicted-") %>% 
+  stringr::str_replace(".*predictions-raw/","ips-vectors-full/")
+
 
 dance_end_date <- ymd("2020-12-31")
 
@@ -170,6 +173,12 @@ for (region in all_regions) {
   
   df_all <- bind_rows(df_all, dfc)
 }
+
+df_iplan <- read.csv(iplan_file, check.names = FALSE)
+df_iplan$Date <- as.Date(df_iplan$Date)
+df_iplan$RegionName[is.na(df_iplan$RegionName)] <- ""
+
+df_all <- merge(df_all, df_iplan) #, by = intersect(names(df_all), names(df_iplan)), all=TRUE)
 
 df_all <- df_all[order(df_all$CountryName,df_all$RegionName,df_all$Date),]
 write.csv(df_all, output_file, row.names = F)

@@ -3,6 +3,7 @@
 # The scenarios are in folder ips-vectors-full
 # The results of the simulation are in folder predictions-raw
 # Folder ips-vectors contains a short intervention vector file, with one line per country
+
 for fullfile in ./ips-vectors-full/*.csv
 do
   filename=$(basename -- "$fullfile")
