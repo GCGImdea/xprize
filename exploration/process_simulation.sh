@@ -21,14 +21,25 @@ do
   fi
 done
 
-
 for fullfile in ./predictions-raw/*.csv
+do
+  filename=$(basename -- "$fullfile")
+  simfile=./predictions-with-ratio/${filename}
+  if [[ ! -f ${simfile} ]]
+  then
+    echo "${simfile} does not exist on your filesystem. Running process..."
+    Rscript add_daily_ratio.R $fullfile ${simfile}
+  fi
+done
+
+
+for fullfile in ./predictions-with-ratio/*.csv
 do
   filename=$(basename -- "$fullfile")
   simfile=./predictions-with-Rt/${filename}
   if [[ ! -f ${simfile} ]]
   then
     echo "${simfile} does not exist on your filesystem. Running process..."
-    Rscript process_simulation.R $fullfile ${simfile}
+    Rscript add_Rt.R $fullfile ${simfile}
   fi
 done

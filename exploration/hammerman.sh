@@ -21,10 +21,10 @@ set -o nounset                              # Treat unset variables as an error
 
 #HAMMERS_DIR='hammer-dfs'
 #HAMMERS_DIR='exploration/hammer-dfs-with-HX'
-HAMMERS_DIR='exploration/scenarios-to-simulate'
+HAMMERS_DIR='./scenarios-to-simulate'
 DEPTH=`echo $HAMMERS_DIR | grep -oe "/" | wc -l`
 DEPTH=$(( $DEPTH + 2 ))
-PRED_DIR="exploration/predictions-raw"
+PRED_DIR="./predictions-raw"
 
 
 # If an argument is given, it is used as hammers' prefix
@@ -44,7 +44,8 @@ fi
 
 
 # Execute predictor for every hammer with the above prefix
-for hammer in `ls $HAMMERS_DIR/"$hammers_prefix"*"$hammers_sufix".csv`; do
+# for hammer in `ls $HAMMERS_DIR/"$hammers_prefix"*"$hammers_sufix".csv`; do
+for hammer in `ls $HAMMERS_DIR/*.csv`; do
     start_=`echo $hammer | grep -o "sn-[0-9]\+-[0-9]\+-[0-9]\+" |
         grep -o "[0-9][0-9\-]*"`
     end_=`echo $hammer | grep -o "e-[0-9]\+-[0-9]\+-[0-9]\+" |
