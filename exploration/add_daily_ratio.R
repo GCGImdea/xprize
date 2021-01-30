@@ -5,6 +5,7 @@ library(httr)
 library(jsonlite)
 library(stringr)
 library(data.table)
+library(lubridate)
 library(R0) # reproductive number
 
 # Parse the arguments
@@ -18,6 +19,12 @@ if (length(args)==0) {
 
 input_file <- args[1]
 output_file <- args[2]
+
+dance_start_date <- ymd("2020-12-17")
+dance_end_date <- ymd("2020-12-31")
+
+ratio_start_date <- ymd("2021-02-14")
+ratio_end_date <- ymd("2021-02-28")
 
 # 
 # DATA_URL = "https://raw.githubusercontent.com/OxCGRT/covid-policy-tracker/master/data/OxCGRT_latest.csv"
@@ -99,6 +106,14 @@ for (country in all_countries) {
   dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
   dfc$avgcases7days_ratio <- dfc$avgcases7days/lag(dfc$avgcases7days,1)
 
+  dfdance <- dfc[(dfc$Date >= dance_start_date) & (dfc$Date <= dance_end_date),]
+  
+  dance_start_date <- ymd("2020-12-17")
+  dance_end_date <- ymd("2020-12-31")
+  
+  ratio_start_date <- ymd("2021-02-14")
+  ratio_end_date <- ymd("2021-02-28")
+  
   # Compute the Rt:
   # tryCatch(
   #   expr = {
