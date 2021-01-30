@@ -21,10 +21,10 @@ set -o nounset                              # Treat unset variables as an error
 
 #HAMMERS_DIR='hammer-dfs'
 #HAMMERS_DIR='exploration/hammer-dfs-with-HX'
-HAMMERS_DIR='exploration/used-vectors/ips-vectors'
+HAMMERS_DIR='exploration/scenarios-to-simulate'
 DEPTH=`echo $HAMMERS_DIR | grep -oe "/" | wc -l`
 DEPTH=$(( $DEPTH + 2 ))
-PRED_DIR="exploration/predictor-dfs-with-HX"
+PRED_DIR="exploration/predictions-raw"
 
 
 # If an argument is given, it is used as hammers' prefix
