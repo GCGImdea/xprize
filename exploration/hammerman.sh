@@ -21,10 +21,10 @@ set -o nounset                              # Treat unset variables as an error
 
 #HAMMERS_DIR='hammer-dfs'
 #HAMMERS_DIR='exploration/hammer-dfs-with-HX'
-HAMMERS_DIR='./scenarios-to-simulate'
+HAMMERS_DIR='scenarios-to-simulate'
 DEPTH=`echo $HAMMERS_DIR | grep -oe "/" | wc -l`
 DEPTH=$(( $DEPTH + 2 ))
-PRED_DIR="./predictions-raw"
+PRED_DIR="predictions-raw"
 
 
 # If an argument is given, it is used as hammers' prefix
@@ -58,7 +58,7 @@ for hammer in `ls $HAMMERS_DIR/*.csv`; do
         start_="2020-11-01"
     fi
     if [ -z $end_ ]; then
-	end_="2021-02-08"
+	end_="2021-02-28"
     fi
     echo $start_ $end_
 

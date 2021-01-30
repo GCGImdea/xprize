@@ -1,5 +1,8 @@
 # creates a file per colection of intervention vectors
 
+# The scenarios are in folder ips-vectors-full
+# The results of the simulation are in folder predictions-raw
+# Folder ips-vectors contains a short intervention vector file, with one line per country
 for fullfile in ./ips-vectors-full/*.csv
 do
   filename=$(basename -- "$fullfile")
@@ -8,6 +11,7 @@ do
   if [[ ! -f ${simfile} ]]
   then
     echo "${simfile} does not exist on your filesystem."
+    # Here goes the code to run the simulation
   fi
 
   ipsfile=./ips-vectors/${filename}
@@ -21,6 +25,8 @@ do
   fi
 done
 
+# This adds columns for the daily ratio
+#
 for fullfile in ./predictions-raw/*.csv
 do
   filename=$(basename -- "$fullfile")
@@ -32,7 +38,8 @@ do
   fi
 done
 
-
+# This adds columns for the Rt
+# It is not done with the daily ratio because this one takes a lot of time
 for fullfile in ./predictions-with-ratio/*.csv
 do
   filename=$(basename -- "$fullfile")
