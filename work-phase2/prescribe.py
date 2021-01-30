@@ -1,73 +1,20 @@
-# Copyright 2020 (c) Cognizant Digital Business, Evolutionary AI. All rights reserved. Issued under the Apache 2.0 License.
-
 import os
 import argparse
 import pandas as pd
 import glob
 import subprocess
+import logging
+import time
 
-NPI_COLS = ['C1_School closing',
-            'C2_Workplace closing',
-            'C3_Cancel public events',
-            'C4_Restrictions on gatherings',
-            'C5_Close public transport',
-            'C6_Stay at home requirements',
-            'C7_Restrictions on internal movement',
-            'C8_International travel controls',
-            'H1_Public information campaigns',
-            'H2_Testing policy',
-            'H3_Contact tracing',
-            'H6_Facial Coverings']
-
-
-def prescribe(start_date_str: str,
-              end_date_str: str,
-              path_to_hist_file: str,
-              path_to_cost_file: str,
-              output_file_path) -> None:
-
-    # Create skeleton df with one row for each geo for each day
-    hdf = pd.read_csv(path_to_hist_file,
-                      parse_dates=['Date'],
-                      encoding="ISO-8859-1",
-                      dtype={"RegionName": str},
-                      error_bad_lines=True)
-    start_date = pd.to_datetime(start_date_str, format='%Y-%m-%d')
-    end_date = pd.to_datetime(end_date_str, format='%Y-%m-%d')
-    country_names = []
-    region_names = []
-    dates = []
-
-    for country_name in hdf['CountryName'].unique():
-        cdf = hdf[hdf['CountryName'] == country_name]
-        for region_name in cdf['RegionName'].unique():
-            for date in pd.date_range(start_date, end_date):
-                country_names.append(country_name)
-                region_names.append(region_name)
-                dates.append(date.strftime("%Y-%m-%d"))
-
-    prescription_df = pd.DataFrame({
-        'CountryName': country_names,
-        'RegionName': region_names,
-        'Date': dates})
-
-    # Fill df with all zeros
-    for npi_col in NPI_COLS:
-        prescription_df[npi_col] = 0
-
-    # Add prescription index column.
-    prescription_df['PrescriptionIndex'] = 0
-
-    # Create the output path
-    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
-
-    # Save to a csv file
-    prescription_df.to_csv(output_file_path, index=False)
-
-    return
-
+logging.basicConfig(
+    format='%(asctime)s %(levelname)-8s %(message)s',
+    level=logging.INFO,
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 if __name__ == '__main__':
+
+    logging.info('#######  EXECUTING CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
+
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--start_date",
                         dest="start_date",
@@ -120,9 +67,9 @@ if __name__ == '__main__':
 
     for p in prescriptions:
 
-        print('\n######################################################################################################')
-        print(f'## Calling Prescriptor with [{p}] from {args.start_date} to {args.end_date}')
-        print('######################################################################################################')
+        logging.info('=========================================================================================')
+        logging.info(f'## Calling Prescriptor with [{p}] from {args.start_date} to {args.end_date}')
+        logging.info('=========================================================================================')
 
         prescription_script = os.path.basename(p)
         prescription_dir = os.path.dirname(p)
@@ -139,7 +86,11 @@ if __name__ == '__main__':
                  '--interventions_past', os.path.expanduser(args.prev_file),
                  '--intervention_costs', os.path.expanduser(args.cost_file),
                  '--output_file', os.path.expanduser(prescription_output_file)
-              ], cwd=os.path.realpath(os.path.expanduser(prescription_dir)), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+              ],
+               cwd=os.path.realpath(os.path.expanduser(prescription_dir)),
+               stdout=subprocess.PIPE,
+               stderr=subprocess.PIPE
+           )
            #, creationflags=subprocess_flags)
 
            procs_list.append(proc)
@@ -163,8 +114,8 @@ if __name__ == '__main__':
     for p in procs_list:
         #p.wait()
         (stdout, stderr) = p.communicate()
-        print(stdout)
-        print(stderr)
+        print(stdout.decode())
+        print(stderr.decode())
 
     # filter for outputs that cannot be read
     for of in output_files:
@@ -179,6 +130,6 @@ if __name__ == '__main__':
 
     #prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
     print("Done!")
-
+    logging.info('#######   COMPLETED CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
 
 
