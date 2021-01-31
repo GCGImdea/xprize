@@ -44,8 +44,8 @@ fi
 
 
 # Execute predictor for every hammer with the above prefix
-# for hammer in `ls $HAMMERS_DIR/"$hammers_prefix"*"$hammers_sufix".csv`; do
-for hammer in `ls $HAMMERS_DIR/*.csv`; do
+for hammer in `ls $HAMMERS_DIR/"$hammers_prefix"*"$hammers_sufix".csv`; do
+# for hammer in `ls $HAMMERS_DIR/*.csv`; do
     start_=`echo $hammer | grep -o "sn-[0-9]\+-[0-9]\+-[0-9]\+" |
         grep -o "[0-9][0-9\-]*"`
     end_=`echo $hammer | grep -o "e-[0-9]\+-[0-9]\+-[0-9]\+" |

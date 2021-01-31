@@ -6,6 +6,7 @@ library(jsonlite)
 library(stringr)
 library(data.table)
 library(lubridate)
+library(tidyverse)
 library(R0) # reproductive number
 
 # Parse the arguments
@@ -177,6 +178,12 @@ for (region in all_regions) {
 df_iplan <- read.csv(iplan_file, check.names = FALSE)
 df_iplan$Date <- as.Date(df_iplan$Date)
 df_iplan$RegionName[is.na(df_iplan$RegionName)] <- ""
+# df_iplan <- df_iplan %>%
+#   select(Date, CountryName, RegionName, `C1_School closing`, `C2_Workplace closing`,
+#   `C3_Cancel public events`,`C4_Restrictions on gatherings`,`C5_Close public transport`,
+#   `C6_Stay at home requirements`,`C7_Restrictions on internal movement`,
+#   `C8_International travel controls`,`H1_Public information campaigns`,
+#   `H2_Testing policy`,`H3_Contact tracing`,`H6_Facial Coverings`)
 
 df_all <- merge(df_all, df_iplan) #, by = intersect(names(df_all), names(df_iplan)), all=TRUE)
 
