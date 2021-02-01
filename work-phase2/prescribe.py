@@ -114,7 +114,7 @@ if __name__ == '__main__':
         output_files[p] = prescription_output_file
 
     ###################################################################################
-    print("\n\nlaunched\n\n")
+    print("\n####### Launched CORONASURVEYS subprocesses and polling them.\n")
 
     procs_to_terminate = list(procs.keys())
     start = time.time()
@@ -160,6 +160,9 @@ if __name__ == '__main__':
                 logging.info("")
                 logging.info("---------------------------------------------------------------------------------------")
                 logging.info("")
+
+                if procs[pkey].returncode:
+                    del output_files[pkey]
 
 
     # filter for outputs that cannot be read

@@ -18,7 +18,7 @@ def prescribe(start_date_str: str,
               path_to_prior_ips_file: str,
               path_to_cost_file: str,
               output_file_path) -> None:
-    time.sleep(120)
+    time.sleep(20)
 
 
 
