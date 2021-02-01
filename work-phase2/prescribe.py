@@ -62,7 +62,7 @@ if __name__ == '__main__':
         logging.info(f'Successfully created the directory {output_prescriptions_dir}')
 
     prescriptions = sorted(glob.glob('prescribe[0-9]/prescribe.py', recursive=False))
-    output_files = []
+    output_files = {}
 
     logging.info('')
     logging.info('***************************************************************************************')
@@ -83,6 +83,9 @@ if __name__ == '__main__':
         filename, file_extension = os.path.splitext(args.output_file)
         prescription_output_file = os.path.realpath(
             os.path.expanduser(os.path.join(prescription_dir, prescription_dir + "_output" + file_extension)))
+
+        if os.path.exists(prescription_output_file):
+            os.remove(prescription_output_file)
 
         try:
             execute_cmd = [
@@ -108,30 +111,65 @@ if __name__ == '__main__':
             logging.info(f'Error occurred: {err.stderr}')
 
         # let this be here, in case we need to parallelize prescriptors
-        output_files.append(prescription_output_file)
+        output_files[p] = prescription_output_file
 
-    for pkey, p in procs.items():
-        (stdout, stderr) = p.communicate()
-        logging.info("")
-        logging.info("=======================================================================================")
-        logging.info(f'Output for {pkey}')
-        logging.info("")
-        logging.info("=== stdout ============================================================================")
-        logging.info(stdout.decode())
-        logging.info("")
-        logging.info("=== stderr ============================================================================")
-        logging.info(stderr.decode())
-        logging.info("")
-        logging.info("---------------------------------------------------------------------------------------")
-        logging.info("")
+    ###################################################################################
+    print("\n\nlaunched\n\n")
+
+    procs_to_terminate = list(procs.keys())
+    start = time.time()
+    timeout = 7200 # 2 hours in seconds
+
+    # do this while there are processes alive
+    while procs_to_terminate:
+
+        time.sleep(1)
+
+        # if elapsed time exceeds the timeout threshold
+        if (time.time() - start) > timeout:
+
+            # ok go ahead and forcibly terminate all processes
+            for pkey, p in list(procs.items()):
+                if p.poll() is None:
+                    p.terminate()
+                    del output_files[pkey] # since we abruptly terminated, ignore any outputs
+                    logging.info(f"      Terminated {pkey} - {timeout} secs timeout exceeded.")
+                else:
+                    logging.info(f"Already finished {pkey} - {timeout} secs timeout exceeded.")
+
+            break
+
+
+        for pkey in procs_to_terminate:
+
+            # check if process has terminated (i.e. poll() != None)
+            if procs[pkey].poll() is not None:
+
+                procs_to_terminate.remove(str(pkey))
+
+                (stdout, stderr) = procs[pkey].communicate()
+                logging.info("")
+                logging.info("=======================================================================================")
+                logging.info(f'Prescriptor: {pkey} - exitcode: {procs[pkey].returncode}')
+                logging.info("")
+                logging.info("=== stdout ============================================================================")
+                logging.info(stdout.decode())
+                logging.info("")
+                logging.info("=== stderr ============================================================================")
+                logging.info(stderr.decode())
+                logging.info("")
+                logging.info("---------------------------------------------------------------------------------------")
+                logging.info("")
+
 
     # filter for outputs that cannot be read
-    for of in output_files:
-        if not os.path.isfile(of):
-            output_files.remove(of)
+    outputs_to_combine = list(output_files.keys())
+    for pkey in outputs_to_combine:
+        if not os.path.isfile(output_files[pkey]):
+            del output_files[pkey]
 
     # concatenate csv files
-    combined_csv = pd.concat([pd.read_csv(f) for f in output_files])
+    combined_csv = pd.concat([pd.read_csv(f) for f in output_files.values()])
 
     # combined_csv.to_csv( args.output_file, index=False, encoding='utf-8-sig')
     combined_csv.to_csv(args.output_file, encoding='utf-8-sig')
