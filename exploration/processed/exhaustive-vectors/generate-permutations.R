@@ -22,6 +22,15 @@ max_val <- c(3,3,2,4,2,3,2,4,2,3,2,4)
 
 dancedf <- read.csv(dance_file, check.names = FALSE)
 
+# Generate vectors with 1 value not 0
+for (i in 1:12) {
+  for (k in 1:max_val[i]) {
+    df <- dancedf
+    df[ips[i]] <- k
+    write.csv(df, paste0(output_dir, "iplan-", str_sub(ips[i],1,2),"-", k, "-regions-.csv"), row.names = F)
+  }
+}
+
 # Generate vectors with 2 values not 0
 for (i in 1:11) {
   for (j in (i+1):12) {
@@ -37,19 +46,19 @@ for (i in 1:11) {
   }
 }
 
-
-
-# Generate vectors with 2 values to 0
+# Generate vectors with 2 values not maximum
 hammerdf <- read.csv(hammer_file, check.names = FALSE)
 
 for (i in 1:11) {
   for (j in (i+1):12) {
+    for (k in 0:(max_val[i]-1)) {
+      for (l in 0:(max_val[j])) {
         df <- hammerdf
-        df[ips[i]] <- 0
-        df[ips[j]] <- 0
-        write.csv(df, paste0(output_dir, "iplan-no", str_sub(ips[i],1,2),
-                             "-no", str_sub(ips[j],1,2), ".csv"), row.names = F)
+        df[ips[i]] <- k
+        df[ips[j]] <- l
+        write.csv(df, paste0(output_dir, "iplan-hammer-", str_sub(ips[i],1,2),"-", k,
+                             "-", str_sub(ips[j],1,2), "-", l, ".csv"), row.names = F)
+      }
+    }
   }
 }
-
-

@@ -1,0 +1,59 @@
+"Date","CountryName","RegionName","C1_School closing","C2_Workplace closing","C3_Cancel public events","C4_Restrictions on gatherings","C5_Close public transport","C6_Stay at home requirements","C7_Restrictions on internal movement","C8_International travel controls","H1_Public information campaigns","H2_Testing policy","H3_Contact tracing","H6_Facial Coverings"
+2020-01-01,"United Kingdom","",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United Kingdom","England",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United Kingdom","Northern Ireland",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United Kingdom","Scotland",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United Kingdom","Wales",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Alabama",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Alaska",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Arizona",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Arkansas",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","California",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Colorado",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Connecticut",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Delaware",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Florida",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Georgia",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Hawaii",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Idaho",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Illinois",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Indiana",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Iowa",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Kansas",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Kentucky",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Louisiana",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Maine",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Maryland",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Massachusetts",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Michigan",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Minnesota",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Mississippi",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Missouri",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Montana",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Nebraska",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Nevada",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","New Hampshire",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","New Jersey",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","New Mexico",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","New York",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","North Carolina",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","North Dakota",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Ohio",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Oklahoma",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Oregon",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Pennsylvania",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Rhode Island",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","South Carolina",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","South Dakota",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Tennessee",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Texas",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Utah",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Vermont",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Virgin Islands",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Virginia",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Washington",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Washington DC",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","West Virginia",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Wisconsin",2,0,0,0,0,0,0,0,0,0,0,0
+2020-01-01,"United States","Wyoming",2,0,0,0,0,0,0,0,0,0,0,0
