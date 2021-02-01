@@ -106,17 +106,20 @@ for (country in all_countries) {
   
   dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
   dfc$avgcases7days_ratio <- dfc$avgcases7days/lag(dfc$avgcases7days,1)
+  dfc$avgcases7days_ratio[is.na(dfc$avgcases7days_ratio)] <- 0
 
   #Coumputing the parameters of the ratio
   n <- nrow(dfc[(dfc$Date <= dance_end_date),])
   dfc$avg_dance_ratio <- mean(dfc$avgcases7days_ratio[(n-29):n])
   dfc$sd_dance_ratio <- sd(dfc$avgcases7days_ratio[(n-29):n])
   dfc$dance_ratio15days <- dfc$avgcases7days[n] / dfc$avgcases7days[n-14]
+  dfc$dance_ratio15days[is.na(dfc$dance_ratio15days)] <- 0
   
   n <- nrow(dfc)
   dfc$avg_ratio <- mean(dfc$avgcases7days_ratio[(n-29):n])
   dfc$sd_ratio <- sd(dfc$avgcases7days_ratio[(n-29):n])
   dfc$ratio15days <- dfc$avgcases7days[n] / dfc$avgcases7days[n-14]
+  dfc$ratio15days[is.na(dfc$ratio15days)] <- 0
   
   # Compute the Rt:
   # tryCatch(
@@ -148,17 +151,20 @@ for (region in all_regions) {
   
   dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
   dfc$avgcases7days_ratio <- dfc$avgcases7days/lag(dfc$avgcases7days,1)
+  dfc$avgcases7days_ratio[is.na(dfc$avgcases7days_ratio)] <- 0
 
   #Coumputing the parameters of the ratio
   n <- nrow(dfc[(dfc$Date <= dance_end_date),])
   dfc$avg_dance_ratio <- mean(dfc$avgcases7days_ratio[(n-29):n])
   dfc$sd_dance_ratio <- sd(dfc$avgcases7days_ratio[(n-29):n])
   dfc$dance_ratio15days <- dfc$avgcases7days[n] / dfc$avgcases7days[n-14]
+  dfc$dance_ratio15days[is.na(dfc$dance_ratio15days)] <- 0
   
   n <- nrow(dfc)
   dfc$avg_ratio <- mean(dfc$avgcases7days_ratio[(n-29):n])
   dfc$sd_ratio <- sd(dfc$avgcases7days_ratio[(n-29):n])
   dfc$ratio15days <- dfc$avgcases7days[n] / dfc$avgcases7days[n-14]
+  dfc$ratio15days[is.na(dfc$ratio15days)] <- 0
   
     # Compute the Rt:
   # tryCatch(

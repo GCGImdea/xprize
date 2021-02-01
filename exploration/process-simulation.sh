@@ -41,7 +41,7 @@ done
 
 echo "Generating performance.csv"
 cp performance.csv performance.csv.bak
-grep -h "2021-0" predictions-with-ratio/* | cut -d "," -f 1,2,7- | sort | uniq > kk.csv
+fgrep -h "2021-01-01" predictions-with-ratio/* | cut -d "," -f 1,2,7- | sort | uniq > kk.csv
 cat hd kk.csv > performance.csv
 
 echo "Generating performance-wo-dance.csv"
