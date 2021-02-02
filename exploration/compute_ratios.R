@@ -97,10 +97,10 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
     dfc$avgcases7days_ratio <- dfc$avgcases7days/lag(dfc$avgcases7days,1)
     dfc$avgcases7days_ratio[is.na(dfc$avgcases7days_ratio)] <- 0
     
-    n <- nrow(dfc)
-    dfc$avg_ratio <- mean(dfc$avgcases7days_ratio[(n-duration+1):n])
-    dfc$sd_ratio <- sd(dfc$avgcases7days_ratio[(n-duration+1):n])
-    dfc$ratio15days <- dfc$avgcases7days[n] / dfc$avgcases7days[n-14]
+    m <- nrow(dfc)
+    dfc$avg_ratio <- mean(dfc$avgcases7days_ratio[(m-duration+1):n])
+    dfc$sd_ratio <- sd(dfc$avgcases7days_ratio[(m-duration+1):n])
+    dfc$ratio15days <- dfc$avgcases7days[m] / dfc$avgcases7days[n-14]
     dfc$ratio15days[is.na(dfc$ratio15days)] <- 0
     
     print (nrow(df))
