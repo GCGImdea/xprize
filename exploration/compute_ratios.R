@@ -13,8 +13,10 @@ library(tidyverse)
 # vectors_folder <- "./ips-vectors/"
 vectors_folder <- "./ips-vectors-aux/"
 ratios_folder <- "./ips-ratios/"
-start_date <- ymd("2020-03-01")
-end_date <- ymd("2021-02-28")
+#start_date <- ymd("2020-03-01")
+#end_date <- ymd("2021-02-28")
+#start_date <- ymd("2020-07-01")
+#end_date <- ymd("2020-07-18")
 step_lenght <- 7
 duration <- 30
 pre_file <- "./IPS-latest-full.csv"
@@ -103,9 +105,9 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
     
     print (nrow(df))
     print (nrow(dfc))
-    df[i,"avg_ratio"] <- dfc$avg_ratio
-    df[i,"sd_ratio"] <- dfc$sd_ratio
-    df[i,"ratio15days"] <- dfc$ratio15days
+    df[i,"avg_ratio"] <- dfc$avg_ratio[1]
+    df[i,"sd_ratio"] <- dfc$sd_ratio[1]
+    df[i,"ratio15days"] <- dfc$ratio15days[1]
   }
   
   df <- df[order(df$CountryName,df$RegionName,df$Date),]
