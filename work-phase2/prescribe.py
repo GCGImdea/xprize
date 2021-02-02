@@ -6,6 +6,7 @@ import subprocess
 import logging
 import time
 import json
+import re
 
 bin_path = os.path.join('usr', 'bin')
 opt_conda_path = os.path.join('opt', 'conda', 'bin')
@@ -16,6 +17,68 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S')
+
+
+def zeroOutput(start_date_str: str,
+               end_date_str: str,
+               path_to_hist_file: str,
+               path_to_cost_file: str,
+               output_file_path,
+               prescription_index: int) -> None:
+
+    NPI_COLS = ['C1_School closing',
+                'C2_Workplace closing',
+                'C3_Cancel public events',
+                'C4_Restrictions on gatherings',
+                'C5_Close public transport',
+                'C6_Stay at home requirements',
+                'C7_Restrictions on internal movement',
+                'C8_International travel controls',
+                'H1_Public information campaigns',
+                'H2_Testing policy',
+                'H3_Contact tracing',
+                'H6_Facial Coverings']
+
+    # Create skeleton df with one row for each geo for each day
+    hdf = pd.read_csv(path_to_hist_file,
+                      parse_dates=['Date'],
+                      encoding="ISO-8859-1",
+                      dtype={"RegionName": str},
+                      error_bad_lines=True)
+    start_date = pd.to_datetime(start_date_str, format='%Y-%m-%d')
+    end_date = pd.to_datetime(end_date_str, format='%Y-%m-%d')
+    country_names = []
+    region_names = []
+    dates = []
+
+    for country_name in hdf['CountryName'].unique():
+        cdf = hdf[hdf['CountryName'] == country_name]
+        for region_name in cdf['RegionName'].unique():
+            for date in pd.date_range(start_date, end_date):
+                country_names.append(country_name)
+                region_names.append(region_name)
+                dates.append(date.strftime("%Y-%m-%d"))
+
+    prescription_df = pd.DataFrame({
+        'CountryName': country_names,
+        'RegionName': region_names,
+        'Date': dates})
+
+    # Fill df with all zeros
+    for npi_col in NPI_COLS:
+        prescription_df[npi_col] = 0
+
+    # Add prescription index column.
+    prescription_df['PrescriptionIndex'] = prescription_index
+
+    # Create the output path
+    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+
+    # Save to a csv file
+    prescription_df.to_csv(output_file_path, index=False)
+
+    return
+
 
 if __name__ == '__main__':
     logging.info('')
@@ -75,6 +138,16 @@ if __name__ == '__main__':
 
     for p in prescriptions:
 
+        precription_index = -1
+        matches = re.findall(r'prescribe(\d+)/prescribe.py', p)
+        if len(matches) > 0:
+            precription_index = int(matches[0])
+        else:
+            continue
+
+        if precription_index == 0:
+            precription_index = 10
+
         logging.info(f'Launching prescriptor [{p}] from {args.start_date} to {args.end_date}')
 
         prescription_script = os.path.basename(p)
@@ -86,6 +159,14 @@ if __name__ == '__main__':
 
         if os.path.exists(prescription_output_file):
             os.remove(prescription_output_file)
+
+
+        zeroOutput(args.start_date,
+                   args.end_date,
+                   os.path.expanduser(args.prev_file),
+                   os.path.expanduser(args.cost_file),
+                   prescription_output_file,
+                   precription_index)
 
         try:
             execute_cmd = [
@@ -132,7 +213,7 @@ if __name__ == '__main__':
             for pkey, p in list(procs.items()):
                 if p.poll() is None:
                     p.terminate()
-                    del output_files[pkey] # since we abruptly terminated, ignore any outputs
+                    #del output_files[pkey] # since we abruptly terminated, ignore any outputs
                     logging.info(f"      Terminated {pkey} - {timeout} secs timeout exceeded.")
                 else:
                     logging.info(f"Already finished {pkey} - {timeout} secs timeout exceeded.")
@@ -161,8 +242,8 @@ if __name__ == '__main__':
                 logging.info("---------------------------------------------------------------------------------------")
                 logging.info("")
 
-                if procs[pkey].returncode:
-                    del output_files[pkey]
+                #if procs[pkey].returncode:
+                #    del output_files[pkey]
 
 
     # filter for outputs that cannot be read
