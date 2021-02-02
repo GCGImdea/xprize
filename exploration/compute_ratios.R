@@ -7,10 +7,11 @@ library(stringr)
 library(data.table)
 library(lubridate)
 library(tidyverse)
+library(reticulate) # To use Python
 #library(R0) # reproductive number
 
-vectors_folder <- "./ips-vectors/"
-#vectors_folder <- "./ips-vectors-aux/"
+# vectors_folder <- "./ips-vectors/"
+vectors_folder <- "./ips-vectors-aux/"
 ratios_folder <- "./ips-ratios/"
 start_date <- ymd("2020-03-01")
 end_date <- ymd("2021-02-28")
@@ -100,16 +101,17 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
 
 generate_ratio_file <- function(d, duration, file_path, filen, ratio_file) {
   cat ("generating ", d, filen, ratio_file, "\n")
-  full_iplan_file <- "/tmp/full_iplan-csv"
-  prediction_file <- "/tmp/predictions.csv"
+  full_iplan_file <- paste0("/tmp/", d, "-full-iplan-", filen)
+  prediction_file <- paste0("/tmp/", d, "-predictions-", filen)
   
   generate_full_iplan(ymd("2020-01-01"), d, duration, pre_file, file_path, full_iplan_file)
   
   
-  call_string <- paste0("python3 standard_predictor/predict.py -s ", d, " -e ", d+duration,
-                        " -ip ", full_iplan_file, " -o ", prediction_file)
+  # call_string <- paste0("python3 standard_predictor/predict.py -s ", d, " -e ", d+duration,
+  #                       " -ip ", full_iplan_file, " -o ", prediction_file)
   
-  cat(call_string)
+  call_string <- paste0("bash ./run-predict.sh ", d, d+duration, full_iplan_file, prediction_file)
+  cat(call_string, "\n")
   
   system(call_string)
   
