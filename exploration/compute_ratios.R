@@ -15,8 +15,8 @@ vectors_folder <- "./ips-vectors-aux/"
 ratios_folder <- "./ips-ratios/"
 #start_date <- ymd("2020-03-01")
 #end_date <- ymd("2021-02-28")
-#start_date <- ymd("2020-07-01")
-#end_date <- ymd("2020-07-18")
+start_date <- ymd("2020-07-01")
+end_date <- ymd("2020-07-18")
 step_lenght <- 7
 duration <- 30
 pre_file <- "./IPS-latest-full.csv"
