@@ -89,10 +89,21 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
     country <- df[i,CountryName]
     region <- df[i,RegionName]
     dfc <- dfp[(dfp$CountryName == country) & (dfp$RegionName == region),]
-    dfc$daily_ratio <- dfc$PredictedDailyNewCases/lag(dfc$PredictedDailyNewCases,1)
-    dfc$daily_ratio[is.na(dfc$daily_ratio)] <- 0
+    
+    dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
+    dfc$avgcases7days_ratio <- dfc$avgcases7days/lag(dfc$avgcases7days,1)
+    dfc$avgcases7days_ratio[is.na(dfc$avgcases7days_ratio)] <- 0
+    
     n <- nrow(dfc)
-    df[i,avg_ratio] <- mean(dfc$daily_ratio[(n-duration+1):n])
+    dfc$avg_ratio <- mean(dfc$avgcases7days_ratio[(n-duration+1):n])
+    dfc$sd_ratio <- sd(dfc$avgcases7days_ratio[(n-duration+1):n])
+    dfc$ratio15days <- dfc$avgcases7days[n] / dfc$avgcases7days[n-14]
+    dfc$ratio15days[is.na(dfc$ratio15days)] <- 0
+    
+    
+    df[i,avg_ratio] <- dfc$avg_ratio
+    df[i,sd_ratio] <- dfc$sd_ratio
+    df[i,ratio15days] <- dfc$ratio15days
   }
   
   df <- df[order(df$CountryName,df$RegionName,df$Date),]
