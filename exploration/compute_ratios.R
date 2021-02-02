@@ -7,7 +7,7 @@ library(stringr)
 library(data.table)
 library(lubridate)
 library(tidyverse)
-library(reticulate) # To use Python
+#library(reticulate) # To use Python
 #library(R0) # reproductive number
 
 # vectors_folder <- "./ips-vectors/"
@@ -79,6 +79,7 @@ generate_full_iplan <- function(start_date, mid_date, duration,
 
 compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
   df <- read.csv(file_path, check.names = FALSE)
+  print(paste("filepath",file_path))
   df$RegionName[is.na(df$RegionName)] <- ""
   df$avg_ratio <- 0
   
@@ -86,8 +87,8 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
   
   n <- nrow(df)
   for (i in 1:n) {
-    country <- df[i,CountryName]
-    region <- df[i,RegionName]
+    country <- df[i,"CountryName"]
+    region <- df[i,"RegionName"]
     dfc <- dfp[(dfp$CountryName == country) & (dfp$RegionName == region),]
     
     dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
@@ -100,10 +101,11 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
     dfc$ratio15days <- dfc$avgcases7days[n] / dfc$avgcases7days[n-14]
     dfc$ratio15days[is.na(dfc$ratio15days)] <- 0
     
-    
-    df[i,avg_ratio] <- dfc$avg_ratio
-    df[i,sd_ratio] <- dfc$sd_ratio
-    df[i,ratio15days] <- dfc$ratio15days
+    print (nrow(df))
+    print (nrow(dfc))
+    df[i,"avg_ratio"] <- dfc$avg_ratio
+    df[i,"sd_ratio"] <- dfc$sd_ratio
+    df[i,"ratio15days"] <- dfc$ratio15days
   }
   
   df <- df[order(df$CountryName,df$RegionName,df$Date),]
@@ -121,7 +123,7 @@ generate_ratio_file <- function(d, duration, file_path, filen, ratio_file) {
   # call_string <- paste0("python3 standard_predictor/predict.py -s ", d, " -e ", d+duration,
   #                       " -ip ", full_iplan_file, " -o ", prediction_file)
   
-  call_string <- paste0("bash ./run-predict.sh ", d, d+duration, full_iplan_file, prediction_file)
+  call_string <- paste("bash ./run-predict.sh ", d, d+duration, full_iplan_file, prediction_file)
   cat(call_string, "\n")
   
   system(call_string)
