@@ -148,7 +148,7 @@ generate_ratio_file <- function(d, duration, file_path, filen, ratio_file) {
     compute_ratios(d, d+duration, ratio_file, prediction_file, file_path)
   },
   error=function(cond) {
-    print("error for date "+d)
+    print(paste("error for date ",d))
     message("cond")
   })
 }
