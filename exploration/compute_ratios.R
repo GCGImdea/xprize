@@ -142,10 +142,15 @@ generate_ratio_file <- function(d, duration, file_path, filen, ratio_file) {
   
   call_string <- paste("bash ./run-predict.sh ", d, d+duration, full_iplan_file, prediction_file)
   cat(call_string, "\n")
+  tryCatch({
+    system(call_string)
   
-  system(call_string)
-  
-  compute_ratios(d, d+duration, ratio_file, prediction_file, file_path)
+    compute_ratios(d, d+duration, ratio_file, prediction_file, file_path)
+  },
+  error=function(cond) {
+    print("error for date "+d)
+    message("cond")
+  })
 }
   
   
