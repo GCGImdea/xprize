@@ -1,4 +1,19 @@
-# Copyright 2021 (c) R.A. García Leiva (rafael.garcia@imdea.org). IMDEA Networks Institute.
+# Copyright 2021 (c) IMDEA Networks Institute.
+
+#
+# Loss function
+#
+# num_periods = int( np.ceil( (end_date - start_date) / ACTION_DURATION ) )
+#
+# MAX_COST  = 12 * 4 / 2
+# MAX_CASES = (population / 10000) * 10 * (end_date - start_date)
+#
+# total_cost = sum_regions sum_periods inner_product (costs_region * candidate_policy)
+# total_pred = sum_regions sum_days cases
+#
+# rel_cost  = total_cost / MAX_COST  / num_regions
+# rel_cases = total_pred / MAX_CASES / num_regions
+#
 
 import argparse
 
@@ -23,13 +38,11 @@ IP_COLS = ['C1_School closing',
            'H6_Facial Coverings']
 
 ACTION_DURATION  = 15 # Duration of the policies in days
-MAX_NUM_POLICIES = 24 # Maximun number of policies considered for each region
 
-# TODO: Replace with the location at sandbox
-predictor       = "/home/rleiva/Projects/Covid19/covid-xprize-1.1.2/covid_xprize/standard_predictor/predict.py"
-new_ip_file     = "/home/rleiva/Projects/Covid19/data/new_ip.csv"
-threshold_file  = "/home/rleiva/Projects/Covid19/data/dance_threshold50.csv"
-tmp_output_file = "/home/rleiva/Projects/Covid19/data/tmp_output_file"
+regions_file    = "countries_regions.csv"
+threshold_file  = "dance_threshold50.csv"
+ratios_file     = "ratios.csv"
+num_cases_file  = "numcases.csv"
 
 def prescribe(start_date_str: str,
               end_date_str: str,
@@ -38,21 +51,19 @@ def prescribe(start_date_str: str,
               output_file_path) -> None:
 
     # Compute prescription time
-    start_date = pd.to_datetime(start_date_str, format='%Y-%m-%d')
-    end_date   = pd.to_datetime(end_date_str,   format='%Y-%m-%d')
-    delta      = end_date - start_date
-    num_periods = int( np.ceil( (delta.days) / ACTION_DURATION ) )
-    MAX_COST = 12 * 4 * num_periods / 2
+    start_date  = pd.to_datetime(start_date_str, format='%Y-%m-%d')
+    end_date    = pd.to_datetime(end_date_str,   format='%Y-%m-%d')
+    num_days    = (end_date - start_date).days
+    num_periods = int( np.ceil( (num_days) / ACTION_DURATION ) )
 
-    # Load the past IPs data
-    past_ips_df = pd.read_csv(path_to_prior_ips_file,
-                              parse_dates=['Date'],
-                              encoding="ISO-8859-1",
-                              error_bad_lines=False)
-    final_prescriptions = past_ips_df.copy()    # DF to store results
-    past_ips_df['RegionName'] = past_ips_df['RegionName'].fillna("")
-    past_ips_df['GeoID'] = past_ips_df['CountryName'] + '__' + past_ips_df['RegionName'].astype(str)
-    geos = past_ips_df['GeoID'].unique()
+    # Maximum cost per day
+    MAX_COST = 12 * 4 / 2
+
+    # Load list of regions
+    regions_df = pd.read_csv(regions_file)
+    regions_df['RegionName'] = regions_df['RegionName'].fillna("")
+    regions_df['GeoID'] = regions_df['CountryName'] + '__' + regions_df['RegionName'].astype(str)
+    geos = regions_df['GeoID'].unique()
 
     # Load IP costs to condition prescriptions
     cost_df = pd.read_csv(path_to_cost_file)
@@ -64,23 +75,33 @@ def prescribe(start_date_str: str,
         cost_arr = np.array(costs[IP_COLS])[0]
         geo_costs[geo] = cost_arr
 
-    # Compute past policies for all regions
+    # Load ratios data
+    ratios_df = pd.read_csv(ratios_file)
+    ratios_df['RegionName'] = ratios_df['RegionName'].fillna("")
+    ratios_df['GeoID'] = ratios_df['CountryName'] + '__' + ratios_df['RegionName'].astype(str)
+
+    # Compute simulated policies for all regions
+    # TODO: Deal with contradictory entries
     geo_policies = {}
     for geo in geos:
-        # Rank list of used policies
-        ips      = np.array(past_ips_df[past_ips_df['GeoID'] == geo][IP_COLS])
+        # Rank list of simulated policies
+        ips      = np.array(ratios_df[ratios_df['GeoID'] == geo][IP_COLS])
         policies = np.unique(ips, axis=0)
         costs    = geo_costs[geo]
         order    = np.dot(policies, np.transpose(costs)).flatten()
         order    = np.argsort(order)
         policies = policies[order]
+        ratios   = np.array(ratios_df[ratios_df['GeoID'] == geo]["avg_ratio"])
+        ratios   = ratios[order]
+        geo_policies[geo] = {"policies" : policies,
+                             "ratios"   : ratios}
 
-        # Repeat the last policy if needed
-        if policies.shape[0] < MAX_NUM_POLICIES:
-            diff = MAX_NUM_POLICIES - policies.shape[0]
-            policies = np.vstack((policies, [policies[-1,:]]*diff))        
-
-        geo_policies[geo] = policies
+    # print("N. Policies:", len(geo_policies))
+    # print("Policy: ", geo_policies["Afghanistan__"]["policies"][0])
+    # print("Ratio: ",  geo_policies["Afghanistan__"]["ratios"][0])
+    # print("Policy: ", geo_policies["Afghanistan__"]["policies"][-1])
+    # print("Ratio: ",  geo_policies["Afghanistan__"]["ratios"][-1])
+    # return
 
     # Compute MAX_CASES for all regions
     threshold_df  = pd.read_csv(threshold_file)
@@ -93,44 +114,55 @@ def prescribe(start_date_str: str,
             population = threshold_df[(threshold_df["CountryName"] == country_name)]["population"].values[0]
         else:
             population = threshold_df[(threshold_df["CountryName"] == country_name) & (threshold_df["RegionName"] == region_name)]["population"].values[0]           
-        MAX_CASES = (population / 10000) * 50 * delta.days
+        MAX_CASES = (population / 10000) * 10
         geo_max_cases[geo] = MAX_CASES
 
+    # Load current cases
+    cases_df = pd.read_csv(num_cases_file, parse_dates=['Date'])
+    cases_df['RegionName'] = cases_df['RegionName'].fillna("")
+    cases_df['GeoID'] = cases_df['CountryName'] + '__' + cases_df['RegionName'].astype(str)
+    geo_cases = {}
+    for geo in geos:
+        cases = cases_df[(cases_df['GeoID'] == "Afghanistan__") & (cases_df['Date'] == "2020-08-01")]['PredictedDailyNewCases'].values[0]
+        geo_cases[geo] = cases
+
     # TODO: Only used for debugging, remove from production
-    results = pd.DataFrame(columns=["Period", "Policy", "Cost", "Cases"])
+    results = pd.DataFrame(columns=["Region", "Period", "Policy", "Cost", "Cases"])
 
-    best_cost     = np.inf
-    best_policies = [0, 0, 0, 0, 0, 0]
-
-    # For every period
-    for period_id in np.arange(num_periods):
+    # For every geographical region
+    for geo in geos:
 
         # TODO: Remove from production
-        print("Processing period:", period_id)
+        print("Processing region:", geo)
 
-        # For every policy
-        for policy_id in np.arange(MAX_NUM_POLICIES):
+        country_name = geo.split("__")[0]
+        region_name  = geo.split("__")[1]
+
+         # Ranked list of used policies and their rate
+        policies = geo_policies[geo]["policies"]
+        ratios   = geo_policies[geo]["ratios"]
+
+        # Cases for this region
+        num_cases = geo_cases[geo]
+        MAX_CASES = geo_max_cases[geo]
+
+        # For every period
+        for period_id in np.arange(num_periods):
 
             # TODO: Remove from production
-            print("    Processing policy:", policy_id)
+            print("    Processing period:", period_id)
 
-            total_cost = 0
-            new_prescriptions = past_ips_df.copy()
+            best_cost     = np.inf
+            best_policies = [0] * num_periods
 
-            # For each geographical region
-            for geo in geos:
+            # For every policy
+            for policy_id in np.arange(len(policies)):
 
                 # TODO: Remove from production
-                print("        Processing region:", geo)
+                print("        Processing policy:", policy_id)
 
-                country_name = geo.split("__")[0]
-                region_name  = geo.split("__")[1]
-
-                # Ranked list of used policies
-                policies = geo_policies[geo]
-
-                # Maximum number of cases for this region
-                MAX_CASES = geo_max_cases[geo]
+                total_cost  = 0
+                total_cases = 0
 
                 # Compute candidate policy
                 candidate_policies            = best_policies.copy()
@@ -138,80 +170,39 @@ def prescribe(start_date_str: str,
 
                 # Compute total costs of measures
                 costs = geo_costs[geo]
-                for pid in np.arange(6):
+                for pid in np.arange(num_periods):
                     policy = policies[candidate_policies[pid]]
                     tmp    = np.dot(costs, policy)
                     tmp    = np.sum(tmp)
-                    total_cost = total_cost + tmp
+                    total_cost = total_cost + tmp * ACTION_DURATION
                     
-                # Upate the intervention plan
+                # Compute total number of cases
+                for pid in np.arange(num_periods):
+                    rate = ratios[candidate_policies[pid]]
+                    tmp  = rate ** ACTION_DURATION
+                    tmp  = rate * num_cases
+                    total_cases = total_cases + tmp
 
-                current_date = start_date
+                rel_cost  = total_cost / MAX_COST /  len(geos)
+                rel_cases = total_cases / MAX_CASES / len(geos)
+
+                # Arithmetic mean
+                fitness = (rel_cost + rel_cases) / 2
         
-                # For each period
-                for i in np.arange(num_periods):
-            
-                    policy = policies[candidate_policies[i]]
-            
-                    # For each day
-                    for j in np.arange(ACTION_DURATION):
-
-                        tmp_df = pd.DataFrame({
-                            'CountryName'                          : country_name,
-                            'RegionName'                           : region_name,
-                            'Date'                                 : current_date.strftime("%Y-%m-%d"),
-                            'C1_School closing'                    : policy[0],
-                            'C2_Workplace closing'                 : policy[1],
-                            'C3_Cancel public events'              : policy[2],
-                            'C4_Restrictions on gatherings'        : policy[3],
-                            'C5_Close public transport'            : policy[4],
-                            'C6_Stay at home requirements'         : policy[5],
-                            'C7_Restrictions on internal movement' : policy[6],
-                            'C8_International travel controls'     : policy[7],
-                            'H1_Public information campaigns'      : policy[8],
-                            'H2_Testing policy'                    : policy[9],
-                            'H3_Contact tracing'                   : policy[10],
-                            'H6_Facial Coverings'                  : policy[11]
-                        }, index=[0])
-                
-                        new_prescriptions = pd.concat([new_prescriptions, tmp_df], ignore_index=True)
-                
-                        current_date = current_date + timedelta(days=1)        
-                
-            # Save prescription plan 
-            new_prescriptions.to_csv(new_ip_file, index=False)
-
-            # Make predictions
-            predict = "python " + predictor + " -s " + start_date.strftime("%Y-%m-%d") + " -e " + end_date.strftime("%Y-%m-%d") + " -ip " + new_ip_file + " -o " + tmp_output_file
-            os.system(predict)
-
-            # Load predictions
-            predict_df  = pd.read_csv(tmp_output_file)
-            predictions = np.array(predict_df["PredictedDailyNewCases"])
-            total_pred  = np.sum(predictions)
+                # TODO: Remove in production
+                print("    Period:", period_id, "Policy:", policy_id, "Cost:", rel_cost, "Cases:", rel_cases, "Fitness:", fitness)                        
         
-            rel_cost  = total_cost / MAX_COST / len(geos)
-            rel_cases = total_pred / MAX_CASES / len(geos)
-
-            # Arithmetic mean
-            fitness = (rel_cost + rel_cases) / 2
-        
-            # TODO: Remove in production
-            print("    Period:", period_id, "Policy:", policy_id, "Cost:", rel_cost, "Cases:", rel_cases, "Fitness:", fitness)                        
-        
-            if fitness < best_cost:
-                best_cost = fitness 
-                best_policies = candidate_policies.copy()
-            else:
-                # Early stop
-                break
+                if fitness < best_cost:
+                    best_cost = fitness 
+                    best_policies = candidate_policies.copy()
                     
             # TODO: Only used for debugging, remove from production
             tmp_df = pd.DataFrame({
+                    'Region' : geo,
                     'Period' : period_id,
                     'Policy' : policy_id,
                     'Cost'   : total_cost,
-                    'Cases'  : total_pred
+                    'Cases'  : total_cases
             }, index=[0])
         
             # TODO: Only used for debugging, remove from production
@@ -294,4 +285,3 @@ if __name__ == '__main__':
     print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
     prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
     print("Done!")
-
