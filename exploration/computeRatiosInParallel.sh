@@ -19,6 +19,6 @@ done
 
 
 for n in `seq 1 $NUMINSTANCES`; do
-    Rscript compute_ratios.R ./ipsv-$n/
+    Rscript compute_ratios.R ./ipsv-$n/ >ipsv-$n.out 2>&1 &
 
 done
