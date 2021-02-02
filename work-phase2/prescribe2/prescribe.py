@@ -1,28 +1,11 @@
 # Copyright 2021 (c) IMDEA Networks Institute.
 
-#
-# Loss function
-#
-# num_periods = int( np.ceil( (end_date - start_date) / ACTION_DURATION ) )
-#
-# MAX_COST  = 12 * 4 / 2
-# MAX_CASES = (population / 10000) * 10 * (end_date - start_date)
-#
-# total_cost = sum_regions sum_periods inner_product (costs_region * candidate_policy)
-# total_pred = sum_regions sum_days cases
-#
-# rel_cost  = total_cost / MAX_COST  / num_regions
-# rel_cases = total_pred / MAX_CASES / num_regions
-#
-
 import argparse
 
 import numpy  as np
 import pandas as pd
 
-from datetime import date, timedelta
-
-import os
+from datetime import timedelta
 
 IP_COLS = ['C1_School closing',
            'C2_Workplace closing',
@@ -37,13 +20,16 @@ IP_COLS = ['C1_School closing',
            'H3_Contact tracing',
            'H6_Facial Coverings']
 
-ACTION_DURATION  = 15 # Duration of the policies in days
+PRESCRIPTION_INDEX = 2 # Prescriptor identifier
+ACTION_DURATION    = 15 # Duration of the policies in days
 
+# Required files in local directory
 regions_file    = "countries_regions.csv"
 threshold_file  = "dance_threshold50.csv"
 ratios_file     = "ratios.csv"
 num_cases_file  = "numcases.csv"
 
+# Prescriptor
 def prescribe(start_date_str: str,
               end_date_str: str,
               path_to_prior_ips_file: str,
@@ -79,14 +65,13 @@ def prescribe(start_date_str: str,
     ratios_df = pd.read_csv(ratios_file)
     ratios_df['RegionName'] = ratios_df['RegionName'].fillna("")
     ratios_df['GeoID'] = ratios_df['CountryName'] + '__' + ratios_df['RegionName'].astype(str)
+    ratios_df = ratios_df[~ratios_df.drop(columns=["avg_ratio", "sd_ratio", "ratio15days"]).duplicated()]
 
     # Compute simulated policies for all regions
-    # TODO: Deal with contradictory entries
     geo_policies = {}
     for geo in geos:
         # Rank list of simulated policies
-        ips      = np.array(ratios_df[ratios_df['GeoID'] == geo][IP_COLS])
-        policies = np.unique(ips, axis=0)
+        policies = np.array(ratios_df[ratios_df['GeoID'] == geo][IP_COLS])
         costs    = geo_costs[geo]
         order    = np.dot(policies, np.transpose(costs)).flatten()
         order    = np.argsort(order)
@@ -95,13 +80,6 @@ def prescribe(start_date_str: str,
         ratios   = ratios[order]
         geo_policies[geo] = {"policies" : policies,
                              "ratios"   : ratios}
-
-    # print("N. Policies:", len(geo_policies))
-    # print("Policy: ", geo_policies["Afghanistan__"]["policies"][0])
-    # print("Ratio: ",  geo_policies["Afghanistan__"]["ratios"][0])
-    # print("Policy: ", geo_policies["Afghanistan__"]["policies"][-1])
-    # print("Ratio: ",  geo_policies["Afghanistan__"]["ratios"][-1])
-    # return
 
     # Compute MAX_CASES for all regions
     threshold_df  = pd.read_csv(threshold_file)
@@ -123,17 +101,18 @@ def prescribe(start_date_str: str,
     cases_df['GeoID'] = cases_df['CountryName'] + '__' + cases_df['RegionName'].astype(str)
     geo_cases = {}
     for geo in geos:
-        cases = cases_df[(cases_df['GeoID'] == "Afghanistan__") & (cases_df['Date'] == "2020-08-01")]['PredictedDailyNewCases'].values[0]
+        cases = cases_df[(cases_df['GeoID'] == geo) & (cases_df['Date'] == start_date_str)]['PredictedDailyNewCases'].values[0]
         geo_cases[geo] = cases
 
-    # TODO: Only used for debugging, remove from production
-    results = pd.DataFrame(columns=["Region", "Period", "Policy", "Cost", "Cases"])
+    # Final data frame
+    final_prescriptions = pd.DataFrame(columns=['CountryName', 'RegionName', 'Date', 'C1_School closing', 'C2_Workplace closing',
+                                                'C3_Cancel public events', 'C4_Restrictions on gatherings', 'C5_Close public transport',
+                                                'C6_Stay at home requirements', 'C7_Restrictions on internal movement',
+                                                'C8_International travel controls', 'H1_Public information campaigns',
+                                                'H2_Testing policy', 'H3_Contact tracing', 'H6_Facial Coverings', 'PrescriptionIndex'])
 
     # For every geographical region
     for geo in geos:
-
-        # TODO: Remove from production
-        print("Processing region:", geo)
 
         country_name = geo.split("__")[0]
         region_name  = geo.split("__")[1]
@@ -149,17 +128,11 @@ def prescribe(start_date_str: str,
         # For every period
         for period_id in np.arange(num_periods):
 
-            # TODO: Remove from production
-            print("    Processing period:", period_id)
-
-            best_cost     = np.inf
+            best_fitness  = np.inf
             best_policies = [0] * num_periods
 
             # For every policy
             for policy_id in np.arange(len(policies)):
-
-                # TODO: Remove from production
-                print("        Processing policy:", policy_id)
 
                 total_cost  = 0
                 total_cases = 0
@@ -177,75 +150,56 @@ def prescribe(start_date_str: str,
                     total_cost = total_cost + tmp * ACTION_DURATION
                     
                 # Compute total number of cases
+                local_cases = num_cases
                 for pid in np.arange(num_periods):
                     rate = ratios[candidate_policies[pid]]
-                    tmp  = rate ** ACTION_DURATION
-                    tmp  = rate * num_cases
-                    total_cases = total_cases + tmp
+                    for j in np.arange(ACTION_DURATION):
+                        local_cases = local_cases * rate
+                        total_cases = total_cases + local_cases
 
-                rel_cost  = total_cost / MAX_COST /  len(geos)
-                rel_cases = total_cases / MAX_CASES / len(geos)
+                rel_cost  = total_cost  / num_days / MAX_COST
+                rel_cases = total_cases / num_days / MAX_CASES 
 
                 # Arithmetic mean
                 fitness = (rel_cost + rel_cases) / 2
-        
-                # TODO: Remove in production
-                print("    Period:", period_id, "Policy:", policy_id, "Cost:", rel_cost, "Cases:", rel_cases, "Fitness:", fitness)                        
-        
-                if fitness < best_cost:
-                    best_cost = fitness 
+                
+                if fitness < best_fitness:
+                    best_fitness = fitness 
                     best_policies = candidate_policies.copy()
                     
-            # TODO: Only used for debugging, remove from production
-            tmp_df = pd.DataFrame({
-                    'Region' : geo,
-                    'Period' : period_id,
-                    'Policy' : policy_id,
-                    'Cost'   : total_cost,
-                    'Cases'  : total_cases
-            }, index=[0])
-        
-            # TODO: Only used for debugging, remove from production
-            results = pd.concat([results, tmp_df], ignore_index=True)
-
         # Save optimal results
-        for geo in geos:
+        
+        current_date = start_date
 
-            country_name = geo.split("__")[0]
-            region_name  = geo.split("__")[1]
-            current_date = start_date
-
-            for i in np.arange(num_periods):
+        for i in np.arange(num_periods):
             
-                policy = policies[best_policies[i]]
+            policy = policies[best_policies[i]]
             
-                # For each day
-                for j in np.arange(ACTION_DURATION):
+            # For each day
+            for j in np.arange(ACTION_DURATION):
 
-                    tmp_df = pd.DataFrame({
-                        'CountryName'                          : country_name,
-                        'RegionName'                           : region_name,
-                        'Date'                                 : current_date.strftime("%Y-%m-%d"),
-                        'C1_School closing'                    : policy[0],
-                        'C2_Workplace closing'                 : policy[1],
-                        'C3_Cancel public events'              : policy[2],
-                        'C4_Restrictions on gatherings'        : policy[3],
-                        'C5_Close public transport'            : policy[4],
-                        'C6_Stay at home requirements'         : policy[5],
-                        'C7_Restrictions on internal movement' : policy[6],
-                        'C8_International travel controls'     : policy[7],
-                        'H1_Public information campaigns'      : policy[8],
-                        'H2_Testing policy'                    : policy[9],
-                        'H3_Contact tracing'                   : policy[10],
-                        'H6_Facial Coverings'                  : policy[11]
-                    }, index=[0])
+                tmp_df = pd.DataFrame({
+                    'CountryName'                          : country_name,
+                    'RegionName'                           : region_name,
+                    'Date'                                 : current_date.strftime("%Y-%m-%d"),
+                    'C1_School closing'                    : policy[0],
+                    'C2_Workplace closing'                 : policy[1],
+                    'C3_Cancel public events'              : policy[2],
+                    'C4_Restrictions on gatherings'        : policy[3],
+                    'C5_Close public transport'            : policy[4],
+                    'C6_Stay at home requirements'         : policy[5],
+                    'C7_Restrictions on internal movement' : policy[6],
+                    'C8_International travel controls'     : policy[7],
+                    'H1_Public information campaigns'      : policy[8],
+                    'H2_Testing policy'                    : policy[9],
+                    'H3_Contact tracing'                   : policy[10],
+                    'H6_Facial Coverings'                  : policy[11],
+                    'PrescriptionIndex'                    : PRESCRIPTION_INDEX
+                }, index=[0])
                 
-                    final_prescriptions = pd.concat([final_prescriptions, tmp_df], ignore_index=True)
+                final_prescriptions = pd.concat([final_prescriptions, tmp_df], ignore_index=True)
                 
-                    current_date = current_date + timedelta(days=1)
-
-    # TODO: Only used for debugging, remove from production
-    results.to_csv("/home/rleiva/Projects/Covid19/data/results.csv", header=True, index=False)
+                current_date = current_date + timedelta(days=1)
 
     # Save final predictions
     final_prescriptions.to_csv(output_file_path, header=True, index=False)
