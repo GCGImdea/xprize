@@ -9,9 +9,20 @@ library(lubridate)
 library(tidyverse)
 #library(reticulate) # To use Python
 #library(R0) # reproductive number
+# Parse the arguments
+args = commandArgs(trailingOnly=TRUE)
+# test if there is at least one argument: if not, return an error
+if (length(args)==0) {
+  vectors_folder <- "./ips-vectors/"
+} else {
+  vectors_folder <- args[1]
+}
+
+print(vectors_folder)
+quit()
 
 # vectors_folder <- "./ips-vectors/"
-vectors_folder <- "./ips-vectors-aux/"
+#vectors_folder <- "./ips-vectors/"
 ratios_folder <- "./ips-ratios/"
 #start_date <- ymd("2020-03-01")
 #end_date <- ymd("2021-02-28")
