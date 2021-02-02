@@ -16,7 +16,7 @@ ratios_folder <- "./ips-ratios/"
 #start_date <- ymd("2020-03-01")
 #end_date <- ymd("2021-02-28")
 start_date <- ymd("2020-07-01")
-end_date <- ymd("2020-07-18")
+end_date <- ymd("2020-07-08")
 step_lenght <- 7
 duration <- 30
 pre_file <- "./IPS-latest-full.csv"
@@ -86,11 +86,13 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
   df$avg_ratio <- 0
   
   dfp <- read.csv(prediction_file)
+  dfp$RegionName[is.na(dfp$RegionName)] <- ""
   
   n <- nrow(df)
   for (i in 1:n) {
     country <- df[i,"CountryName"]
     region <- df[i,"RegionName"]
+    
     dfc <- dfp[(dfp$CountryName == country) & (dfp$RegionName == region),]
     
     dfc$avgcases7days <- frollmean(dfc$PredictedDailyNewCases, 7)
@@ -98,16 +100,18 @@ compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
     dfc$avgcases7days_ratio[is.na(dfc$avgcases7days_ratio)] <- 0
     
     m <- nrow(dfc)
-    dfc$avg_ratio <- mean(dfc$avgcases7days_ratio[(m-duration+1):n])
-    dfc$sd_ratio <- sd(dfc$avgcases7days_ratio[(m-duration+1):n])
-    dfc$ratio15days <- dfc$avgcases7days[m] / dfc$avgcases7days[n-14]
-    dfc$ratio15days[is.na(dfc$ratio15days)] <- 0
     
-    print (nrow(df))
-    print (nrow(dfc))
-    df[i,"avg_ratio"] <- dfc$avg_ratio[1]
-    df[i,"sd_ratio"] <- dfc$sd_ratio[1]
-    df[i,"ratio15days"] <- dfc$ratio15days[1]
+    dfc$avg_ratio <- mean(dfc$avgcases7days_ratio[8:m])
+    dfc$sd_ratio <- sd(dfc$avgcases7days_ratio[8:m])
+    dfc$ratio15days <- dfc$avgcases7days[m] / dfc$avgcases7days[m-14]
+    dfc$ratio15days[is.na(dfc$ratio15days)] <- 0
+    print ("DFC follows")
+    print (dfc)
+    #print (nrow(df))
+    #print (dfc)
+    df[i,"avg_ratio"] <- dfc$avg_ratio[m]
+    df[i,"sd_ratio"] <- dfc$sd_ratio[m]
+    df[i,"ratio15days"] <- dfc$ratio15days[m]
   }
   
   df <- df[order(df$CountryName,df$RegionName,df$Date),]
