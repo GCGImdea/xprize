@@ -3,7 +3,7 @@ prescribe0: returns all levels to 0 (dance) all days
 * prescribe2: greedy algorithm
 prescribe3: returns maximum levels for 30 days (hammer) and then all levels to 0 (dance)
 prescribe4: returns all maximum levels (hammer) all days
-* prescribe5: returns maximum levels (hammer) until the number of cases drops below a threshold and then all levels to 0 (dance)
+prescribe5: returns the plan with smallest daily ratio (from ratios.csv) for 30 days and then all levels to 0 (dance)
 * prescribe6: has a placeholder
 * prescribe7: has a placeholder
 * prescribe8: has a placeholder
