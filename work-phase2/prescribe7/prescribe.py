@@ -62,7 +62,24 @@ def prescribe(start_date_str: str,
         geo_costs[geo] = cost_arr
 
     # Load ratios data
-    ratios_df = pd.read_csv(ratios_file)
+    ratios_df = pd.read_csv(ratios_file, dtype={'CountryName'                           : str,
+                                                'RegionName'                           : str,
+                                                'Date'                                 : object,
+                                                'C1_School closing'                    : int,
+                                                'C2_Workplace closing'                 : int,
+                                                'C3_Cancel public events'              : int,
+                                                'C4_Restrictions on gatherings'        : int,
+                                                'C5_Close public transport'            : int,
+                                                'C6_Stay at home requirements'         : int,
+                                                'C7_Restrictions on internal movement' : int,
+                                                'C8_International travel controls'     : int,
+                                                'H1_Public information campaigns'      : int,
+                                                'H2_Testing policy'                    : int,
+                                                'H3_Contact tracing'                   : int,
+                                                'H6_Facial Coverings'                  : int,
+                                                'avg_ratio'                            : float,
+                                                'sd_ratio'                             : float,
+                                                'ratio15days'                          : float} )
     ratios_df['RegionName'] = ratios_df['RegionName'].fillna("")
     ratios_df['GeoID'] = ratios_df['CountryName'] + '__' + ratios_df['RegionName'].astype(str)
     ratios_df = ratios_df[~ratios_df.drop(columns=["avg_ratio", "sd_ratio", "ratio15days"]).duplicated()]
