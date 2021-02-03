@@ -92,8 +92,8 @@ def prescribe(start_date_str: str,
             population = threshold_df[(threshold_df["CountryName"] == country_name)]["population"].values[0]
         else:
             population = threshold_df[(threshold_df["CountryName"] == country_name) & (threshold_df["RegionName"] == region_name)]["population"].values[0]           
-        # MAX_CASES = (population / 10000) * 10
-        MAX_CASES = (population / 10000) * 50
+        MAX_CASES = (population / 10000) * 10
+        # MAX_CASES = (population / 10000) * 50
         geo_max_cases[geo] = MAX_CASES
 
     # Load current cases
