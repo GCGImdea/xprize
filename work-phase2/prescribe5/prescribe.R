@@ -7,12 +7,12 @@ library(tidyverse)
 args <- commandArgs(trailingOnly = T)
 script_path <- args[6]
 
-cat("Arguments:", args, "\n")
-
-if (length(args) < 5) {
-  cat("usage: command start_date end_date ips_file cost_file output_file\n")
-  quit(save="no")
-}
+# cat("Arguments:", args, "\n")
+# 
+# if (length(args) < 5) {
+#   cat("usage: command start_date end_date ips_file cost_file output_file\n")
+#   quit(save="no")
+# }
 
 start_date <- as.Date(args[1])
 end_date <- as.Date(args[2])
@@ -30,12 +30,14 @@ process_country_region <- function(regiondf, ratios, dfdance, costs) {
   country <- regiondf$CountryName[1]
   region <- regiondf$RegionName[1]
   
-  cat("\n working on ", country, region, "\n")
+  # cat("\n working on ", country, region, "\n")
   
-  dfr <- ratios[(ratios$CountryName == country) & (ratios$RegionName == region),]
-  dfd <- dfdance[(dfdance$CountryName == country),] # & (dfdance$RegionName == region),]
-  dfd <- dfd[(dfd$RegionName == region),]
-  dfcost <- costs[(costs$CountryName == country) & (costs$RegionName == region),]
+  dfr <- ratios[(ratios$CountryName == country) & 
+                  (as.character(ratios$RegionName) == as.character(region)),]
+  dfd <- dfdance[(dfdance$CountryName == country) & 
+                   (as.character(dfdance$RegionName) == as.character(region)),]
+  dfcost <- costs[(costs$CountryName == country) & 
+                    (as.character(costs$RegionName) == as.character(region)),]
   
   # Computes the cost of the vectors
   for (i in 1:nrow(dfr)) {
