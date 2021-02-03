@@ -10,12 +10,12 @@ hammer_file <- file.path(script_path, "hammer_full.csv")
 dance_file <- file.path(script_path, "dance_full.csv")
 hammer_length <- 45 # days
 
-cat("Arguments:", args, "\n")
-
-if (length(args) < 5) {
-  cat("usage: command start_date end_date ips_file cost_file output_file\n")
-  quit(save="no")
-}
+# cat("Arguments:", args, "\n")
+# 
+# if (length(args) < 5) {
+#   cat("usage: command start_date end_date ips_file cost_file output_file\n")
+#   quit(save="no")
+# }
 
 start_date <- as.Date(args[1])
 end_date <- as.Date(args[2])
