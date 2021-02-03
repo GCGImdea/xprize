@@ -3,9 +3,10 @@ import os
 import argparse
 import subprocess
 import re
+import time
 
 sys.path.append(os.path.expanduser("~/work/logger"))
-import named_log
+import utils
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -38,6 +39,7 @@ if __name__ == '__main__':
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
 
+    start = time.time()
 
     rScriptFile, ext = os.path.splitext(sys.argv[0])
     rScriptFile += ".R"
@@ -47,7 +49,7 @@ if __name__ == '__main__':
     if len(matches) > 0:
         log_name = matches[0]
 
-    logger = named_log.named_log(str(log_name))
+    logger = utils.named_log(str(log_name))
 
     rScriptFile, ext = os.path.splitext(sys.argv[0])
     rScriptFile += ".R"
@@ -75,3 +77,5 @@ if __name__ == '__main__':
         raise
     else:
         logger.info("Successfully executed %s", os.path.realpath(__file__))
+
+    logger.info("Duration: %s seconds", utils.secondsToStr(time.time() - start))

@@ -155,8 +155,8 @@ if __name__ == '__main__':
         else:
             continue
 
-        if precription_index == 0:
-            precription_index = 10
+        #if precription_index == 0:
+        #    precription_index = 10
 
         logging.info(f'Launching prescriptor [{p}] from {args.start_date} to {args.end_date}')
 
