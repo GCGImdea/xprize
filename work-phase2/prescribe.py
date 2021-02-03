@@ -9,6 +9,8 @@ import time
 import json
 import re
 
+sys.path.append(os.path.expanduser("~/work/logger"))
+import utils
 
 ##########################################################################################
 
@@ -19,12 +21,6 @@ subprocess_timeout = 19800 # 5.5 hours in seconds
 bin_path = os.path.join('usr', 'bin')
 opt_conda_path = os.path.join('opt', 'conda', 'bin')
 os.environ["PATH"] += os.pathsep + opt_conda_path + os.pathsep + bin_path
-
-logging.basicConfig(
-    filename=os.path.expanduser('~/work/prescripting.log'),
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
 
 
 def zeroOutput(start_date_str: str,
@@ -89,10 +85,13 @@ def zeroOutput(start_date_str: str,
 
 
 if __name__ == '__main__':
-    logging.info('')
-    logging.info('')
-    logging.info('#######  EXECUTING CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
-    logging.info('')
+
+    logger = utils.named_log("main")
+
+    logger.info('')
+    logger.info('')
+    logger.info('#######  EXECUTING CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
+    logger.info('')
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--start_date",
@@ -126,23 +125,24 @@ if __name__ == '__main__':
 
     os.chdir(os.path.expanduser('~/work'))
 
+
     try:
         output_prescriptions_dir = os.path.expanduser('~/work/prescriptions')
         os.makedirs(output_prescriptions_dir, exist_ok=True)
     except OSError:
-        logging.info(f'Creation of the directory {output_prescriptions_dir} failed')
+        logger.info(f'Creation of the directory {output_prescriptions_dir} failed')
     else:
-        logging.info(f'Successfully created the directory {output_prescriptions_dir}')
+        logger.info(f'Successfully created the directory {output_prescriptions_dir}')
 
     prescriptions = sorted(glob.glob('prescribe[0-9]/prescribe.py', recursive=False))
     output_files = {}
 
-    logging.info('')
-    logging.info('***************************************************************************************')
-    logging.info(f'********* CORONASURVEYS PRESCRIPTIONS *************************************************')
-    logging.info(json.dumps(prescriptions, indent=32))
-    logging.info('***************************************************************************************')
-    logging.info('')
+    logger.info('')
+    logger.info('***************************************************************************************')
+    logger.info(f'********* CORONASURVEYS PRESCRIPTIONS *************************************************')
+    logger.info(json.dumps(prescriptions, indent=32))
+    logger.info('***************************************************************************************')
+    logger.info('')
 
     procs = {}
 
@@ -158,7 +158,7 @@ if __name__ == '__main__':
         #if precription_index == 0:
         #    precription_index = 10
 
-        logging.info(f'Launching prescriptor [{p}] from {args.start_date} to {args.end_date}')
+        logger.info(f'Launching prescriptor [{p}] from {args.start_date} to {args.end_date}')
 
         prescription_script = os.path.basename(p)
         prescription_dir = os.path.dirname(p)
@@ -188,9 +188,9 @@ if __name__ == '__main__':
                 '--output_file', os.path.expanduser(prescription_output_file)
             ]
 
-            logging.info("Command: " + ' '.join(execute_cmd))
+            logger.info("Command: " + ' '.join(execute_cmd))
 
-            #logging.info(json.dumps(execute_cmd, indent=32))
+            #logger.info(json.dumps(execute_cmd, indent=32))
 
             procs[p] = subprocess.Popen(
                 execute_cmd,
@@ -200,20 +200,20 @@ if __name__ == '__main__':
             )
 
         except subprocess.CalledProcessError as err:
-            logging.info(f'Error occurred: {err.stderr}')
+            logger.info(f'Error occurred: {err.stderr}')
         except:
-            logging.info("Main script - Unexpected error:", sys.exc_info()[0])
+            logger.info("Main script - Unexpected error:", sys.exc_info()[0])
             raise
         else:
-            logging.info("Main script - Successfully launched subprocesses.")
+            logger.info("Main script - Successfully launched subprocesses.")
 
         # let this be here, in case we need to parallelize prescriptors
         output_files[p] = prescription_output_file
 
     ###################################################################################
-    logging.info("")
-    logging.info("####### Launched CORONASURVEYS MULTI-PRESCRIPTOR RUNNER")
-    logging.info("")
+    logger.info("")
+    logger.info("####### Launched CORONASURVEYS MULTI-PRESCRIPTOR RUNNER")
+    logger.info("")
 
     procs_to_terminate = list(procs.keys())
     start = time.time()
@@ -231,9 +231,9 @@ if __name__ == '__main__':
                 if p.poll() is None:
                     p.terminate()
                     #del output_files[pkey] # since we abruptly terminated, ignore any outputs
-                    logging.info(f"      Terminated {pkey} - {subprocess_timeout} secs timeout exceeded.")
+                    logger.info(f"      Terminated {pkey} - {subprocess_timeout} secs timeout exceeded.")
                 else:
-                    logging.info(f"Already finished {pkey} - {subprocess_timeout} secs timeout exceeded.")
+                    logger.info(f"Already finished {pkey} - {subprocess_timeout} secs timeout exceeded.")
 
             break
 
@@ -246,19 +246,19 @@ if __name__ == '__main__':
                 procs_to_terminate.remove(str(pkey))
 
                 (stdout, stderr) = procs[pkey].communicate()
-                logging.info("")
-                logging.info("---------------------------------------------------------------------------------------")
-                logging.info(f'Prescriptor: {pkey} - exitcode: {procs[pkey].returncode}')
-                logging.info("")
-                logging.info("=== stdout ============================================================================")
-                logging.info(stdout.decode())
-                logging.info("")
-                logging.info("=== stderr ============================================================================")
-                logging.info(stderr.decode())
-                logging.info("")
-                logging.info("---------------------------------------------------------------------------------------")
-                logging.info("")
-                logging.info("")
+                logger.info("")
+                logger.info("---------------------------------------------------------------------------------------")
+                logger.info(f'Prescriptor: {pkey} - exitcode: {procs[pkey].returncode}')
+                logger.info("")
+                logger.info("=== stdout ============================================================================")
+                logger.info(stdout.decode())
+                logger.info("")
+                logger.info("=== stderr ============================================================================")
+                logger.info(stderr.decode())
+                logger.info("")
+                logger.info("---------------------------------------------------------------------------------------")
+                logger.info("")
+                logger.info("")
 
                 #if procs[pkey].returncode:
                 #    del output_files[pkey]
@@ -277,4 +277,4 @@ if __name__ == '__main__':
     combined_csv.to_csv(args.output_file, encoding='utf-8-sig')
 
     # prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
-    logging.info('#######   COMPLETED CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
+    logger.info('#######   COMPLETED CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')
