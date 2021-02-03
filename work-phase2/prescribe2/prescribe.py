@@ -92,7 +92,8 @@ def prescribe(start_date_str: str,
             population = threshold_df[(threshold_df["CountryName"] == country_name)]["population"].values[0]
         else:
             population = threshold_df[(threshold_df["CountryName"] == country_name) & (threshold_df["RegionName"] == region_name)]["population"].values[0]           
-        MAX_CASES = (population / 10000) * 10
+        # MAX_CASES = (population / 10000) * 10
+        MAX_CASES = (population / 10000) * 50
         geo_max_cases[geo] = MAX_CASES
 
     # Load current cases
@@ -125,11 +126,12 @@ def prescribe(start_date_str: str,
         num_cases = geo_cases[geo]
         MAX_CASES = geo_max_cases[geo]
 
+        best_fitness  = np.inf
+        best_policies = [0] * num_periods
+
         # For every period
         for period_id in np.arange(num_periods):
 
-            best_fitness  = np.inf
-            best_policies = [0] * num_periods
 
             # For every policy
             for policy_id in np.arange(len(policies)):
@@ -164,7 +166,7 @@ def prescribe(start_date_str: str,
                 fitness = (rel_cost + rel_cases) / 2
                 
                 if fitness < best_fitness:
-                    best_fitness = fitness 
+                    best_fitness  = fitness 
                     best_policies = candidate_policies.copy()
                     
         # Save optimal results
