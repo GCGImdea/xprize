@@ -1,22 +1,24 @@
 # Copyright 2020 (c) Cognizant Digital Business, Evolutionary AI. All rights reserved. Issued under the Apache 2.0 License.
 
 import os
+import sys
 import argparse
+import numpy as np
 import pandas as pd
 
+from pathlib import Path
 
-NPI_COLS = ['C1_School closing',
-            'C2_Workplace closing',
-            'C3_Cancel public events',
-            'C4_Restrictions on gatherings',
-            'C5_Close public transport',
-            'C6_Stay at home requirements',
-            'C7_Restrictions on internal movement',
-            'C8_International travel controls',
-            'H1_Public information campaigns',
-            'H2_Testing policy',
-            'H3_Contact tracing',
-            'H6_Facial Coverings']
+from helpers.utils import IP_COLS, HIST_DATA_FILE_PATH
+from helpers.train_prescriptor import Prescriptor
+
+ups = '/..' * 2
+root_path = os.path.dirname(os.path.realpath(__file__)) + ups
+sys.path.append(root_path)
+from standard_predictor.xprize_predictor import XPrizePredictor
+
+ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+MODEL_WEIGHTS_FILE = os.path.join(ROOT_DIR, "../standard_predictor/models", "trained_model_weights.h5")
+DATA_FILE = HIST_DATA_FILE_PATH
 
 
 def prescribe(start_date_str: str,
@@ -25,37 +27,57 @@ def prescribe(start_date_str: str,
               path_to_cost_file: str,
               output_file_path) -> None:
 
-    # Create skeleton df with one row for each geo for each day
-    hdf = pd.read_csv(path_to_hist_file,
-                      parse_dates=['Date'],
-                      encoding="ISO-8859-1",
-                      dtype={"RegionName": str},
-                      error_bad_lines=True)
     start_date = pd.to_datetime(start_date_str, format='%Y-%m-%d')
     end_date = pd.to_datetime(end_date_str, format='%Y-%m-%d')
-    country_names = []
-    region_names = []
-    dates = []
 
-    for country_name in hdf['CountryName'].unique():
-        cdf = hdf[hdf['CountryName'] == country_name]
-        for region_name in cdf['RegionName'].unique():
-            for date in pd.date_range(start_date, end_date):
-                country_names.append(country_name)
-                region_names.append(region_name)
-                dates.append(date.strftime("%Y-%m-%d"))
+    prescriptor = Prescriptor(data_path=DATA_FILE, path_to_cost_file=path_to_cost_file,
+                              start_date=start_date_str, end_date=end_date_str)
 
-    prescription_df = pd.DataFrame({
-        'CountryName': country_names,
-        'RegionName': region_names,
-        'Date': dates})
+    df = prescriptor.df
 
-    # Fill df with all zeros
-    for npi_col in NPI_COLS:
-        prescription_df[npi_col] = 0
+    del prescriptor
 
-    # Add prescription index column.
-    prescription_df['PrescriptionIndex'] = 1
+    countries = df['CountryName'].unique()
+
+    prescription_df = {
+        'PrescriptionIndex': [],
+        'CountryName': [],
+        'RegionName': [],
+        'Date': []
+    }
+    for npi_col in IP_COLS:
+        prescription_df[npi_col] = []
+
+    prescription_index = 1
+
+    predictor = XPrizePredictor(MODEL_WEIGHTS_FILE, df=df).predictor
+    for country_name in countries:
+        cdf = df[df['CountryName'] == country_name]
+        regions = cdf['RegionName'].fillna('').unique()
+        for region_name in regions:
+            geo_id = country_name + ('' if region_name == '' else ' / ' + region_name)
+            print('Processing', geo_id)
+
+            prescriptor = Prescriptor(data_path=DATA_FILE, path_to_cost_file=path_to_cost_file, _predictor=predictor,
+                                      start_date=start_date_str, end_date=end_date_str)
+            prescriptor.set_countries([geo_id])
+
+            model, _ = prescriptor.trainer(geo_id)
+            prescriptions, _ = prescriptor.predict(model, start_date_str, end_date_str, geo_id)
+            prescriptions = list(np.int_(prescriptions[:, 1:]))
+
+            for i, date in enumerate(pd.date_range(start_date, end_date)):
+                prescription_df['PrescriptionIndex'].append(prescription_index)
+                prescription_df['CountryName'].append(country_name)
+                prescription_df['RegionName'].append(region_name)
+                prescription_df['Date'].append(date.strftime("%Y-%m-%d"))
+                for j, npi_col in enumerate(IP_COLS):
+                    prescription_df[npi_col].append(prescriptions[i][j])
+
+            del prescriptor
+            del model
+
+    prescription_df = pd.DataFrame(prescription_df)
 
     # Create the output path
     os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
