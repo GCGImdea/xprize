@@ -1,0 +1,10 @@
+"Date","CountryName","RegionName","C1_School closing","C2_Workplace closing","C3_Cancel public events","C4_Restrictions on gatherings","C5_Close public transport","C6_Stay at home requirements","C7_Restrictions on internal movement","C8_International travel controls","H1_Public information campaigns","H2_Testing policy","H3_Contact tracing","H6_Facial Coverings","avg_ratio","sd_ratio","ratio15days"
+"2020-01-01","Australia","",3,3,2,4,2,3,2,4,2,3,2,4,1.0640143821743,0.00811005552154359,2.57646155565675
+"2020-01-01","Bulgaria","",3,1,2,4,0,2,2,3,2,1,2,3,0,0,0
+"2020-01-01","Croatia","",3,3,2,4,2,3,2,4,2,3,2,4,1.13757163019512,0.0229222865663175,4.86438681977758
+"2020-01-01","Israel","",3,3,2,4,1,2,2,2,2,2,1,3,1.12553804672164,0.0170607648248351,4.42881005922629
+"2020-01-01","Slovak Republic","",3,2,2,3,1,1,1,4,2,1,2,3,0,0,0
+"2020-01-01","South Korea","",3,3,2,4,2,3,2,4,2,3,2,4,1.16176395899534,0.0441749091476058,5.64382595305341
+"2020-01-01","United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,1.12379379488148,0.0183738632499794,4.3133404135277
+"2020-01-01","United States","Alaska",3,3,2,4,2,3,2,4,2,3,2,4,0,0,0
+"2020-01-01","Vietnam","",3,3,2,4,2,2,2,4,2,3,2,2,0,0,0
