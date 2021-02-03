@@ -1,5 +1,0 @@
-"Date","CountryName","RegionName","C1_School closing","C2_Workplace closing","C3_Cancel public events","C4_Restrictions on gatherings","C5_Close public transport","C6_Stay at home requirements","C7_Restrictions on internal movement","C8_International travel controls","H1_Public information campaigns","H2_Testing policy","H3_Contact tracing","H6_Facial Coverings","avg_ratio","sd_ratio","ratio15days"
-"2020-01-01","Bulgaria","",3,2,2,3,0,0,0,3,2,1,2,3,1.03138997136473,0.0079642898381715,1.66891544781814
-"2020-01-01","Israel","",3,3,2,4,1,2,2,4,2,1,2,3,1.03141336705685,0.00654577948717844,1.44579176778075
-"2020-01-01","Slovak Republic","",3,2,2,4,1,2,2,4,2,1,2,0,1.03540111252526,0.0066334635281715,1.53522241847601
-"2020-01-01","Vietnam","",3,3,2,4,2,3,2,4,2,3,2,4,1.05319594576834,0.013073945385602,2.35685861349373
