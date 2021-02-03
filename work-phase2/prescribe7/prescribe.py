@@ -9,6 +9,7 @@ from datetime import timedelta
 
 import sys
 import os
+import subprocess
 import re
 import time
 
@@ -28,7 +29,7 @@ IP_COLS = ['C1_School closing',
            'H3_Contact tracing',
            'H6_Facial Coverings']
 
-PRESCRIPTION_INDEX = 7 # Prescriptor identifier
+PRESCRIPTION_INDEX = 2 # Prescriptor identifier
 ACTION_DURATION    = 15 # Duration of the policies in days
 
 # Required files in local directory
@@ -57,13 +58,12 @@ def prescribe(start_date_str: str,
     regions_df = pd.read_csv(regions_file)
     regions_df['RegionName'] = regions_df['RegionName'].fillna("")
     regions_df['GeoID'] = regions_df['CountryName'] + '__' + regions_df['RegionName'].astype(str)
-    # geos = regions_df['GeoID'].unique()
+    geos = regions_df['GeoID'].unique()
 
     # Load IP costs to condition prescriptions
     cost_df = pd.read_csv(path_to_cost_file)
     cost_df['RegionName'] = cost_df['RegionName'].fillna("")
     cost_df['GeoID'] = cost_df['CountryName'] + '__' + cost_df['RegionName'].astype(str)
-    geos = cost_df['GeoID'].unique()
     geo_costs = {}
     for geo in geos:
         costs = cost_df[cost_df['GeoID'] == geo]
@@ -118,8 +118,8 @@ def prescribe(start_date_str: str,
             population = threshold_df[(threshold_df["CountryName"] == country_name)]["population"].values[0]
         else:
             population = threshold_df[(threshold_df["CountryName"] == country_name) & (threshold_df["RegionName"] == region_name)]["population"].values[0]           
-        # MAX_CASES = (population / 10000) * 10
-        MAX_CASES = (population / 10000) * 50
+        MAX_CASES = (population / 10000) * 10
+        # MAX_CASES = (population / 10000) * 50
         geo_max_cases[geo] = MAX_CASES
 
     # Load current cases
@@ -194,7 +194,7 @@ def prescribe(start_date_str: str,
                 if fitness < best_fitness:
                     best_fitness  = fitness 
                     best_policies = candidate_policies.copy()
-
+                    
         # Save optimal results
         
         current_date = start_date
@@ -267,6 +267,9 @@ if __name__ == '__main__':
 
     start = time.time()
 
+    rScriptFile, ext = os.path.splitext(sys.argv[0])
+    rScriptFile += ".R"
+
     log_name = "default"
     matches = re.findall(r'/(prescribe\d+)', os.path.dirname(os.path.realpath(__file__)))
     if len(matches) > 0:
@@ -274,12 +277,25 @@ if __name__ == '__main__':
 
     logger = utils.named_log(str(log_name))
 
-    print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
-
+    rScriptFile, ext = os.path.splitext(sys.argv[0])
+    rScriptFile += ".R"
 
     try:
-        prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
+        r_cmd = [
+            "Rscript",
+            "--vanilla",
+            rScriptFile,
+            args.start_date,
+            args.end_date,
+            os.path.expanduser(args.prev_file),
+            os.path.expanduser(args.cost_file),
+            os.path.expanduser(args.output_file),
+            os.path.dirname(os.path.realpath(__file__))
+        ]
 
+        logger.info("R command: " + ' '.join(r_cmd))
+
+        subprocess.call(r_cmd)
     except OSError as error:
         logger.info(error)
     except:
@@ -288,5 +304,4 @@ if __name__ == '__main__':
     else:
         logger.info("Successfully executed %s", os.path.realpath(__file__))
 
-    print("Done!")
     logger.info("Duration: %s seconds", utils.secondsToStr(time.time() - start))
