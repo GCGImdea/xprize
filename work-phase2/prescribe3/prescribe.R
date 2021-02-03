@@ -8,7 +8,7 @@ script_path <- args[6]
 
 hammer_file <- file.path(script_path, "hammer_full.csv")
 dance_file <- file.path(script_path, "dance_full.csv")
-hammer_length <- 30 # days
+hammer_length <- 45 # days
 
 cat("Arguments:", args, "\n")
 
