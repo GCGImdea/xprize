@@ -4,6 +4,7 @@ import argparse
 import pandas as pd
 import glob
 import subprocess
+import logging
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
