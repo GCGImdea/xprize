@@ -123,6 +123,8 @@ if __name__ == '__main__':
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
 
+    os.chdir(os.path.expanduser('~/work'))
+
     try:
         output_prescriptions_dir = os.path.expanduser('~/work/prescriptions')
         os.makedirs(output_prescriptions_dir, exist_ok=True)
