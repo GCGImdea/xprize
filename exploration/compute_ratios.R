@@ -25,7 +25,7 @@ print(vectors_folder)
 #vectors_folder <- "./ips-vectors/"
 ratios_folder <- "./ips-ratios/"
 start_date <- ymd("2020-03-01")
-end_date <- ymd("2021-02-28")
+end_date <- ymd("2020-04-06")
 #start_date <- ymd("2020-07-01")
 #end_date <- ymd("2020-07-08")
 step_lenght <- 7
