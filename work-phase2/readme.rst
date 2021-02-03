@@ -21,7 +21,13 @@ Then install some necessary, but also some useful, packages/libs to install:
   conda install -y -c r r-essentials r-tidyverse r-geometry
 
 
+Sync into ``~/work``:
+
+  rsync -av ~/xprize/work-phase2/ ~/work/
+
 And some Python libraries:
+
+  cd ~/work
 
   pip install -r requirements.txt
 
