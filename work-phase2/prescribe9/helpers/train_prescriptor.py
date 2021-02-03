@@ -311,8 +311,9 @@ class Prescriptor:
         cost_df = add_geo_id(self.cost_df)
         for geo in self.countries:
             costs = cost_df[cost_df['GeoID'] == geo]
-            cost_arr = np.array(costs[IP_COLS])[0]
-            geo_costs[geo] = cost_arr
+            if len(costs) > 0:
+                cost_arr = np.array(costs[IP_COLS])[0]
+                geo_costs[geo] = cost_arr
         self.geo_costs = geo_costs
 
     # Construct model
@@ -548,14 +549,14 @@ class Prescriptor:
     def trainer(self, _geo_id, force_train=False):
         global predictor, df, geo_id
 
-        print("Creating numpy arrays for Keras for each country...")
+        # print("Creating numpy arrays for Keras for each country...")
         df = self.df
         geo_id = _geo_id
         _geo_id = _geo_id.replace(' / ', '_')
 
         geos = self.countries
         country_samples = self._create_country_samples(df, geos)
-        print("Numpy arrays created")
+        # print("Numpy arrays created")
 
         # Aggregate data for training
         all_X_context_list = [country_samples[c]['X_train_context']
@@ -577,7 +578,7 @@ class Prescriptor:
         if not force_train:
             trained_model = self.load_model_weights(trained_model, _geo_id)
             if trained_model is not False:
-                print("Loaded pretrained model", _geo_id)
+                # print("Loaded pretrained model", _geo_id)
                 return trained_model, df
 
         # Aggregate data for testing only on top countries

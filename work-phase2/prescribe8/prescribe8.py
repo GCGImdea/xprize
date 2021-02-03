@@ -46,7 +46,7 @@ def prescribe(start_date_str: str,
         start = (group_id - 1) * group_count
         end = group_id * group_count
 
-        all_countries = df['CountryName'].unique()
+        all_countries = sorted(list(set(df['CountryName'].unique()) - {'United States'}))
         countries = all_countries[start: end]  # ['Albania']  #
 
     prescription_df = {
@@ -66,11 +66,15 @@ def prescribe(start_date_str: str,
         regions = cdf['RegionName'].fillna('').unique()
         for region_name in regions:
             geo_id = country_name + ('' if region_name == '' else ' / ' + region_name)
-            print('Processing', geo_id)
 
-            prescriptor = Prescriptor(data_path=DATA_FILE, path_to_cost_file=path_to_cost_file, _predictor=predictor,
+            prescriptor = Prescriptor(df=df, path_to_cost_file=path_to_cost_file, _predictor=predictor,
                                       start_date=start_date_str, end_date=end_date_str)
             prescriptor.set_countries([geo_id])
+            if geo_id not in prescriptor.geo_costs:
+                print("costs not found for", geo_id)
+                continue
+
+            print('Processing', geo_id)
 
             model, _ = prescriptor.trainer(geo_id)
             prescriptions, _ = prescriptor.predict(model, start_date_str, end_date_str, geo_id)
