@@ -55,7 +55,7 @@ def prescribe(start_date_str: str,
     MAX_COST = 12 * 4 / 2
 
     # Load list of regions
-    regions_df = pd.read_csv(regions_file)
+    regions_df = pd.read_csv(path_to_prior_ips_file)
     regions_df['RegionName'] = regions_df['RegionName'].fillna("")
     regions_df['GeoID'] = regions_df['CountryName'] + '__' + regions_df['RegionName'].astype(str)
     geos = regions_df['GeoID'].unique()
