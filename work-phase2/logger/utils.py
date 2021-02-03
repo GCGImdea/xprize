@@ -12,8 +12,8 @@ def named_log(loggerName):
         os.makedirs(logdir, exist_ok=True)
     except OSError:
         print(f'Creation of log directory {logdir} failed')
-    else:
-        print(f'CoronaSurveys log directory {logdir}')
+    #else:
+    #    print(f'CoronaSurveys log directory {logdir}')
 
     datefile = 'coronasurveys-{:%Y-%m-%d}.log'.format(datetime.now())
 
