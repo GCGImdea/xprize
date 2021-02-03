@@ -1,7 +1,7 @@
 import sys
 import os
 import argparse
-import glob
+import logging
 import subprocess
 
 if __name__ == '__main__':
@@ -37,23 +37,29 @@ if __name__ == '__main__':
 
 
     rScriptFile, ext = os.path.splitext(sys.argv[0])
-    rScriptFile += ".R";
+    rScriptFile += ".R"
 
     try:
-       subprocess.call(
-          [
-             "Rscript",
-             "--vanilla",
-             rScriptFile,
-             args.start_date,
-             args.end_date,
-             os.path.expanduser(args.prev_file),
-             os.path.expanduser(args.cost_file),
-             os.path.expanduser(args.output_file),
-             os.path.dirname(os.path.realpath(__file__))
-          ])
-    except OSError:
-       print ("OSERROR")
+        r_cmd = [
+            "Rscript",
+            "--vanilla",
+            rScriptFile,
+            args.start_date,
+            args.end_date,
+            os.path.expanduser(args.prev_file),
+            os.path.expanduser(args.cost_file),
+            os.path.expanduser(args.output_file),
+            os.path.dirname(os.path.realpath(__file__))
+        ]
+
+        logging.info("R command: " + ' '.join(r_cmd))
+
+        subprocess.call(r_cmd)
+    except OSError as error:
+        logging.info(error)
+    except:
+        logging.info("Unexpected error:", sys.exc_info()[0])
+        raise
     else:
-       print ("Successfully executed script.")
+        logging.info("Successfully executed", os.path.realpath(__file__))
 
