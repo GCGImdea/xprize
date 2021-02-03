@@ -8,12 +8,12 @@ script_path <- args[6]
 
 iplan_file <- file.path(script_path, "hammer_full.csv")
 
-cat("Arguments:", args, "\n")
-
-if (length(args) < 5) {
-  cat("usage: command start_date end_date ips_file cost_file output_file\n")
-  quit(save="no")
-}
+# cat("Arguments:", args, "\n")
+# 
+# if (length(args) < 5) {
+#   cat("usage: command start_date end_date ips_file cost_file output_file\n")
+#   quit(save="no")
+# }
 
 start_date <- as.Date(args[1])
 end_date <- as.Date(args[2])

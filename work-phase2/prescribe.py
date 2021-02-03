@@ -9,6 +9,7 @@ import time
 import json
 import re
 
+
 ##########################################################################################
 
 subprocess_timeout = 19800 # 5.5 hours in seconds
@@ -20,7 +21,7 @@ opt_conda_path = os.path.join('opt', 'conda', 'bin')
 os.environ["PATH"] += os.pathsep + opt_conda_path + os.pathsep + bin_path
 
 logging.basicConfig(
-    filename='prescripting.log',
+    filename=os.path.expanduser('~/work/prescripting.log'),
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     level=logging.INFO,
     datefmt='%Y-%m-%d %H:%M:%S')

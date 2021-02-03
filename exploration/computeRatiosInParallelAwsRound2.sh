@@ -8,7 +8,7 @@ for n in `seq 1 $NUMINSTANCES`; do
 done
 
 curInst=1
-for file in  ips-vectors-second-round/* ; do
+for file in  ips-vectors-second-round-l2/* ; do
 
     cp $file ipsv-$curInst
     let curInst=curInst+1

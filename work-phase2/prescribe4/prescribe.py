@@ -1,8 +1,11 @@
 import sys
 import os
 import argparse
-import logging
 import subprocess
+import re
+
+sys.path.append(os.path.expanduser("~/work/logger"))
+import named_log
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -39,6 +42,16 @@ if __name__ == '__main__':
     rScriptFile, ext = os.path.splitext(sys.argv[0])
     rScriptFile += ".R"
 
+    log_name = "default"
+    matches = re.findall(r'/(prescribe\d+)', os.path.dirname(os.path.realpath(__file__)))
+    if len(matches) > 0:
+        log_name = matches[0]
+
+    logger = named_log.named_log(str(log_name))
+
+    rScriptFile, ext = os.path.splitext(sys.argv[0])
+    rScriptFile += ".R"
+
     try:
         r_cmd = [
             "Rscript",
@@ -52,13 +65,13 @@ if __name__ == '__main__':
             os.path.dirname(os.path.realpath(__file__))
         ]
 
-        logging.info("R command: " + ' '.join(r_cmd))
+        logger.info("R command: " + ' '.join(r_cmd))
 
         subprocess.call(r_cmd)
     except OSError as error:
-        logging.info(error)
+        logger.info(error)
     except:
-        logging.info("Unexpected error:", sys.exc_info()[0])
+        logger.info("Unexpected error: %s", sys.exc_info()[0])
         raise
     else:
-        logging.info("Successfully executed", os.path.realpath(__file__))
+        logger.info("Successfully executed %s", os.path.realpath(__file__))
