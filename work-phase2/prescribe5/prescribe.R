@@ -33,8 +33,8 @@ process_country_region <- function(regiondf, ratios, dfdance, costs) {
   cat("\n working on ", country, region, "\n")
   
   dfr <- ratios[(ratios$CountryName == country) & (ratios$RegionName == region),]
-  dfd <- dfdance[(dfdance$CountryName == country),] # & (dfdance$RegionName == region),]
-  dfd <- dfd[(dfd$RegionName == region),]
+  dfd <- dfdance[(as.character(dfdance$CountryName) == as.character(country)),] # & (dfdance$RegionName == region),]
+  dfd <- dfd[(as.character(dfd$RegionName) == as.character(region)),]
   dfcost <- costs[(costs$CountryName == country) & (costs$RegionName == region),]
   
   # Computes the cost of the vectors
