@@ -23,7 +23,7 @@ output_file <- args[5]
 country_region_list <- file.path(script_path, "countries_regions.csv")
 ratios_file <- file.path(script_path, "ratios.csv")
 dance_file <- file.path(script_path, "dance_full.csv")
-hammer_length <- 30 # days
+hammer_length <- 45 # days
 
 process_country_region <- function(regiondf, ratios, dfdance, costs) {
   
