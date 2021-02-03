@@ -74,11 +74,11 @@ process_country_region <- function(df, dancedf, start_date, mid_date, duration) 
 
 generate_full_iplan <- function(start_date, mid_date, duration, 
                     pre_file, post_file, output_file) {
-  dancedf <- read.csv(pre_file, check.names = FALSE)
+  dancedf <- read.csv(pre_file, check.names = FALSE, stringsAsFactors = FALSE)
   dancedf$Date <- as.Date(dancedf$Date)
   dancedf$RegionName[is.na(dancedf$RegionName)] <- ""
   
-  df <- read.csv(post_file, check.names = FALSE)
+  df <- read.csv(post_file, check.names = FALSE, stringsAsFactors = FALSE)
   df$Date <- as.Date(df$Date)
   df$RegionName[is.na(df$RegionName)] <- ""
   
@@ -95,12 +95,12 @@ generate_full_iplan <- function(start_date, mid_date, duration,
 
 
 compute_ratios <- function(ds, de, ratio_file, prediction_file, file_path) {
-  df <- read.csv(file_path, check.names = FALSE)
+  df <- read.csv(file_path, check.names = FALSE, stringsAsFactors = FALSE)
   print(paste("filepath",file_path))
   df$RegionName[is.na(df$RegionName)] <- ""
   df$avg_ratio <- 0
   
-  dfp <- read.csv(prediction_file)
+  dfp <- read.csv(prediction_file, stringsAsFactors = FALSE)
   dfp$RegionName[is.na(dfp$RegionName)] <- ""
   
   n <- nrow(df)
