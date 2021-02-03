@@ -23,7 +23,7 @@ output_file <- args[5]
 country_region_list <- file.path(script_path, "countries_regions.csv")
 ratios_file <- file.path(script_path, "ratios.csv")
 dance_file <- file.path(script_path, "dance_full.csv")
-hammer_length <- 30 # days
+hammer_length <- 45 # days
 
 process_country_region <- function(regiondf, ratios, dfdance, costs) {
   
@@ -32,17 +32,18 @@ process_country_region <- function(regiondf, ratios, dfdance, costs) {
   
   cat("\n working on ", country, region, "\n")
   
-  dfr <- ratios[(ratios$CountryName == country) & (ratios$RegionName == region),]
+  dfratios <- ratios[(ratios$CountryName == country) & (ratios$RegionName == region),]
   dfd <- dfdance[(dfdance$CountryName == country) & (dfdance$RegionName == region),]
   dfcost <- costs[(costs$CountryName == country) & (costs$RegionName == region),]
   
   # Computes the cost of the vectors
-  for (i in 1:nrow(dfr)) {
-    dfr[i, "Cost"] <- as.matrix(dfr[i, 6:17]) %*% t(as.matrix(dfcost[1, 3:14]))
+  for (i in 1:nrow(dfratios)) {
+    dfratios[i, "Cost"] <- as.matrix(dfratios[i, 6:17]) %*% t(as.matrix(dfcost[1, 3:14]))
   }
 
   # Select the vector with lowest ratio, breaking ties by cost
-  dfr <- dfr[(dfr$avg_ratio == min(dfr$avg_ratio)),]
+  min_ratio <- min(dfratios$avg_ratio)
+  dfr <- dfratios[(dfratios$avg_ratio == min_ratio),]
   dfr <- dfr[(dfr$Cost == min(dfr$Cost)),]
   
   change_date <- min(start_date + hammer_length - 1, end_date)
@@ -59,6 +60,28 @@ process_country_region <- function(regiondf, ratios, dfdance, costs) {
   dfd$`H2_Testing policy`[(dfd$Date <= change_date)] <- dfr$`H2_Testing policy`[1]
   dfd$`H3_Contact tracing`[(dfd$Date <= change_date)] <- dfr$`H3_Contact tracing`[1]
   dfd$`H6_Facial Coverings`[(dfd$Date <= change_date)] <- dfr$`H6_Facial Coverings`[1]
+  
+  # Select the vector with smallest cost from those with ratio <=1
+  if (min_ratio <= 1) {
+    dfr <- dfratios[(dfratios$avg_ratio <= 1),]
+  }
+  else {
+    dfr <- dfratios[(dfratios$avg_ratio == min_ratio),]
+  }
+  dfr <- dfr[(dfr$Cost == min(dfr$Cost)),]
+  
+  dfd$`C1_School closing`[(dfd$Date > change_date)] <- dfr$`C1_School closing`[1]
+  dfd$`C2_Workplace closing`[(dfd$Date > change_date)] <- dfr$`C2_Workplace closing`[1]
+  dfd$`C3_Cancel public events`[(dfd$Date > change_date)] <- dfr$`C3_Cancel public events`[1]
+  dfd$`C4_Restrictions on gatherings`[(dfd$Date > change_date)] <- dfr$`C4_Restrictions on gatherings`[1]
+  dfd$`C5_Close public transport`[(dfd$Date > change_date)] <- dfr$`C5_Close public transport`[1]
+  dfd$`C6_Stay at home requirements`[(dfd$Date > change_date)] <- dfr$`C6_Stay at home requirements`[1]
+  dfd$`C7_Restrictions on internal movement`[(dfd$Date > change_date)] <- dfr$`C7_Restrictions on internal movement`[1]
+  dfd$`C8_International travel controls`[(dfd$Date > change_date)] <- dfr$`C8_International travel controls`[1]
+  dfd$`H1_Public information campaigns`[(dfd$Date > change_date)] <- dfr$`H1_Public information campaigns`[1]
+  dfd$`H2_Testing policy`[(dfd$Date > change_date)] <- dfr$`H2_Testing policy`[1]
+  dfd$`H3_Contact tracing`[(dfd$Date > change_date)] <- dfr$`H3_Contact tracing`[1]
+  dfd$`H6_Facial Coverings`[(dfd$Date > change_date)] <- dfr$`H6_Facial Coverings`[1]
   
   return(dfd)
 }

@@ -1,4 +1,5 @@
 import os
+import sys
 import argparse
 import pandas as pd
 import glob
@@ -7,6 +8,12 @@ import logging
 import time
 import json
 import re
+
+##########################################################################################
+
+subprocess_timeout = 19800 # 5.5 hours in seconds
+
+##########################################################################################
 
 bin_path = os.path.join('usr', 'bin')
 opt_conda_path = os.path.join('opt', 'conda', 'bin')
@@ -116,6 +123,8 @@ if __name__ == '__main__':
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
 
+    os.chdir(os.path.expanduser('~/work'))
+
     try:
         output_prescriptions_dir = os.path.expanduser('~/work/prescriptions')
         os.makedirs(output_prescriptions_dir, exist_ok=True)
@@ -178,7 +187,9 @@ if __name__ == '__main__':
                 '--output_file', os.path.expanduser(prescription_output_file)
             ]
 
-            logging.info(json.dumps(execute_cmd, indent=32))
+            logging.info("Command: " + ' '.join(execute_cmd))
+
+            #logging.info(json.dumps(execute_cmd, indent=32))
 
             procs[p] = subprocess.Popen(
                 execute_cmd,
@@ -186,20 +197,25 @@ if __name__ == '__main__':
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE
             )
-            # , creationflags=subprocess_flags)
 
         except subprocess.CalledProcessError as err:
             logging.info(f'Error occurred: {err.stderr}')
+        except:
+            logging.info("Main script - Unexpected error:", sys.exc_info()[0])
+            raise
+        else:
+            logging.info("Main script - Successfully launched subprocesses.")
 
         # let this be here, in case we need to parallelize prescriptors
         output_files[p] = prescription_output_file
 
     ###################################################################################
-    print("\n####### Launched CORONASURVEYS subprocesses and polling them.\n")
+    logging.info("")
+    logging.info("####### Launched CORONASURVEYS MULTI-PRESCRIPTOR RUNNER")
+    logging.info("")
 
     procs_to_terminate = list(procs.keys())
     start = time.time()
-    timeout = 7200 # 2 hours in seconds
 
     # do this while there are processes alive
     while procs_to_terminate:
@@ -207,16 +223,16 @@ if __name__ == '__main__':
         time.sleep(1)
 
         # if elapsed time exceeds the timeout threshold
-        if (time.time() - start) > timeout:
+        if (time.time() - start) > subprocess_timeout:
 
             # ok go ahead and forcibly terminate all processes
             for pkey, p in list(procs.items()):
                 if p.poll() is None:
                     p.terminate()
                     #del output_files[pkey] # since we abruptly terminated, ignore any outputs
-                    logging.info(f"      Terminated {pkey} - {timeout} secs timeout exceeded.")
+                    logging.info(f"      Terminated {pkey} - {subprocess_timeout} secs timeout exceeded.")
                 else:
-                    logging.info(f"Already finished {pkey} - {timeout} secs timeout exceeded.")
+                    logging.info(f"Already finished {pkey} - {subprocess_timeout} secs timeout exceeded.")
 
             break
 
@@ -230,7 +246,7 @@ if __name__ == '__main__':
 
                 (stdout, stderr) = procs[pkey].communicate()
                 logging.info("")
-                logging.info("=======================================================================================")
+                logging.info("---------------------------------------------------------------------------------------")
                 logging.info(f'Prescriptor: {pkey} - exitcode: {procs[pkey].returncode}')
                 logging.info("")
                 logging.info("=== stdout ============================================================================")
@@ -240,6 +256,7 @@ if __name__ == '__main__':
                 logging.info(stderr.decode())
                 logging.info("")
                 logging.info("---------------------------------------------------------------------------------------")
+                logging.info("")
                 logging.info("")
 
                 #if procs[pkey].returncode:
