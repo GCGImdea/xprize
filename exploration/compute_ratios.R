@@ -30,8 +30,12 @@ end_date <- ymd("2021-02-28")
 #end_date <- ymd("2020-07-08")
 step_lenght <- 7
 duration <- 30
-pre_file <- "./IPS-latest-full.csv"
 
+if (length(args)<2) {
+  pre_file <- "./IPS-latest-full.csv"
+} else {
+  pre_file <- args[2]
+}
 
 process_country_region <- function(df, dancedf, start_date, mid_date, duration) {
   country <- df$CountryName[1]
