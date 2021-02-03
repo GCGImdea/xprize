@@ -4,6 +4,8 @@ library(tidyverse)
 # library(readxl)
 # library(httr)
 
+start_time <- Sys.time()
+
 args <- commandArgs(trailingOnly = T)
 script_path <- args[6]
 
@@ -98,3 +100,7 @@ if (n>1) {
 
 df2 <- df2[order(df2$CountryName,df2$RegionName,df2$Date),]
 write.csv(df2, output_file, row.names = F)
+
+end_time <- Sys.time()
+cat("Execution time prescribe6: ", end_time - start_time, "\n")
+
