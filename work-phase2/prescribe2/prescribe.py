@@ -57,12 +57,13 @@ def prescribe(start_date_str: str,
     regions_df = pd.read_csv(regions_file)
     regions_df['RegionName'] = regions_df['RegionName'].fillna("")
     regions_df['GeoID'] = regions_df['CountryName'] + '__' + regions_df['RegionName'].astype(str)
-    geos = regions_df['GeoID'].unique()
+    # geos = regions_df['GeoID'].unique()
 
     # Load IP costs to condition prescriptions
     cost_df = pd.read_csv(path_to_cost_file)
     cost_df['RegionName'] = cost_df['RegionName'].fillna("")
     cost_df['GeoID'] = cost_df['CountryName'] + '__' + cost_df['RegionName'].astype(str)
+    geos = cost_df['GeoID'].unique()
     geo_costs = {}
     for geo in geos:
         costs = cost_df[cost_df['GeoID'] == geo]
