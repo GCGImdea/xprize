@@ -23,7 +23,7 @@ if __name__ == '__main__':
                         help="End date for the last prescription, included, as YYYY-MM-DD."
                              "For example 2020-08-31")
     parser.add_argument("-ip", "--interventions_past",
-                        dest="prev_file",
+                        dest="prior_ips_file",
                         type=str,
                         required=True,
                         help="The path to a .csv file of previous intervention plans")
@@ -61,7 +61,7 @@ if __name__ == '__main__':
             rScriptFile,
             args.start_date,
             args.end_date,
-            os.path.expanduser(args.prev_file),
+            os.path.expanduser(args.prior_ips_file),
             os.path.expanduser(args.cost_file),
             os.path.expanduser(args.output_file),
             os.path.dirname(os.path.realpath(__file__))

@@ -9,7 +9,6 @@ from datetime import timedelta
 
 import sys
 import os
-import subprocess
 import re
 import time
 
@@ -267,9 +266,6 @@ if __name__ == '__main__':
 
     start = time.time()
 
-    rScriptFile, ext = os.path.splitext(sys.argv[0])
-    rScriptFile += ".R"
-
     log_name = "default"
     matches = re.findall(r'/(prescribe\d+)', os.path.dirname(os.path.realpath(__file__)))
     if len(matches) > 0:
@@ -277,25 +273,12 @@ if __name__ == '__main__':
 
     logger = utils.named_log(str(log_name))
 
-    rScriptFile, ext = os.path.splitext(sys.argv[0])
-    rScriptFile += ".R"
+    print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
+
 
     try:
-        r_cmd = [
-            "Rscript",
-            "--vanilla",
-            rScriptFile,
-            args.start_date,
-            args.end_date,
-            os.path.expanduser(args.prev_file),
-            os.path.expanduser(args.cost_file),
-            os.path.expanduser(args.output_file),
-            os.path.dirname(os.path.realpath(__file__))
-        ]
+        prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
 
-        logger.info("R command: " + ' '.join(r_cmd))
-
-        subprocess.call(r_cmd)
     except OSError as error:
         logger.info(error)
     except:
@@ -304,4 +287,5 @@ if __name__ == '__main__':
     else:
         logger.info("Successfully executed %s", os.path.realpath(__file__))
 
+    print("Done!")
     logger.info("Duration: %s seconds", utils.secondsToStr(time.time() - start))

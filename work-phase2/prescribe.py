@@ -108,7 +108,7 @@ if __name__ == '__main__':
                         help="End date for the last prescription, included, as YYYY-MM-DD."
                              "For example 2020-08-31")
     parser.add_argument("-ip", "--interventions_past",
-                        dest="prev_file",
+                        dest="prior_ips_file",
                         type=str,
                         required=True,
                         help="The path to a .csv file of previous intervention plans")
@@ -173,7 +173,7 @@ if __name__ == '__main__':
 
         zeroOutput(args.start_date,
                    args.end_date,
-                   os.path.expanduser(args.prev_file),
+                   os.path.expanduser(args.prior_ips_file),
                    os.path.expanduser(args.cost_file),
                    prescription_output_file,
                    precription_index)
@@ -183,7 +183,7 @@ if __name__ == '__main__':
                 'python', prescription_script,
                 '--start_date', args.start_date,
                 '--end_date', args.end_date,
-                '--interventions_past', os.path.expanduser(args.prev_file),
+                '--interventions_past', os.path.expanduser(args.prior_ips_file),
                 '--intervention_costs', os.path.expanduser(args.cost_file),
                 '--output_file', os.path.expanduser(prescription_output_file)
             ]
@@ -276,5 +276,5 @@ if __name__ == '__main__':
     # combined_csv.to_csv( args.output_file, index=False, encoding='utf-8-sig')
     combined_csv.to_csv(args.output_file, encoding='utf-8-sig')
 
-    # prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
+    # prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
     logging.info('#######   COMPLETED CORONASURVEYS MULTI-PRESCRIPTOR RUNNER  #####################################')

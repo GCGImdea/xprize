@@ -2,6 +2,8 @@
 
 import os
 import sys
+import re
+import time
 import argparse
 import numpy as np
 import pandas as pd
@@ -15,6 +17,9 @@ ups = '/..' * 2
 root_path = os.path.dirname(os.path.realpath(__file__)) + ups
 sys.path.append(root_path)
 from standard_predictor.xprize_predictor import XPrizePredictor
+
+sys.path.append(os.path.expanduser("~/work/logger"))
+import utils
 
 ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
 MODEL_WEIGHTS_FILE = os.path.join(ROOT_DIR, "../standard_predictor/models", "trained_model_weights.h5")
@@ -107,7 +112,7 @@ if __name__ == '__main__':
                         help="End date for the last prescription, included, as YYYY-MM-DD."
                              "For example 2020-08-31")
     parser.add_argument("-ip", "--interventions_past",
-                        dest="prev_file",
+                        dest="prior_ips_file",
                         type=str,
                         required=True,
                         help="The path to a .csv file of previous intervention plans")
@@ -122,6 +127,29 @@ if __name__ == '__main__':
                         required=True,
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
+
+    start = time.time()
+
+    log_name = "default"
+    matches = re.findall(r'/(prescribe\d+)', os.path.dirname(os.path.realpath(__file__)))
+    if len(matches) > 0:
+        log_name = matches[0]
+
+    logger = utils.named_log(str(log_name))
+
     print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
-    prescribe(args.start_date, args.end_date, args.prev_file, args.cost_file, args.output_file)
+
+
+    try:
+        prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
+
+    except OSError as error:
+        logger.info(error)
+    except:
+        logger.info("Unexpected error: %s", sys.exc_info()[0])
+        raise
+    else:
+        logger.info("Successfully executed %s", os.path.realpath(__file__))
+
     print("Done!")
+    logger.info("Duration: %s seconds", utils.secondsToStr(time.time() - start))
