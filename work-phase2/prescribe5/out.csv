@@ -1,93 +1,461 @@
 "Date","CountryName","RegionName","C1_School closing","C2_Workplace closing","C3_Cancel public events","C4_Restrictions on gatherings","C5_Close public transport","C6_Stay at home requirements","C7_Restrictions on internal movement","C8_International travel controls","H1_Public information campaigns","H2_Testing policy","H3_Contact tracing","H6_Facial Coverings","PrescriptionIndex"
-2020-04-01,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-02,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-03,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-04,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-05,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-06,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-07,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-08,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-09,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-10,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-11,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-12,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-13,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-14,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-15,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-16,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-17,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-18,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-19,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-20,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-21,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-22,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-23,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-24,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-25,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-26,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-27,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-28,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-29,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-04-30,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-01,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-02,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-03,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-04,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-05,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-06,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-07,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-08,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-09,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-10,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-11,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-12,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-13,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-14,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-15,"Afghanistan","",3,3,2,4,2,3,2,4,2,3,2,4,5
-2020-05-16,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-17,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-18,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-19,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-20,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-21,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-22,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-23,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-24,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-25,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-26,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-27,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-28,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-29,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-30,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-05-31,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-01,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-02,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-03,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-04,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-05,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-06,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-07,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-08,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-09,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-10,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-11,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-12,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-13,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-14,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-15,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-16,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-17,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-18,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-19,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-20,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-21,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-22,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-23,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-24,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-25,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-26,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-27,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-28,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-29,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-06-30,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
-2020-07-01,"Afghanistan","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-04-01,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-02,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-03,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-04,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-05,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-06,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-07,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-08,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-09,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-10,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-11,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-12,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-13,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-14,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-15,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-16,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-17,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-18,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-19,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-20,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-21,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-22,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-23,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-24,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-25,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-26,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-27,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-28,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-29,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-30,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-01,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-02,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-03,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-04,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-05,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-06,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-07,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-08,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-09,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-10,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-11,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-12,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-13,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-14,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-15,"United Kingdom","",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-16,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-17,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-18,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-19,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-20,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-21,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-22,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-23,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-24,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-25,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-26,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-27,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-28,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-29,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-30,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-31,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-01,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-02,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-03,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-04,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-05,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-06,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-07,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-08,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-09,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-10,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-11,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-12,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-13,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-14,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-15,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-16,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-17,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-18,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-19,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-20,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-21,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-22,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-23,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-24,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-25,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-26,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-27,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-28,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-29,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-30,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-07-01,"United Kingdom","",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-04-01,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-02,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-03,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-04,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-05,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-06,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-07,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-08,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-09,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-10,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-11,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-12,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-13,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-14,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-15,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-16,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-17,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-18,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-19,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-20,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-21,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-22,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-23,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-24,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-25,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-26,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-27,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-28,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-29,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-30,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-01,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-02,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-03,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-04,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-05,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-06,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-07,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-08,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-09,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-10,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-11,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-12,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-13,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-14,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-15,"United Kingdom","England",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-16,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-17,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-18,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-19,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-20,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-21,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-22,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-23,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-24,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-25,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-26,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-27,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-28,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-29,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-30,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-31,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-01,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-02,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-03,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-04,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-05,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-06,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-07,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-08,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-09,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-10,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-11,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-12,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-13,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-14,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-15,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-16,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-17,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-18,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-19,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-20,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-21,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-22,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-23,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-24,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-25,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-26,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-27,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-28,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-29,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-30,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-07-01,"United Kingdom","England",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-04-01,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-02,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-03,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-04,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-05,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-06,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-07,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-08,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-09,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-10,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-11,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-12,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-13,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-14,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-15,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-16,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-17,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-18,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-19,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-20,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-21,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-22,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-23,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-24,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-25,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-26,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-27,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-28,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-29,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-30,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-01,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-02,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-03,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-04,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-05,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-06,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-07,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-08,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-09,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-10,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-11,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-12,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-13,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-14,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-15,"United Kingdom","Northern Ireland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-16,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-17,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-18,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-19,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-20,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-21,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-22,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-23,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-24,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-25,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-26,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-27,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-28,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-29,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-30,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-31,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-01,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-02,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-03,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-04,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-05,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-06,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-07,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-08,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-09,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-10,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-11,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-12,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-13,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-14,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-15,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-16,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-17,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-18,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-19,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-20,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-21,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-22,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-23,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-24,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-25,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-26,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-27,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-28,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-29,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-30,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-07-01,"United Kingdom","Northern Ireland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-04-01,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-02,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-03,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-04,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-05,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-06,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-07,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-08,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-09,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-10,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-11,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-12,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-13,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-14,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-15,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-16,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-17,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-18,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-19,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-20,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-21,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-22,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-23,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-24,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-25,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-26,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-27,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-28,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-29,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-30,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-01,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-02,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-03,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-04,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-05,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-06,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-07,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-08,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-09,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-10,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-11,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-12,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-13,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-14,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-15,"United Kingdom","Scotland",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-16,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-17,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-18,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-19,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-20,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-21,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-22,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-23,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-24,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-25,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-26,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-27,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-28,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-29,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-30,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-31,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-01,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-02,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-03,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-04,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-05,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-06,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-07,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-08,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-09,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-10,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-11,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-12,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-13,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-14,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-15,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-16,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-17,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-18,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-19,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-20,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-21,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-22,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-23,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-24,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-25,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-26,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-27,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-28,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-29,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-30,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-07-01,"United Kingdom","Scotland",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-04-01,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-02,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-03,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-04,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-05,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-06,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-07,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-08,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-09,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-10,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-11,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-12,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-13,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-14,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-15,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-16,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-17,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-18,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-19,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-20,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-21,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-22,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-23,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-24,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-25,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-26,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-27,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-28,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-29,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-04-30,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-01,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-02,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-03,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-04,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-05,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-06,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-07,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-08,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-09,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-10,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-11,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-12,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-13,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-14,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-15,"United Kingdom","Wales",3,3,2,4,2,3,2,4,2,3,2,4,5
+2020-05-16,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-17,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-18,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-19,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-20,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-21,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-22,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-23,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-24,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-25,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-26,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-27,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-28,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-29,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-30,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-05-31,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-01,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-02,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-03,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-04,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-05,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-06,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-07,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-08,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-09,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-10,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-11,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-12,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-13,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-14,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-15,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-16,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-17,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-18,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-19,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-20,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-21,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-22,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-23,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-24,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-25,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-26,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-27,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-28,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-29,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-06-30,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
+2020-07-01,"United Kingdom","Wales",0,0,0,0,0,0,0,0,0,0,0,0,5
