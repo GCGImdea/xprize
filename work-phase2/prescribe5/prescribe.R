@@ -46,7 +46,7 @@ process_country_region <- function(regiondf, ratios, dfdance, costs) {
     dfr[i, "Cost"] <- as.matrix(dfr[i, 6:17]) %*% t(as.matrix(dfcost[1, 3:14]))
   }
   
-  cat("\n Cost computation \n")
+  # cat("\n Cost computation \n")
   
 
   # Select the vector with lowest ratio, breaking ties by cost
@@ -91,7 +91,7 @@ regiondf <- regiondf[,c("CountryName", "RegionName")]
 regiondf <- unique(regiondf)
 n <- nrow(regiondf)
 
-print(n)
+# print(n)
 
 df2 <- process_country_region(as.data.frame(regiondf[1,]), ratios, dfdance, costs)
 
