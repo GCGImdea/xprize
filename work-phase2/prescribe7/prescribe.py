@@ -29,7 +29,7 @@ IP_COLS = ['C1_School closing',
            'H3_Contact tracing',
            'H6_Facial Coverings']
 
-PRESCRIPTION_INDEX = 2 # Prescriptor identifier
+PRESCRIPTION_INDEX = 7  # Prescriptor identifier
 ACTION_DURATION    = 15 # Duration of the policies in days
 
 # Required files in local directory
@@ -55,7 +55,7 @@ def prescribe(start_date_str: str,
     MAX_COST = 12 * 4 / 2
 
     # Load list of regions
-    regions_df = pd.read_csv(regions_file)
+    regions_df = pd.read_csv(path_to_prior_ips_file)
     regions_df['RegionName'] = regions_df['RegionName'].fillna("")
     regions_df['GeoID'] = regions_df['CountryName'] + '__' + regions_df['RegionName'].astype(str)
     geos = regions_df['GeoID'].unique()
@@ -118,8 +118,8 @@ def prescribe(start_date_str: str,
             population = threshold_df[(threshold_df["CountryName"] == country_name)]["population"].values[0]
         else:
             population = threshold_df[(threshold_df["CountryName"] == country_name) & (threshold_df["RegionName"] == region_name)]["population"].values[0]           
-        MAX_CASES = (population / 10000) * 10
-        # MAX_CASES = (population / 10000) * 50
+        # MAX_CASES = (population / 10000) * 10
+        MAX_CASES = (population / 10000) * 50
         geo_max_cases[geo] = MAX_CASES
 
     # Load current cases
@@ -233,7 +233,6 @@ def prescribe(start_date_str: str,
     final_prescriptions.to_csv(output_file_path, header=True, index=False)
 
 
-# !!! PLEASE DO NOT EDIT. THIS IS THE OFFICIAL COMPETITION API !!!
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--start_date",
@@ -290,4 +289,3 @@ if __name__ == '__main__':
 
     print("Done!")
     logger.info("Duration: %s seconds", utils.secondsToStr(time.time() - start))
-    
