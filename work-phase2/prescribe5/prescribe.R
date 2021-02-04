@@ -86,6 +86,7 @@ ratios$RegionName[is.na(ratios$RegionName)] <- ""
 
 # regiondf <- read.csv(country_region_list, stringsAsFactors=FALSE)
 regiondf <- read.csv(ips_file, check.names = FALSE, stringsAsFactors=FALSE)
+regiondf$RegionName[is.na(regiondf$RegionName)] <- ""
 # regiondf <- costs
 regiondf <- regiondf[,c("CountryName", "RegionName")]
 regiondf <- unique(regiondf)
