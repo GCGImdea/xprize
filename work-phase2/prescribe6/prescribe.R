@@ -105,8 +105,11 @@ ratios <- read.csv(ratios_file, check.names = FALSE, stringsAsFactors=FALSE)
 ratios$RegionName[is.na(ratios$RegionName)] <- ""
 
 # regiondf <- read.csv(country_region_list, stringsAsFactors=FALSE)
-# regiondf <- read.csv(ips_file, stringsAsFactors=FALSE)
-regiondf <- costs
+regiondf <- read.csv(ips_file, check.names = FALSE, stringsAsFactors=FALSE)
+regiondf$RegionName[is.na(regiondf$RegionName)] <- ""
+# regiondf <- costs
+regiondf <- regiondf[,c("CountryName", "RegionName")]
+regiondf <- unique(regiondf)
 n <- nrow(regiondf)
 
 df2 <- process_country_region(as.data.frame(regiondf[1,]), ratios, dfdance, costs)

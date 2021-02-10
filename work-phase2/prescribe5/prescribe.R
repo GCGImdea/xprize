@@ -45,6 +45,9 @@ process_country_region <- function(regiondf, ratios, dfdance, costs) {
   for (i in 1:nrow(dfr)) {
     dfr[i, "Cost"] <- as.matrix(dfr[i, 6:17]) %*% t(as.matrix(dfcost[1, 3:14]))
   }
+  
+  # cat("\n Cost computation \n")
+  
 
   # Select the vector with lowest ratio, breaking ties by cost
   dfr <- dfr[(dfr$avg_ratio == min(dfr$avg_ratio)),]
@@ -82,9 +85,14 @@ ratios <- read.csv(ratios_file, check.names = FALSE, stringsAsFactors=FALSE)
 ratios$RegionName[is.na(ratios$RegionName)] <- ""
 
 # regiondf <- read.csv(country_region_list, stringsAsFactors=FALSE)
-# regiondf <- read.csv(ips_file, stringsAsFactors=FALSE)
-regiondf <- costs
+regiondf <- read.csv(ips_file, check.names = FALSE, stringsAsFactors=FALSE)
+regiondf$RegionName[is.na(regiondf$RegionName)] <- ""
+# regiondf <- costs
+regiondf <- regiondf[,c("CountryName", "RegionName")]
+regiondf <- unique(regiondf)
 n <- nrow(regiondf)
+
+# print(n)
 
 df2 <- process_country_region(as.data.frame(regiondf[1,]), ratios, dfdance, costs)
 
