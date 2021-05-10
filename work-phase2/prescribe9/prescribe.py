@@ -1,34 +1,105 @@
-# Copyright 2021 (c) R.A. García Leiva (rafael.garcia@imdea.org). IMDEA Networks Institute.
+# Copyright 2020 (c) Cognizant Digital Business, Evolutionary AI. All rights reserved. Issued under the Apache 2.0 License.
 
-import argparse
 import os
+import sys
+import argparse
+import numpy as np
+import pandas as pd
+
+from pathlib import Path
+
+from helpers.utils import IP_COLS, HIST_DATA_FILE_PATH
+from helpers.train_prescriptor import Prescriptor
+
+ups = '/..' * 2
+root_path = os.path.dirname(os.path.realpath(__file__)) + ups
+sys.path.append(root_path)
+from standard_predictor.xprize_predictor import XPrizePredictor
+
+import re
 import time
-import logging
+
+sys.path.append(os.path.expanduser("~/work/logger"))
+import utils
 
 
-logging.basicConfig(
-    filename=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'prescripting.log'),
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    level=logging.INFO,
-    datefmt='%Y-%m-%d %H:%M:%S')
+ROOT_DIR = Path(os.path.dirname(os.path.abspath(__file__)))
+MODEL_WEIGHTS_FILE = os.path.join(ROOT_DIR, "../standard_predictor/models", "trained_model_weights.h5")
+DATA_FILE = HIST_DATA_FILE_PATH
 
 
 def prescribe(start_date_str: str,
               end_date_str: str,
-              path_to_prior_ips_file: str,
+              path_to_hist_file: str,
               path_to_cost_file: str,
               output_file_path) -> None:
-    time.sleep(20)
+
+    start_date = pd.to_datetime(start_date_str, format='%Y-%m-%d')
+    end_date = pd.to_datetime(end_date_str, format='%Y-%m-%d')
+
+    prescriptor = Prescriptor(data_path=DATA_FILE, path_to_cost_file=path_to_cost_file,
+                              start_date=start_date_str, end_date=end_date_str)
+
+    df = prescriptor.df
+
+    del prescriptor
+
+    countries = df['CountryName'].unique()
+
+    prescription_df = {
+        'PrescriptionIndex': [],
+        'CountryName': [],
+        'RegionName': [],
+        'Date': []
+    }
+    for npi_col in IP_COLS:
+        prescription_df[npi_col] = []
+
+    prescription_index = 9
+
+    predictor = XPrizePredictor(MODEL_WEIGHTS_FILE, df=df).predictor
+    for country_name in countries:
+        cdf = df[df['CountryName'] == country_name]
+        regions = cdf['RegionName'].fillna('').unique()
+        for region_name in regions:
+            geo_id = country_name + ('' if region_name == '' else ' / ' + region_name)
+
+            prescriptor = Prescriptor(df=df, path_to_cost_file=path_to_cost_file, _predictor=predictor,
+                                      start_date=start_date_str, end_date=end_date_str)
+            prescriptor.set_countries([geo_id])
+            if geo_id not in prescriptor.geo_costs:
+                # print("costs not found for", geo_id)
+                continue
+
+            # print('Processing', geo_id)
+
+            model, _ = prescriptor.trainer(geo_id)
+            prescriptions, _ = prescriptor.predict(model, start_date_str, end_date_str, geo_id)
+            prescriptions = list(np.int_(prescriptions[:, 1:]))
+
+            for i, date in enumerate(pd.date_range(start_date, end_date)):
+                prescription_df['PrescriptionIndex'].append(prescription_index)
+                prescription_df['CountryName'].append(country_name)
+                prescription_df['RegionName'].append(region_name)
+                prescription_df['Date'].append(date.strftime("%Y-%m-%d"))
+                for j, npi_col in enumerate(IP_COLS):
+                    prescription_df[npi_col].append(prescriptions[i][j])
+
+            del prescriptor
+            del model
+
+    prescription_df = pd.DataFrame(prescription_df)
+
+    # Create the output path
+    os.makedirs(os.path.dirname(output_file_path), exist_ok=True)
+
+    # Save to a csv file
+    prescription_df.to_csv(output_file_path, index=False)
+
+    return
 
 
-
-# !!! PLEASE DO NOT EDIT. THIS IS THE OFFICIAL COMPETITION API !!!
 if __name__ == '__main__':
-
-    prescriptor_name = os.path.basename(os.path.dirname(os.path.realpath(__file__)))
-    logger = logging.getLogger(prescriptor_name)
-    start_time = time.time()
-
     parser = argparse.ArgumentParser()
     parser.add_argument("-s", "--start_date",
                         dest="start_date",
@@ -58,7 +129,29 @@ if __name__ == '__main__':
                         required=True,
                         help="The path to an intervention plan .csv file")
     args = parser.parse_args()
-    print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
-    prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
 
-    logger.info(f'Time Elapsed: {time.time() - start_time}')
+    start = time.time()
+
+    log_name = "default"
+    matches = re.findall(r'/(prescribe\d+)', os.path.dirname(os.path.realpath(__file__)))
+    if len(matches) > 0:
+        log_name = matches[0]
+
+    logger = utils.named_log(str(log_name))
+
+    print(f"Generating prescriptions from {args.start_date} to {args.end_date}...")
+
+
+    try:
+        prescribe(args.start_date, args.end_date, args.prior_ips_file, args.cost_file, args.output_file)
+
+    except OSError as error:
+        logger.info(error)
+    except:
+        logger.info("Unexpected error: %s", sys.exc_info()[0])
+        raise
+    else:
+        logger.info("Successfully executed %s", os.path.realpath(__file__))
+
+    print("Done!")
+    logger.info("Duration: %s seconds", utils.secondsToStr(time.time() - start))
